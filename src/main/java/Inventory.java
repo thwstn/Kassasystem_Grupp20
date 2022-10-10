@@ -2,9 +2,13 @@ import java.util.HashMap;
 
 public class Inventory {
 
-    HashMap<EAN, Integer> inventory = new HashMap<>();
+    private static final HashMap<EAN, Integer> INVENTORY = new HashMap<>();
 
-    private void add(Product p, int amount) {
-        inventory.put(p.getEAN(), amount);
+    public void add(Product p, int amount) {
+        INVENTORY.put(p.getEAN(), amount);
+    }
+
+    public int getAmount(Product p) {
+        return INVENTORY.get(p.getEAN());
     }
 }
