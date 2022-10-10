@@ -13,7 +13,7 @@ public class Product {
         return name;
     }
 
-    public EAN getEan() {
+    public EAN getEAN() {
         return ean;
     }
 
