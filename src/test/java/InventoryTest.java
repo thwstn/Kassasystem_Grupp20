@@ -20,6 +20,6 @@ public class InventoryTest {
             EAN ean = new EAN(123456789);
         });
     }
-
+    //comment added
 
 }
