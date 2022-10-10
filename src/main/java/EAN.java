@@ -12,7 +12,7 @@ public class EAN {
         this.eanCode = eanCode;
     }
 
-    public long getEanCode() {
+    public long getEANCode() {
         return eanCode;
     }
 }
