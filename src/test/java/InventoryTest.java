@@ -14,12 +14,7 @@ public class InventoryTest {
         assertEquals(1, inventory.getAmount(product));
     }
 
-    @Test
-    void EANIsTooShort() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            EAN ean = new EAN(123456789);
-        });
-    }
+
     //comment added
 
 }
