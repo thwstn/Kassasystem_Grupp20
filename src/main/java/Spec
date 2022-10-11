@@ -99,3 +99,44 @@ AgeLimits
 TargetedAds
 
 ParkReceipt
+
+TAVLAN:
+
+Class Product{
+String name;
+int price;
+EAN ean;
+int amount
+Productgroup productgroup;
+Product(String name, int price, Ean ean, int amount, Productgroup, productgroup) { //konstruktor
+this.name = name;
+this.price = price;
+this.ean = ean;
+this.amount = amount;
+this.productgroup = productgroup;
+    }
+}
+
+Class Productgroup{
+String name;
+VAT vat;
+Productgroup(String name, VAT vat) }{
+this.name = name;
+this.vat = vat;
+    }
+}
+Class VAT{
+int percentage;
+VAT(Int percentage){
+this.percentage = percentage;
+    }
+}
+
+Class Discount{
+int discountPercentage;
+Arraylist[Products] arraylist;
+Discount(int discountPercentage, ArrayList[Products] arrayList){
+this.discountpercentage = discountpercentage;
+this.arraylist = arraylist;
+}
+}
