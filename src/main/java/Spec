@@ -108,7 +108,7 @@ int price;
 EAN ean;
 int amount
 Productgroup productgroup;
-Product(String name, int price, Ean ean, int amount, Productgroup, productgroup) { //konstruktor
+Product(String name, int price, Ean ean, int amount, Productgroup productgroup) { //konstruktor
 this.name = name;
 this.price = price;
 this.ean = ean;
@@ -138,5 +138,71 @@ Arraylist[Products] arraylist;
 Discount(int discountPercentage, ArrayList[Products] arrayList){
 this.discountpercentage = discountpercentage;
 this.arraylist = arraylist;
+    }
 }
+
+public Class EAN {
+    Long id;
+    EAN(Long id){
+        this.id = id;
+        }
+    checkCountry();
+    checkManufact();
+    checkControlNumber();
+    }
+}
+
+public class Register {
+    int id;
+    Personal personal;
+    ArrayList<order> order;
+    Money balance;
+}
+
+public Class OrderLine {
+    Product product;
+    int amount;
+}
+
+public Class Order {
+    int orderId;
+    int kassaId;
+    ArrayList<OrderLine> orderline = new ArrayList<>();
+    Personal personal; 
+    Order(int orderId, int kassaId){
+    this.oderId = orderId;
+    this.kassaId = kassaId;
+    }
+        Kvitto(Order order) {
+        toString(Order order){
+        //printa kvittot med alla produkter, moms, personal, datum / tid
+        }
+    }
+}
+public enum Denomination{THOUSAND, FIVEHUNDRED, HUNDRED, FIFTY, TWENTY, TEN, FIVE, TWO, ONE}
+public class Denomination2 {
+public static final int THOUSAND =  100000;
+public static final int FIVEHUNDRED = 50000;
+public static final int HUNDRED = 10000;
+public static final int FIFTY = 5000;
+public static final int TWENTY = 2000;
+public static final int TEN = 1000;
+public static final int FIVE = 500;
+public static final int TWO = 200;
+public static final int ONE = 100;
+}
+public class MoneyStatus {
+Hashmap<Denomination, Integer> hashmap = new Hashmap<>();
+}
+
+public class Personal {
+    String name;
+    int salary;
+    Personal(String name, int salary) {
+    this.name = name;
+    this.salary = salary;
+    }
+    public soldProducts(); {}
+    public soldSum();  {}
+    public calculateChristmasBonus();  {}
 }
