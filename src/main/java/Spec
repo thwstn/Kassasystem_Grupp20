@@ -1,1 +1,142 @@
-test
+Klasser:
+
+- Inventory
+- Money
+    - Baserad på ören
+    - Har olika valörer
+    - Finns inspiration i granskningsövningen
+
+- Product
+    - Namn
+    - GrundPris (ex vat)
+    - Produktkategori (som klass) Grönsak
+    - EAN
+    - toString
+    - Konstruktorn lägger till produkten i en ProductCategory
+    - Sätt rabatt (som productCategory kan nå)
+    - get price = price + vat
+    - rabatt = price - grönsak.getrabatt
+
+- ProductGroup
+    - ArrayList med sina products i
+    - Metoder för att lägga till/ta bort produkter i listorna
+    - Kunna iterera över en lista och typ applicera rabatt
+        - Grönsaker
+         Sätt rabatt
+    - VAT
+
+- VAT (interface)
+    - med gets
+    - VAT25
+    - VAT12
+    - VAT6
+    - Tre klasser
+
+- Receipt
+    - En samling som kan räkna ut pris.
+    - Lägg till/ ta bort varor
+    - Gruppera varor
+    - Sortera i bokstavsordning
+    - Skriva ut kvittot
+
+- Cashier
+    - Beror på vad det finns för funktioner
+    - har koll på vilka valörer den innehåller
+
+- Change (bara en metod i kassan?)
+    - Ska kunna räkna ut kontantväxel
+    - Kolla hur mycket sedlar vi har och ge rätt växel.
+
+- EAN
+    - Man kan lägga till grejer här, men oklart
+
+- Scanning
+    - Eventuellt använda test doubles på nåt sätt här?
+    - Testning av mock objects, via easymock eller nåt verktyg
+
+- Staff
+Kassasystem har normalt information om vem
+som satt i kassan vid en viss tidpunkt. Detta är
+absolut relevant, men behöver kompletteras
+med funktionalitet för att bli intressant i detta
+sammanhang. Annars blir det bara en klass till
+och ett fält i kvitto‐klassen.
+En möjlighet skulle vara att hålla reda på hur
+många varor varje medlem av kassapersona‐
+len kan hantera per tidsenhet. En ofta kritise‐
+rad funktion i denna typ av system.
+En annan skulle vara att införa någon typ av
+bonussystem som är beroende av hur mycket
+personen har sålt under månaden eller året.
+
+
+
+
+
+
+# BRA ATT GÖRA
+
+Deals (several kinds)
+
+Customer
+
+Membership
+
+Bonuscheck
+
+Log
+
+
+
+# BONUS OM VI HINNER
+
+Pant (Engelska?)
+
+Points
+
+AgeLimits
+
+TargetedAds
+
+ParkReceipt
+
+TAVLAN:
+
+Class Product{
+String name;
+int price;
+EAN ean;
+int amount
+Productgroup productgroup;
+Product(String name, int price, Ean ean, int amount, Productgroup, productgroup) { //konstruktor
+this.name = name;
+this.price = price;
+this.ean = ean;
+this.amount = amount;
+this.productgroup = productgroup;
+    }
+}
+
+Class Productgroup{
+String name;
+VAT vat;
+Productgroup(String name, VAT vat) }{
+this.name = name;
+this.vat = vat;
+    }
+}
+Class VAT{
+int percentage;
+VAT(Int percentage){
+this.percentage = percentage;
+    }
+}
+
+Class Discount{
+int discountPercentage;
+Arraylist[Products] arraylist;
+Discount(int discountPercentage, ArrayList[Products] arrayList){
+this.discountpercentage = discountpercentage;
+this.arraylist = arraylist;
+}
+}
