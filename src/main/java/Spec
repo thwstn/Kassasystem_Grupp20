@@ -1,12 +1,13 @@
 Klasser:
 
 - Inventory
-- Money
+- Money (David)
     - Baserad på ören
     - Har olika valörer
     - Finns inspiration i granskningsövningen
+    Värdeklass
 
-- Product
+- Product (Theo)
     - Namn
     - GrundPris (ex vat)
     - Produktkategori (som klass) Grönsak
@@ -17,7 +18,7 @@ Klasser:
     - get price = price + vat
     - rabatt = price - grönsak.getrabatt
 
-- ProductGroup
+- ProductGroup (Niklas)
     - ArrayList med sina products i
     - Metoder för att lägga till/ta bort produkter i listorna
     - Kunna iterera över en lista och typ applicera rabatt
@@ -25,21 +26,21 @@ Klasser:
          Sätt rabatt
     - VAT
 
-- VAT (interface)
+- VAT(Niklas)
     - med gets
     - VAT25
     - VAT12
     - VAT6
     - Tre klasser
 
-- Receipt
+- Order (Jacob)
     - En samling som kan räkna ut pris.
     - Lägg till/ ta bort varor
     - Gruppera varor
     - Sortera i bokstavsordning
     - Skriva ut kvittot
 
-- Cashier
+- Register (Johan)
     - Beror på vad det finns för funktioner
     - har koll på vilka valörer den innehåller
 
@@ -54,7 +55,7 @@ Klasser:
     - Eventuellt använda test doubles på nåt sätt här?
     - Testning av mock objects, via easymock eller nåt verktyg
 
-- Staff
+- Staff (Theo)
 Kassasystem har normalt information om vem
 som satt i kassan vid en viss tidpunkt. Detta är
 absolut relevant, men behöver kompletteras
@@ -70,8 +71,11 @@ bonussystem som är beroende av hur mycket
 personen har sålt under månaden eller året.
 
 
+Rabatt (David)
 
+Customer (Johan)
 
+Membership(Jacob)
 
 
 # BRA ATT GÖRA
