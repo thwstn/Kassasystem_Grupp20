@@ -4,12 +4,12 @@ public class Checkout {
     int id;
     Integer employeeId;
     ArrayList<Integer> orderIds;
-    int balanceID;
-    public Checkout(int id, int employeeId, ArrayList<Integer> orderIds, int balanceId) {
+    Money money;
+    public Checkout(int id, int employeeId, ArrayList<Integer> orderIds, Money money) {
         this.id = id;
         this.employeeId = employeeId;
         this.orderIds = orderIds;
-        this.balanceID = balanceId;
+        this.money = money;
     }
 
     public int getId() {
