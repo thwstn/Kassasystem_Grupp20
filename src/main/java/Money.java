@@ -2,27 +2,26 @@ import java.util.*;
 
 public class Money {
     private final HashMap<Integer, Integer> denominationAmounts;
-    private static final List<Integer> DENOMINATION_LIST = List.of(
-            100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
+    private static final List<Integer> DENOMINATION_LIST = List.of(100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
 
     public Money() {
         HashMap<Integer, Integer> denominations = new HashMap<>();
-        denominations.put(100000,0);
-        denominations.put(50000,0);
-        denominations.put(20000,0);
-        denominations.put(10000,0);
-        denominations.put(5000,0);
-        denominations.put(2000,0);
-        denominations.put(1000,0);
-        denominations.put(500,0);
-        denominations.put(200,0);
-        denominations.put(100,0);
+        denominations.put(100000, 0);
+        denominations.put(50000, 0);
+        denominations.put(20000, 0);
+        denominations.put(10000, 0);
+        denominations.put(5000, 0);
+        denominations.put(2000, 0);
+        denominations.put(1000, 0);
+        denominations.put(500, 0);
+        denominations.put(200, 0);
+        denominations.put(100, 0);
         this.denominationAmounts = denominations;
     }
 
     public Money(HashMap<Integer, Integer> denominations) {
-        for (int denomination : denominations.keySet()){
-            if(!DENOMINATION_LIST.contains(denomination)) {
+        for (int denomination : denominations.keySet()) {
+            if (!DENOMINATION_LIST.contains(denomination)) {
                 throw new IllegalArgumentException("Not a valid denomination");
             }
         }
@@ -44,7 +43,7 @@ public class Money {
     }
 
     public Money add(int denomination) {
-        if(!DENOMINATION_LIST.contains(denomination)) {
+        if (!DENOMINATION_LIST.contains(denomination)) {
             throw new IllegalArgumentException("Not a valid denomination");
         }
         denominationAmounts.put(denomination, denominationAmounts.get(denomination) + 1);
@@ -64,12 +63,11 @@ public class Money {
     }
 
     public Money remove(int denomination) {
-        if(!DENOMINATION_LIST.contains(denomination)) {
+        if (!DENOMINATION_LIST.contains(denomination)) {
             throw new IllegalArgumentException("Not a valid denomination");
         }
-        if((denominationAmounts.get(denomination) < 1)){
-            throw new IllegalArgumentException("There are no units of that" +
-                    "denomination (" + denomination + ")");
+        if ((denominationAmounts.get(denomination) < 1)) {
+            throw new IllegalArgumentException("There are no units of that" + "denomination (" + denomination + ")");
         }
         denominationAmounts.put(denomination, denominationAmounts.get(denomination) - 1);
 

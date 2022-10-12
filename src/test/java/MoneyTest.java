@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,34 +13,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoneyTest {
 
-    private static final List<Integer> DENOMINATION_LIST = List.of(100000, 50000, 20000, 10000,
-            5000, 2000, 1000, 500, 200, 100);
+    private static final List<Integer> DENOMINATION_LIST = List.of(100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
     private static final int INVALID_DENOMINATION = 123;
     private Money moneyWithBalanceZero;
     private Money moneyWithBalanceNonZero;
 
     @BeforeEach
-    void init(){
+    void init() {
         this.moneyWithBalanceZero = new Money();
 
         HashMap<Integer, Integer> nonZeroMoney = new HashMap<>();
-        nonZeroMoney.put(100000,10);
-        nonZeroMoney.put(50000,10);
-        nonZeroMoney.put(20000,10);
-        nonZeroMoney.put(10000,10);
-        nonZeroMoney.put(5000,10);
-        nonZeroMoney.put(2000,10);
-        nonZeroMoney.put(1000,10);
-        nonZeroMoney.put(500,10);
-        nonZeroMoney.put(200,10);
-        nonZeroMoney.put(100,10);
+        nonZeroMoney.put(100000, 10);
+        nonZeroMoney.put(50000, 10);
+        nonZeroMoney.put(20000, 10);
+        nonZeroMoney.put(10000, 10);
+        nonZeroMoney.put(5000, 10);
+        nonZeroMoney.put(2000, 10);
+        nonZeroMoney.put(1000, 10);
+        nonZeroMoney.put(500, 10);
+        nonZeroMoney.put(200, 10);
+        nonZeroMoney.put(100, 10);
         this.moneyWithBalanceNonZero = new Money(nonZeroMoney);
     }
 
     @Test
     void emptyMoney() {
         int balance = 0;
-        for(Map.Entry<Integer, Integer> denomination : moneyWithBalanceZero.getDenominationAmounts().entrySet()) {
+        for (Map.Entry<Integer, Integer> denomination : moneyWithBalanceZero.getDenominationAmounts().entrySet()) {
             balance += denomination.getValue();
         }
         assertEquals(0, balance, "Balance should be 0");
@@ -48,16 +48,16 @@ public class MoneyTest {
     @Test
     void createMoneyWithMoney() {
         HashMap<Integer, Integer> newMoneySetup = new HashMap<>();
-        newMoneySetup.put(100000,1);
-        newMoneySetup.put(50000,1);
-        newMoneySetup.put(20000,1);
-        newMoneySetup.put(10000,1);
-        newMoneySetup.put(5000,1);
-        newMoneySetup.put(2000,1);
-        newMoneySetup.put(1000,1);
-        newMoneySetup.put(500,1);
-        newMoneySetup.put(200,1);
-        newMoneySetup.put(100,1);
+        newMoneySetup.put(100000, 1);
+        newMoneySetup.put(50000, 1);
+        newMoneySetup.put(20000, 1);
+        newMoneySetup.put(10000, 1);
+        newMoneySetup.put(5000, 1);
+        newMoneySetup.put(2000, 1);
+        newMoneySetup.put(1000, 1);
+        newMoneySetup.put(500, 1);
+        newMoneySetup.put(200, 1);
+        newMoneySetup.put(100, 1);
 
         Money createMoneyWithMoneyTest = new Money(newMoneySetup);
         assertEquals(188800, createMoneyWithMoneyTest.checkAmount());
@@ -83,14 +83,14 @@ public class MoneyTest {
     }
 
     @Test
-    void checkAmountOfMoney(){
+    void checkAmountOfMoney() {
         assertEquals(1888000, moneyWithBalanceNonZero.checkAmount());
     }
 
     @Test
     void addOneUnitOfMoney() {
         Money newMoney = moneyWithBalanceZero.add(1000);
-        assertEquals(1000, moneyWithBalanceZero.checkAmount());
+        assertEquals(1000, newMoney.checkAmount());
     }
 
     @Test
@@ -114,7 +114,7 @@ public class MoneyTest {
     }
 
     @Test
-    void removeMoneyThatDoesNotExist(){
+    void removeMoneyThatDoesNotExist() {
         assertThrows(IllegalArgumentException.class, () -> {
             Money newMoney = moneyWithBalanceZero.remove(1000);
         });
@@ -124,6 +124,13 @@ public class MoneyTest {
     void removeMoneyFromMoney() {
         Money newMoney = moneyWithBalanceNonZero.remove(moneyWithBalanceNonZero);
         assertEquals(1888000 - 1888000, newMoney.checkAmount());
+    }
+
+    @Test
+    void addMoneyTwice() {
+        Money newMoney = moneyWithBalanceZero.add(1000);
+        Money moreNewMoney = newMoney.add(1000);
+        assertEquals(2000, moreNewMoney.checkAmount());
     }
 
 }
