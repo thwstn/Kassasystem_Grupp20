@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Checkout {
     int id;
-    int employeeId;
+    Integer employeeId;
     ArrayList<Integer> orderIds;
     int balanceID;
     public Checkout(int id, int employeeId, ArrayList<Integer> orderIds, int balanceId) {
@@ -18,6 +18,10 @@ public class Checkout {
 
     public int getEmployeeId() {
         return employeeId;
+    }
+
+    public boolean employeeIsLoggedInToCheckout() {
+        return employeeId != null;
     }
 
     public void changeEmployee(int employeeId) {
