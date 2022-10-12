@@ -34,7 +34,7 @@ Klasser:
     - Tre klasser
 
 - Order (Jacob)
-    - En samling som kan räkna ut pris.
+    - En samling som kan räkna ut pris. (Arraylist)
     - Lägg till/ ta bort varor
     - Gruppera varor
     - Sortera i bokstavsordning
