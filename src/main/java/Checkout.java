@@ -4,12 +4,14 @@ public class Checkout {
     int id;
     Integer employeeId;
     ArrayList<Integer> orderIds;
-    Money money;
-    public Checkout(int id, int employeeId, ArrayList<Integer> orderIds, Money money) {
+    int moneyId;
+
+
+    public Checkout(int id, int employeeId, ArrayList<Integer> orderIds, int moneyid) {
         this.id = id;
         this.employeeId = employeeId;
         this.orderIds = orderIds;
-        this.money = money;
+        this.moneyId = moneyid;
     }
 
     public int getId() {
@@ -20,11 +22,19 @@ public class Checkout {
         return employeeId;
     }
 
-    public boolean employeeIsLoggedInToCheckout() {
-        return employeeId != null;
+    public ArrayList<Integer> getOrderIds() {
+        return orderIds;
+    }
+
+    public int getMoneyId() {
+        return moneyId;
     }
 
     public void changeEmployee(int employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public boolean employeeIsLoggedInToCheckout() {
+        return employeeId != null;
     }
 }
