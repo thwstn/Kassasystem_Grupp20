@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Order {
@@ -13,11 +14,8 @@ public class Order {
         orderLines.addAll(Arrays.asList(orderLine));
     }
 
-    public void addOrderLineToList(OrderLine orderLine){
-        if(orderLine == null)
-            throw new IllegalArgumentException("Orderline can't be null");
-        if(!orderLines.contains(orderLine))
-            orderLines.add(orderLine);
+    public OrderLine getOrderLineAtIndex(int i) {
+        return orderLines.get(i);
     }
 
     public OrderLine getOrderLine(String orderLine) {
@@ -28,6 +26,14 @@ public class Order {
         }
         return null; //Returns null if specified orderLine is not in list
     }
+    public void addOrderLineToList(OrderLine orderLine){
+        if(orderLine == null)
+            throw new IllegalArgumentException("Orderline can't be null");
+        if(!orderLines.contains(orderLine))
+            orderLines.add(orderLine);
+    }
+
+
 
     public void removeOrderLineFromList(OrderLine orderLine) {
         orderLines.removeIf(o -> o.equals(orderLine));
@@ -43,5 +49,11 @@ public class Order {
         }
         return sb.toString();
     }
+
+    public void sortByAplhabeticalOrderAscending() {
+        Collections.sort(orderLines);
+
+    }
+
 
 }
