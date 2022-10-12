@@ -21,10 +21,20 @@ public class CheckoutTest {
 
     @Test
     void changeEmployeeTest() {
-        ArrayList<Integer> orderIds = new ArrayList<>();
-        Checkout checkout = new Checkout(123, 456, orderIds, 789);
+        Checkout checkout = getEmptyCheckout();
 
         checkout.changeEmployee(654);
-        assertEquals(654, checkout.getEmployeeId());
+        assertEquals(654, checkout.getSession().getEmployeeId());
+    }
+
+    @Test
+    void logOutEmployee() {
+        Checkout checkout = getEmptyCheckout();
+    }
+
+    private Checkout getEmptyCheckout() {
+        ArrayList<Integer> orderIds = new ArrayList<>();
+        Checkout checkout = new Checkout(123, 456, orderIds, 789);
+        return  checkout;
     }
 }
