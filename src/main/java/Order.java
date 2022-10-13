@@ -26,19 +26,28 @@ public class Order {
         }
         return null; //Returns null if specified orderLine is not in list
     }
+
     public void addOrderLineToList(OrderLine orderLine){
         if(orderLine == null)
             throw new IllegalArgumentException("Orderline can't be null");
-        if(!orderLines.contains(orderLine))
+        if(!orderLines.contains(orderLine)) {
             orderLines.add(orderLine);
+        }
     }
-
-
 
     public void removeOrderLineFromList(OrderLine orderLine) {
         orderLines.removeIf(o -> o.equals(orderLine));
 
 
+    }
+
+    public void sortByAlphabeticalOrderAscending() {
+        Collections.sort(orderLines);
+
+    }
+
+    public void sortByAlphabeticalOrderDescending() {
+        orderLines.sort(Collections.reverseOrder());
     }
 
     @Override
@@ -49,11 +58,5 @@ public class Order {
         }
         return sb.toString();
     }
-
-    public void sortByAplhabeticalOrderAscending() {
-        Collections.sort(orderLines);
-
-    }
-
 
 }
