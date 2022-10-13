@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CheckOutSession {
-    private static ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
+    //private static ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
     private Date startDate;
     private Date endDate;
     private int employeeId;
@@ -13,9 +13,9 @@ public class CheckOutSession {
         this.employeeId = employeeId;
     }
 
-    public static ArrayList<CheckOutSession> getCheckOutSessionsHistory() {
+    /*public static ArrayList<CheckOutSession> getCheckOutSessionsHistory() {
         return checkOutSessionsHistory;
-    }
+    }*/
 
     public int getEmployeeId() {
         return employeeId;
@@ -29,12 +29,12 @@ public class CheckOutSession {
         return startDate;
     }
 
-    public void quitSession() {
+    public void addEndDateToSession() {
         endDate = new Date();
-        addSessionToHistory();
+        //addSessionToHistory();
     }
 
-    protected void addSessionToHistory() {
+    /*protected void addSessionToHistory() {
         checkOutSessionsHistory.add(this);
-    }
+    }*/
 }

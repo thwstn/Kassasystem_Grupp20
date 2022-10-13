@@ -5,7 +5,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckOutSessionTest {
-    @Test
+    /*@Test
     void addCheckOutSessionHistory() {
         CheckOutSession checkOutSession = new CheckOutSession(123);
         checkOutSession.addSessionToHistory();
@@ -14,9 +14,9 @@ public class CheckOutSessionTest {
         checkOutSession.addSessionToHistory();
         checkOutSession.addSessionToHistory();
         assertEquals(true, CheckOutSession.getCheckOutSessionsHistory().size() > 4, "Wrong number of sessions in history");
-    }
+    }*/
     @Test
-    void startDateExistAndIsWithin5Seconds() {
+    void startDateExistAndIsWithin0Point5Seconds() {
         CheckOutSession checkOutSession = new CheckOutSession(123);
         Date compareDate = new Date();
         //System.out.println(checkOutSession.getStartDate().getTime() + "\n" + (compareDate.getTime()-5));
@@ -25,7 +25,7 @@ public class CheckOutSessionTest {
     @Test
     void addEndDateToSession() {
         CheckOutSession checkOutSession = new CheckOutSession(123);
-        checkOutSession.quitSession();
+        checkOutSession.addEndDateToSession();
         assertEquals(true, checkOutSession.getEndDate() != null, "End Date does not exist!");
     }
 

@@ -1,11 +1,12 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Checkout {
     private int id;
     private CheckOutSession checkOutSession;
     private ArrayList<Integer> orderIds;
     private int moneyId;
-    //ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
+    ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
 
     public Checkout(int id, int employeeId, ArrayList<Integer> orderIds, int moneyid) {
         this.id = id;
@@ -19,10 +20,6 @@ public class Checkout {
     }
 
 
-    /*public int getEmployeeId() {
-        return employeeId;
-    }*/
-
     public CheckOutSession getSession() {
         return checkOutSession;
     }
@@ -35,6 +32,10 @@ public class Checkout {
         return moneyId;
     }
 
+    public ArrayList<CheckOutSession> getCheckOutSessionsHistory() {
+        return checkOutSessionsHistory;
+    }
+
     public void loginEmployee(int employeeId) {
         if (checkOutSession == null) {
             checkOutSession = new CheckOutSession(employeeId);
@@ -43,26 +44,27 @@ public class Checkout {
 
     public void logoutEmployee() {
         if (checkOutSession != null) {
-            checkOutSession.quitSession();
-            CheckOutSession.getCheckOutSessionsHistory().add(checkOutSession);
+            checkOutSession.addEndDateToSession();
+            //CheckOutSession.getCheckOutSessionsHistory().add(checkOutSession);
+            checkOutSessionsHistory.add(checkOutSession);
             checkOutSession = null;
         }
     }
 
     public void changeEmployee(int employeeId) {
-        //checkOutSession.addSessionToHistory();
-        //this.employeeId = employeeId;
-        checkOutSession.quitSession();
-        checkOutSession = new CheckOutSession(employeeId);
-
+        logoutEmployee();
+        loginEmployee(employeeId);
     }
 
     public boolean employeeIsLoggedInToCheckout() {
         return checkOutSession != null;
     }
 
-    /*private void newCheckOutSession() {
-        CheckOutSession checkOutSession = new CheckOutSession(employeeId);
-        checkOutSessions.add(checkOutSession);
-    }*/
+    public HashSet<Integer> getUniqueEmployeeIDsFromSessionHistory() {
+        HashSet<Integer> employeeIDs = new HashSet<>();
+        for (CheckOutSession checkOutSession : checkOutSessionsHistory) {
+            employeeIDs.add(checkOutSession.getEmployeeId());
+        }
+        return employeeIDs;
+    }
 }

@@ -1,7 +1,9 @@
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.web.servlet.server.Session;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +20,18 @@ public class CheckoutTest {
         Checkout checkout = new Checkout(123, 456, orderIds, 789);
 
         assertEquals(5, checkout.getOrderIds().size(), "Should have been 5 order IDs");
+    }
+
+    @Test
+    void getCheckoutID() {
+        Checkout checkout = getEmptyCheckout();
+        assertEquals(123, checkout.getId(), "Wrong ID of CheckOut");
+    }
+
+    @Test
+    void getMoneyID() {
+        Checkout checkout = getEmptyCheckout();
+        assertEquals(789, checkout.getMoneyId(), "Wrong moneyID");
     }
 
     @Test
@@ -48,23 +62,48 @@ public class CheckoutTest {
         checkout.logoutEmployee();
         assertEquals(null, checkout.getSession(), "There is still an active session");
     }
-    /*@Test
-    void logoutEmployeeTest() {
-        Checkout checkout = getEmptyCheckout();
-        checkout.loginEmployee(888);
-        checkout.logoutEmployee();
-        assertEquals(null, checkout.getSession(), "Employee is not logged out from checkout");
-    }*/
-    /*void changeEmployeeTest() {
-        Checkout checkout = getEmptyCheckout();
-
-        checkout.changeEmployee(654);
-        assertEquals(654, checkout.getSession().getEmployeeId());
-    }*/
 
     @Test
     void logOutEmployee() {
         Checkout checkout = getEmptyCheckout();
+        checkout.loginEmployee(111);
+        checkout.logoutEmployee();
+        assertThrows(NullPointerException.class, () -> {
+            checkout.getSession().getEmployeeId();
+        });
+    }
+
+    @Test
+    void checkOutSessionHistoryTest() {
+        Checkout checkout = getEmptyCheckout();
+        for (int i = 100; i <= 500; i += 100) {
+            checkout.loginEmployee(i);
+            checkout.logoutEmployee();
+        }
+        boolean controlBolean = true;
+        for (CheckOutSession checkOutSession : checkout.getCheckOutSessionsHistory()) {
+            if (checkOutSession.getStartDate() == null || checkOutSession.getEmployeeId() < 0 || checkOutSession.getEndDate() == null) {
+                controlBolean = false;
+            }
+        }
+        assertEquals(true, controlBolean, "Something went wrong in checkoutHistory");
+    }
+
+    @Test
+    void returnAllUniqueEmployeesFromSessionHistory() {
+        Checkout checkout = getEmptyCheckout();
+        HashSet<Integer> employeeIDs = new HashSet<>();
+        for (int i = 100; i <= 500; i = i+100) {
+            checkout.loginEmployee(i);
+            checkout.logoutEmployee();
+            employeeIDs.add(i);
+        }
+        for (int i = 100; i <= 300; i = i+50) {
+            checkout.loginEmployee(i);
+            checkout.logoutEmployee();
+            employeeIDs.add(i);
+        }
+        assertEquals(true, checkout.getUniqueEmployeeIDsFromSessionHistory().equals(employeeIDs), "Wrong set returned!");
     }
 
     private Checkout getEmptyCheckout() {
