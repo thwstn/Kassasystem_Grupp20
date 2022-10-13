@@ -95,9 +95,9 @@ public class MoneyTest {
 
     @Test
     void addMoneyToMoney() {
-        moneyWithBalanceZero.add(1000);
-        Money newMoney = moneyWithBalanceNonZero.add(moneyWithBalanceZero);
-        assertEquals(1888000 + 1000, newMoney.checkAmount());
+        Money newMoney = moneyWithBalanceZero.add(1000);
+        Money moreNewMoney = moneyWithBalanceNonZero.add(newMoney);
+        assertEquals(1888000 + 1000, moreNewMoney.checkAmount());
     }
 
     @Test
@@ -129,8 +129,21 @@ public class MoneyTest {
     @Test
     void addMoneyTwice() {
         Money newMoney = moneyWithBalanceZero.add(1000);
-        Money moreNewMoney = newMoney.add(1000);
-        assertEquals(2000, moreNewMoney.checkAmount());
+        Money moreNewMoney = newMoney.add(10000);
+        assertEquals(11000, moreNewMoney.checkAmount());
     }
 
+    @Test
+    void addMoneyInMultipleWays() {
+        Money newMoney = moneyWithBalanceZero.add(10000);
+        Money moreNewMoney = newMoney.add(10000);
+        Money evenMoreNewMoney = moreNewMoney.add(newMoney);
+        Money singleAddMoney = evenMoreNewMoney.add(10000);
+        assertEquals(40000, singleAddMoney.checkAmount());
+    }
+
+    @Test
+    void checkSpecificDenomination() {
+        assertEquals(10, moneyWithBalanceNonZero.checkDenominationAmount(100));
+    }
 }

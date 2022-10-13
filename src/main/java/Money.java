@@ -1,7 +1,7 @@
 import java.util.*;
-
+//remake? record class/hashmap in checkout
 public class Money {
-    private final HashMap<Integer, Integer> denominationAmounts;
+    private final Map<Integer, Integer> denominationAmounts;
     private static final List<Integer> DENOMINATION_LIST = List.of(100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
 
     public Money() {
@@ -19,7 +19,7 @@ public class Money {
         this.denominationAmounts = denominations;
     }
 
-    public Money(HashMap<Integer, Integer> denominations) {
+    public Money(Map<Integer, Integer> denominations) {
         for (int denomination : denominations.keySet()) {
             if (!DENOMINATION_LIST.contains(denomination)) {
                 throw new IllegalArgumentException("Not a valid denomination");
@@ -28,9 +28,8 @@ public class Money {
         this.denominationAmounts = denominations;
     }
 
-    public HashMap<Integer, Integer> getDenominationAmounts() {
-        //Går inte att ändra
-        return new HashMap<>(Map.copyOf(denominationAmounts));
+    public Map<Integer, Integer> getDenominationAmounts() {
+        return Map.copyOf(denominationAmounts);
     }
 
     public int checkAmount() {
@@ -46,9 +45,12 @@ public class Money {
         if (!DENOMINATION_LIST.contains(denomination)) {
             throw new IllegalArgumentException("Not a valid denomination");
         }
-        denominationAmounts.put(denomination, denominationAmounts.get(denomination) + 1);
-
-        return new Money(this.getDenominationAmounts());
+        HashMap<Integer, Integer> newMoneyMap = new HashMap<>(this.getDenominationAmounts());
+        /*denominationAmounts.put(denomination, denominationAmounts.get(denomination) + 1);
+        immutable objects help (:
+         */
+        newMoneyMap.put(denomination, this.getDenominationAmounts().get(denomination) + 1);
+        return new Money(newMoneyMap);
     }
 
     public Money add(Money oldMoney) {
@@ -83,5 +85,9 @@ public class Money {
             newMoneyMap.put(denomination, amount);
         }
         return new Money(newMoneyMap);
+    }
+
+    public int checkDenominationAmount(int denomination) {
+        return denominationAmounts.get(denomination);
     }
 }
