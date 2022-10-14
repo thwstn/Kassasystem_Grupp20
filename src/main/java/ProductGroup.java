@@ -4,11 +4,7 @@ import java.util.List;
 
 public class ProductGroup {
     private static final List<String> PRODUCT_GROUPS = List.of("Fruit&Vegetables", "Dairy", "Meat&Poultry", "Dry");
-    /*public static final ProductGroup VEGETABLES = new ProductGroup("VEGETABLES", VAT.VATCategories.VAT6);
-    public static final ProductGroup FRESH = new ProductGroup("FRESH", VAT.VATCategories.VAT12);
-    public static final ProductGroup DRINKS = new ProductGroup("DRINKS", VAT.VATCategories.VAT6);
-    public static final ProductGroup MEAT = new ProductGroup("MEAT", VAT.VATCategories.VAT25);
-*/
+
     public String productGroupName;
     public VAT.VATCategories vat;
     ArrayList<Product> productList = new ArrayList<>();
@@ -16,10 +12,6 @@ public class ProductGroup {
         this.vat = vat;
     }
 
-
-   /* public void setProductGroup(ProductGroup productGroup) {
-        this.productGroup = productGroup; //ska finnas i product?
-        }*/
     ProductGroup(String productGroupName, VAT.VATCategories vat) {
         if(PRODUCT_GROUPS.contains(productGroupName) && VAT.VATCategories.contains(vat)){
             this.productGroupName = productGroupName;
