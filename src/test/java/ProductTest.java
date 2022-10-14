@@ -34,7 +34,7 @@ public class ProductTest {
     @Test
     void ctr_setsArgumentsAsCorrectDataFields() {
         assertEquals("Cucumber", cucumber.getName());
-        assertEquals(11.66, cucumber.getPrice());
+        assertEquals(11.66, cucumber.getPriceIncVat());
         assertEquals(vegetables, cucumber.getProductGroup());
         assertEquals(eanCucumber, cucumber.getEan());
     }
@@ -48,7 +48,7 @@ public class ProductTest {
 
     @Test
     void getPriceReturnsPriceIncVat25() {
-        assertEquals(11.66, cucumber.getPrice());
+        assertEquals(11.66, cucumber.getPriceIncVat());
     }
 
 
