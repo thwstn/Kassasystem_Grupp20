@@ -33,9 +33,9 @@ public class CustomerTest {
     @Test
     void addNewOrderToCustomer() {
         Customer customer = createNewCustomer();
-        Order order = new Order(UUID.randomUUID());
-        Order order1 = new Order(UUID.randomUUID());
-        Order order2 = new Order(UUID.randomUUID());
+        Order order = new Order(UUID.randomUUID(), new Employee());
+        Order order1 = new Order(UUID.randomUUID(), new Employee());
+        Order order2 = new Order(UUID.randomUUID(), new Employee());
         customer.addOrder(order);
         customer.addOrder(order1);
         customer.addOrder(order2);

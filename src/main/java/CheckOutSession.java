@@ -1,11 +1,14 @@
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class CheckOutSession {
     //private static ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
     private Date startDate;
     private Date endDate;
     private int employeeId;
+
+    private ArrayList<UUID> orderIDs;
 
     public CheckOutSession(int employeeId) {
         startDate = new Date();
