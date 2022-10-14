@@ -1,4 +1,7 @@
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomerTest {
@@ -30,9 +33,9 @@ public class CustomerTest {
     @Test
     void addNewOrderToCustomer() {
         Customer customer = createNewCustomer();
-        Order order = new Order();
-        Order order1 = new Order();
-        Order order2 = new Order();
+        Order order = new Order(UUID.randomUUID(), new Employee());
+        Order order1 = new Order(UUID.randomUUID(), new Employee());
+        Order order2 = new Order(UUID.randomUUID(), new Employee());
         customer.addOrder(order);
         customer.addOrder(order1);
         customer.addOrder(order2);

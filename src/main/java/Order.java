@@ -1,17 +1,22 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Order {
 
     private final List<OrderLine> orderLines = new ArrayList<>();
-
-    public Order() {
+    private final UUID orderID;
+    private final Employee employee;
+    private final Date date;
+    public Order(UUID orderID, Employee employee) {
+        this.orderID = orderID;
+        this.employee = employee;
+        this.date = new Date();
     }
 
-    public Order(OrderLine ... orderLine ) {
+    public Order( UUID orderID, Employee employee, OrderLine ... orderLine) {
         orderLines.addAll(Arrays.asList(orderLine));
+        this.orderID = orderID;
+        this.employee = employee;
+        this.date = new Date();
     }
 
     public OrderLine getOrderLineAtIndex(int i) {

@@ -3,7 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-
+import java.util.UUID;
 
 
 public class OrderTest {
@@ -18,7 +18,7 @@ public class OrderTest {
     @BeforeEach
     void init(){
 
-        order = new Order();
+        order = new Order(UUID.randomUUID());
         orderLine1 = Mockito.mock(OrderLine.class);
         orderLine2 = Mockito.mock(OrderLine.class);
         orderLine3 = Mockito.mock(OrderLine.class);
@@ -129,7 +129,7 @@ public class OrderTest {
     }
 
     @Test
-    void TwoOrderLinesWithSameNameOrdersByQuantity(){ //ej klar
+    void TwoOrderLinesWithSameNameOrdersByQuantity(){
         Mockito.when(orderLine1.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
         Mockito.when(orderLine3.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
         Mockito.when(orderLine5.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
