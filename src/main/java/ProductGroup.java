@@ -1,41 +1,56 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ProductGroup {
-    private ProductGroup productGroup;
-    public VAT moms;
-    public ProductGroup Vegetables, Dairy, Fresh, Soda;
-    ArrayList<ProductGroup> Pgroup = new ArrayList<>();
-    public void setVAT(){
-    }
-   public ProductGroup getProductGroup() {
-        return productGroup; //Ska finnas i Product
+    private static final List<String> PRODUCT_GROUPS = List.of("Fruit&Vegetables", "Dairy", "Meat&Poultry", "Dry");
+
+    public String productGroupName;
+    public VAT.VATCategories vat;
+    ArrayList<Product> productList = new ArrayList<>();
+    public void setVAT(VAT.VATCategories vat){
+        this.vat = vat;
     }
 
-    public void setProductGroup(ProductGroup productGroup) {
-        this.productGroup = productGroup;
+    ProductGroup(String productGroupName, VAT.VATCategories vat) {
+        if(PRODUCT_GROUPS.contains(productGroupName) && VAT.VATCategories.contains(vat)){
+            this.productGroupName = productGroupName;
+            this.vat = vat;
+        }else {
+            throw new IllegalArgumentException("Not a valid Product group!");
         }
-    ProductGroup(ProductGroup productGroup, VAT.VATCategories vat) {
-    this.productGroup = productGroup;
     }
 
     ProductGroup(VAT vat) {
-        moms = vat;
+        vat = vat;
     }
-    public void addPGroup(ProductGroup productGroup){
-        Pgroup.add(productGroup);
+
+    public void changeCategoryName(String oldNameOfProductGroup, String newNameOfProductGroup){
+        this.productGroupName = productGroupName;
+
     }
-    public ProductGroup changeCategoryName(ProductGroup productgroup, ProductGroup BetterProductgroup){
-        return BetterProductgroup;
+    public List<String> productGroupsList(){
+        return PRODUCT_GROUPS;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductGroup: " +productGroupName + ',' + "VAT: " +
+                vat + "\n"
+                ;
+    }
+
+    public ArrayList<Product> getAllProducts(){  //Filen som parameter?
+        return new ArrayList<>();
     }
 
     public boolean productExists() {
         return false;
     }
 
-    public VAT getVat() {
-        return moms;
-    }
+    /*public VAT getVat() {
+        return vat;
+    }*/
 
 
 }

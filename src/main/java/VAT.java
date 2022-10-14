@@ -3,20 +3,17 @@ public class VAT {
         VAT25,
         VAT12,
         VAT6;
+
+        public static boolean contains(VATCategories vat) {
+            if(vat==VAT12 || vat==VAT25 || vat==VAT6) {
+                return true;
+            }else {
+                throw new IllegalArgumentException("Wrong VAT, must be 6, 12 or 25");
+            }
+        }
     }
 
-    public double getPercent() {
-        return percent;
-    }
-    private double percent;
-    VAT(VATCategories vat) {
-        switch (vat) {
-            case VAT25:
-                percent = 0.25;
-            case VAT12:
-                percent = 0.12;
-            case VAT6:
-                percent = 0.06;
-        }
+    public VATCategories getPercent(ProductGroup productGroup) {
+        return productGroup.vat;
     }
 }
