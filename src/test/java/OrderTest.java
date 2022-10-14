@@ -25,31 +25,31 @@ public class OrderTest {
         orderLine4 = Mockito.mock(OrderLine.class);
         orderLine5 = Mockito.mock(OrderLine.class);
         orderLine6 = Mockito.mock(OrderLine.class);
-        Mockito.when(orderLine1.getName()).thenReturn("Gurka");
-        Mockito.when(orderLine2.getName()).thenReturn("Tomat");
-        Mockito.when(orderLine3.getName()).thenReturn("Morot");
-        Mockito.when(orderLine4.getName()).thenReturn("Fikon");
-        Mockito.when(orderLine5.getName()).thenReturn("Gurka");
-        Mockito.when(orderLine6.getName()).thenReturn("Gurka");
-        Mockito.when(orderLine1.getPrice()).thenReturn(5.0);
-        Mockito.when(orderLine2.getPrice()).thenReturn(8.0);
-        Mockito.when(orderLine3.getPrice()).thenReturn(9.0);
-        Mockito.when(orderLine4.getPrice()).thenReturn(50.0);
-        Mockito.when(orderLine5.getPrice()).thenReturn(5.0);
-        Mockito.when(orderLine6.getPrice()).thenReturn(5.0);
-        Mockito.when(orderLine1.getQuantity()).thenReturn(2);
-        Mockito.when(orderLine2.getQuantity()).thenReturn(4);
-        Mockito.when(orderLine3.getQuantity()).thenReturn(6);
-        Mockito.when(orderLine4.getQuantity()).thenReturn(1);
-        Mockito.when(orderLine5.getQuantity()).thenReturn(4);
-        Mockito.when(orderLine6.getQuantity()).thenReturn(3);
+        Mockito.when(orderLine1.name()).thenReturn("Gurka");
+        Mockito.when(orderLine2.name()).thenReturn("Tomat");
+        Mockito.when(orderLine3.name()).thenReturn("Morot");
+        Mockito.when(orderLine4.name()).thenReturn("Fikon");
+        Mockito.when(orderLine5.name()).thenReturn("Gurka");
+        Mockito.when(orderLine6.name()).thenReturn("Gurka");
+        Mockito.when(orderLine1.price()).thenReturn(5.0);
+        Mockito.when(orderLine2.price()).thenReturn(8.0);
+        Mockito.when(orderLine3.price()).thenReturn(9.0);
+        Mockito.when(orderLine4.price()).thenReturn(50.0);
+        Mockito.when(orderLine5.price()).thenReturn(5.0);
+        Mockito.when(orderLine6.price()).thenReturn(5.0);
+        Mockito.when(orderLine1.quantity()).thenReturn(2);
+        Mockito.when(orderLine2.quantity()).thenReturn(4);
+        Mockito.when(orderLine3.quantity()).thenReturn(6);
+        Mockito.when(orderLine4.quantity()).thenReturn(1);
+        Mockito.when(orderLine5.quantity()).thenReturn(4);
+        Mockito.when(orderLine6.quantity()).thenReturn(3);
 
     }
 
     @Test
     void AddOrderLineToListAddsCorrectly(){
         order.addOrderLineToList(orderLine1);
-        Assertions.assertEquals("Gurka",order.getOrderLine("Gurka").getName());
+        Assertions.assertEquals("Gurka",order.getOrderLine("Gurka").name());
 
 
 
@@ -77,7 +77,7 @@ public class OrderTest {
     void RemoveOrderLineFromListRemovesObject(){
         order.addOrderLineToList(orderLine1);
         order.removeOrderLineFromList(orderLine1);
-        Assertions.assertNull(order.getOrderLine(orderLine1.getName()));
+        Assertions.assertNull(order.getOrderLine(orderLine1.name()));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class OrderTest {
         StringBuilder answer = new StringBuilder();
         for(int i = 0; i < 4; i++){
             OrderLine ol = order.getOrderLineAtIndex(i);
-            answer.append(ol.getName()).append(": ").append(ol.getPrice()).append("\n");
+            answer.append(ol.name()).append(": ").append(ol.price()).append("\n");
         }
         Assertions.assertEquals("Fikon: 50.0\nGurka: 5.0\nMorot: 9.0\nTomat: 8.0\n", answer.toString());
 
@@ -122,7 +122,7 @@ public class OrderTest {
         StringBuilder answer = new StringBuilder();
         for(int i = 0; i < 4; i++){
             OrderLine ol = order.getOrderLineAtIndex(i);
-            answer.append(ol.getName()).append(": ").append(ol.getPrice()).append("\n");
+            answer.append(ol.name()).append(": ").append(ol.price()).append("\n");
         }
         Assertions.assertEquals("Tomat: 8.0\nMorot: 9.0\nGurka: 5.0\nFikon: 50.0\n", answer.toString());
 
@@ -143,7 +143,7 @@ public class OrderTest {
         StringBuilder answer = new StringBuilder();
         for(int i = 0; i < 4; i++){
             OrderLine ol = order.getOrderLineAtIndex(i);
-            answer.append(ol.getName()).append(": ").append(ol.getPrice()).append(" x").append(ol.getQuantity()).append("\n");
+            answer.append(ol.name()).append(": ").append(ol.price()).append(" x").append(ol.quantity()).append("\n");
         }
         Assertions.assertEquals("Gurka: 5.0 x2\nGurka: 5.0 x3\nGurka: 5.0 x4\nMorot: 9.0 x6\n", answer.toString());
     }

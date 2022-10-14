@@ -25,7 +25,7 @@ public class Order {
 
     public OrderLine getOrderLine(String orderLine) {
         for (OrderLine o: orderLines) {
-            if (o.getName().equalsIgnoreCase(orderLine)){
+            if (o.name().equalsIgnoreCase(orderLine)){
                 return o;
             }
         }
