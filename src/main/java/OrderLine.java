@@ -1,4 +1,4 @@
-public record OrderLine(String name, double price, int quantity) implements Comparable<OrderLine> {
+public record  OrderLine(String name, double price, int quantity) implements Comparable<OrderLine> {
 
     @Override
     public int compareTo(OrderLine o) {
