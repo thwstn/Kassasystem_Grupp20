@@ -5,10 +5,11 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomerTest {
+    private UUID custumerID;
     @Test
     void customerIDTest() {
         Customer customer = createNewCustomer();
-        assertEquals(123, customer.getCustomerID(), "Wrong ID set for customer!");
+        assertEquals(custumerID, customer.getCustomerID(), "Wrong ID set for customer!");
     }
     @Test
     void customerNameTest() {
@@ -43,6 +44,7 @@ public class CustomerTest {
     }*/
 
     private Customer createNewCustomer() {
-        return new Customer(UUID.randomUUID(), "Anders Andersson", 52);
+        custumerID = UUID.randomUUID();
+        return new Customer(custumerID, "Anders Andersson", 52);
     }
 }
