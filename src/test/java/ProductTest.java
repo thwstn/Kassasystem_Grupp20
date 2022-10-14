@@ -4,7 +4,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import java.util.HashMap;
 
 import static org.mockito.Mockito.mock;
 
@@ -12,41 +15,41 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductTest {
 
+    ProductGroup vegetablesMock;
     ProductGroup vegetables;
-    Product tomato;
+    EAN eanCucumber;
+    Product cucumber;
 
     @BeforeEach
     void init() {
-        vegetables = mock(ProductGroup.class);
-        tomato = new Product("Tomat", 3.49, vegetables, 4534, 100);
+        vegetablesMock = mock(ProductGroup.class);
+        vegetables = new ProductGroup(new VAT(VAT.VATCategories.VAT6));
+        eanCucumber = mock(EAN.class);
+        //vegetablesMock = Mockito.mock(ProductGroup.class);
+        //Mockito.when(eanCucumber.getEANCode()).thenReturn(12345678910L);
+        //Mockito.when(vegetables.getVat().getPercent()).thenReturn(0.25);
+        cucumber = new Product("Cucumber",11.0,vegetables, eanCucumber);
     }
 
     @Test
     void ctr_setsArgumentsAsCorrectDataFields() {
-        Product p = new Product("Gurka",11.0,vegetables,234,49);
-        assertEquals("Gurka", p.getName());
-        assertEquals(11.0, p.getPrice());
-        assertEquals(vegetables, p.getProductGroup());
-        assertEquals(234, p.getEan());
-        assertEquals(49, p.getAmount());
+        assertEquals("Cucumber", cucumber.getName());
+        assertEquals(11.66, cucumber.getPrice());
+        assertEquals(vegetables, cucumber.getProductGroup());
+        assertEquals(eanCucumber, cucumber.getEan());
+    }
+
+
+    @Test
+    void setAmountSetsCorrectAmount() {
+        cucumber.setAmount(21);
+        assertEquals(21, cucumber.getAmount());
     }
 
     @Test
-    void ctr_setsProductGroup_to_existingProductGroup() {
-        Product p = new Product("Morötter",5.0,vegetables,123,99);
-        assertEquals(p.getProductGroup(), vegetables);
+    void getPriceReturnsPriceIncVat25() {
+        assertEquals(11.66, cucumber.getPrice());
     }
-
-    /*
-    @Test
-    void ctr_doesntCreateProduct_if_productAlreadyExists() {
-        assertThrows(Exception.class, ()-> {
-            Mockito.when(vegetables.getProduct()).thenReturn(tomato);
-            Product p = new Product("Tomat", 3.49, vegetables, 4534, 100);
-        });
-    }
-    */
-
 
 
 

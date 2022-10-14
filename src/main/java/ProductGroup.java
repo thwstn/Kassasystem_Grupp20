@@ -18,10 +18,24 @@ public class ProductGroup {
     ProductGroup(ProductGroup productGroup, VAT.VATCategories vat) {
     this.productGroup = productGroup;
     }
+
+    ProductGroup(VAT vat) {
+        moms = vat;
+    }
     public void addPGroup(ProductGroup productGroup){
         Pgroup.add(productGroup);
     }
     public ProductGroup changeCategoryName(ProductGroup productgroup, ProductGroup BetterProductgroup){
         return BetterProductgroup;
     }
+
+    public boolean productExists() {
+        return false;
+    }
+
+    public VAT getVat() {
+        return moms;
+    }
+
+
 }

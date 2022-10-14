@@ -20,18 +20,14 @@ public class Product {
     private String name;
     private double price;
     private ProductGroup productGroup;
-    private long ean;
+    private EAN ean;
     private int amount;
 
-    public Product(String name, double price, ProductGroup productGroup, long ean, int amount) {
-        //if (productGroup.getProduct(name).getName().equals(name)) {
-        //    throw new IllegalArgumentException("No");
-        //}
+    public Product(String name, double price, ProductGroup productGroup, EAN ean) {
         this.name = name;
         this.price = price;
         this.productGroup = productGroup;
         this.ean = ean;
-        this.amount = amount;
     }
 
     public String getName() {
@@ -39,19 +35,23 @@ public class Product {
     }
 
     public double getPrice() {
-        return price;
+        return price * (1.0 + getProductGroup().getVat().getPercent());
     }
 
     public ProductGroup getProductGroup() {
         return productGroup;
     }
 
-    public long getEan() {
+    public EAN getEan() {
         return ean;
     }
 
     public int getAmount() {
         return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     @Override
