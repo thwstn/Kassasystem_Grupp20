@@ -6,17 +6,20 @@ public class Order {
     private final UUID orderID;
     private final Employee employee;
     private final Date date;
-    public Order(UUID orderID, Employee employee) {
+    private final Customer customer;
+    public Order(UUID orderID, Employee employee, Customer customer) {
         this.orderID = orderID;
         this.employee = employee;
         this.date = new Date();
+        this.customer = customer;
     }
 
-    public Order( UUID orderID, Employee employee, OrderLine ... orderLine) {
+    public Order( UUID orderID, Employee employee,Customer customer, OrderLine ... orderLine) {
         orderLines.addAll(Arrays.asList(orderLine));
         this.orderID = orderID;
         this.employee = employee;
         this.date = new Date();
+        this.customer = customer;
     }
 
     public OrderLine getOrderLineAtIndex(int i) {
