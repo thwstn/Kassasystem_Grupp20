@@ -7,6 +7,8 @@ public class Checkout {
     private ArrayList<Integer> orderIds;
     private int moneyId;
     ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
+    ArrayList<Order> orders = new ArrayList<>();
+    ArrayList<EAN> eans = new ArrayList<>();
 
     public Checkout(int id, int employeeId, ArrayList<Integer> orderIds, int moneyid) {
         this.id = id;
@@ -67,5 +69,7 @@ public class Checkout {
         }
         return employeeIDs;
     }
+    public void createOrder() {
 
+    }
 }
