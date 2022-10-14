@@ -34,7 +34,7 @@ public class Product {
         return name;
     }
 
-    public double getPrice() {
+    public double getPriceIncVat() {
         return price * (1.0 + getProductGroup().getVat().getPercent());
     }
 
