@@ -1,32 +1,69 @@
+
+/*
+- Product (Theo)
+    - Namn
+    - GrundPris (ex vat)
+    - Produktkategori (som klass) Grönsak
+    - EAN
+    - toString
+    - Konstruktorn lägger till produkten i en ProductCategory
+    - Sätt rabatt (som productCategory kan nå)
+    - get price = price + vat
+    - rabatt = price - grönsak.getrabatt
+ */
+
+import java.io.InvalidObjectException;
+import java.util.Objects;
+
 public class Product {
 
-    private final String name;
+    private String name;
     private double price;
-    private final EAN ean;
+    private ProductGroup productGroup;
+    private long ean;
+    private int amount;
 
-    public Product(String name, EAN ean) {
+    public Product(String name, double price, ProductGroup productGroup, long ean, int amount) {
+        //if (productGroup.getProduct(name).getName().equals(name)) {
+        //    throw new IllegalArgumentException("No");
+        //}
         this.name = name;
+        this.price = price;
+        this.productGroup = productGroup;
         this.ean = ean;
+        this.amount = amount;
     }
 
     public String getName() {
         return name;
     }
 
-    public EAN getEAN() {
+    public double getPrice() {
+        return price;
+    }
+
+    public ProductGroup getProductGroup() {
+        return productGroup;
+    }
+
+    public long getEan() {
         return ean;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public int getAmount() {
+        return amount;
     }
 
     @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", eanCode=" + ean +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return name.equals(product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }
