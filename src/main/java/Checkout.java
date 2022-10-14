@@ -78,4 +78,8 @@ public class Checkout {
     public void createOrder() {
 
     }
+
+    private void readAllProductsFromDatabase(){ //Jacob fixar
+
+    }
 }
