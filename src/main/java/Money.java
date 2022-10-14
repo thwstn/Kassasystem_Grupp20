@@ -1,10 +1,32 @@
 import java.util.*;
-//remake? record class/hashmap in checkout
+
 public class Money {
     private final Map<Integer, Integer> denominationAmounts;
-    private static final List<Integer> DENOMINATION_LIST = List.of(100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
+    private static final List<Integer> DENOMINATION_LIST = List.of(
+            100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
 
     public Money() {
+        this.denominationAmounts = new HashMap<>(createEmptyMoneyMap());
+    }
+
+    public Money(Map<Integer, Integer> denominations) {
+        for (int denomination : denominations.keySet()) {
+            if (denominations.get(denomination) < 0) {
+                throw new IllegalArgumentException("Cannot have negative balance of any denomination");
+            }
+            if (!DENOMINATION_LIST.contains(denomination)) {
+                throw new IllegalArgumentException("Not a valid denomination");
+            }
+        }
+        for (int denomination : DENOMINATION_LIST){
+            if (!denominations.containsKey(denomination)){
+                denominations.put(denomination, 0);
+            }
+        }
+        this.denominationAmounts = denominations;
+    }
+
+    private HashMap<Integer, Integer> createEmptyMoneyMap() {
         HashMap<Integer, Integer> denominations = new HashMap<>();
         denominations.put(100000, 0);
         denominations.put(50000, 0);
@@ -16,16 +38,7 @@ public class Money {
         denominations.put(500, 0);
         denominations.put(200, 0);
         denominations.put(100, 0);
-        this.denominationAmounts = denominations;
-    }
-
-    public Money(Map<Integer, Integer> denominations) {
-        for (int denomination : denominations.keySet()) {
-            if (!DENOMINATION_LIST.contains(denomination)) {
-                throw new IllegalArgumentException("Not a valid denomination");
-            }
-        }
-        this.denominationAmounts = denominations;
+        return denominations;
     }
 
     public Map<Integer, Integer> getDenominationAmounts() {
@@ -46,10 +59,8 @@ public class Money {
             throw new IllegalArgumentException("Not a valid denomination");
         }
         HashMap<Integer, Integer> newMoneyMap = new HashMap<>(this.getDenominationAmounts());
-        /*denominationAmounts.put(denomination, denominationAmounts.get(denomination) + 1);
-        immutable objects help (:
-         */
-        newMoneyMap.put(denomination, this.getDenominationAmounts().get(denomination) + 1);
+
+        newMoneyMap.put(denomination, newMoneyMap.get(denomination) + 1);
         return new Money(newMoneyMap);
     }
 
@@ -69,19 +80,23 @@ public class Money {
             throw new IllegalArgumentException("Not a valid denomination");
         }
         if ((denominationAmounts.get(denomination) < 1)) {
-            throw new IllegalArgumentException("There are no units of that" + "denomination (" + denomination + ")");
+            throw new IllegalArgumentException("There are no units of that denomination (" + denomination + ")");
         }
-        denominationAmounts.put(denomination, denominationAmounts.get(denomination) - 1);
+        HashMap<Integer, Integer> newMoneyMap = new HashMap<>(this.getDenominationAmounts());
 
-        return new Money(this.getDenominationAmounts());
+        newMoneyMap.put(denomination, newMoneyMap.get(denomination) - 1);
+        return new Money(newMoneyMap);
     }
 
-    public Money remove(Money oldMoney) {
+    public Money remove(Money incomingMoney) {
+        if (incomingMoney.checkAmount() > this.checkAmount()) {
+            throw new IllegalArgumentException("Not enough money in balance");
+        }
         HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
 
-        for (int denomination : oldMoney.getDenominationAmounts().keySet()) {
+        for (int denomination : incomingMoney.getDenominationAmounts().keySet()) {
             int amount;
-            amount = this.denominationAmounts.get(denomination) - oldMoney.getDenominationAmounts().get(denomination);
+            amount = this.denominationAmounts.get(denomination) - incomingMoney.getDenominationAmounts().get(denomination);
             newMoneyMap.put(denomination, amount);
         }
         return new Money(newMoneyMap);

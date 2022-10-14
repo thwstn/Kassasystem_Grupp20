@@ -13,8 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoneyTest {
 
-    private static final List<Integer> DENOMINATION_LIST = List.of(100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
-    private static final int INVALID_DENOMINATION = 123;
+    private static final List<Integer> DENOMINATION_LIST = List.of(
+            100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
+    private static final int INVALID_DENOMINATION = 110;
     private Money moneyWithBalanceZero;
     private Money moneyWithBalanceNonZero;
 
@@ -110,7 +111,7 @@ public class MoneyTest {
     @Test
     void removeOneUnitOfMoney() {
         Money newMoney = moneyWithBalanceNonZero.remove(1000);
-        assertEquals(1888000 - 1000, moneyWithBalanceNonZero.checkAmount());
+        assertEquals(1888000 - 1000, newMoney.checkAmount());
     }
 
     @Test
@@ -145,5 +146,29 @@ public class MoneyTest {
     @Test
     void checkSpecificDenomination() {
         assertEquals(10, moneyWithBalanceNonZero.checkDenominationAmount(100));
+    }
+
+    @Test
+    void removeMoreMoneyThanExists() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            moneyWithBalanceZero.remove(moneyWithBalanceNonZero);
+        });
+    }
+
+    @Test
+    void createNegativeDenominationAmount() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+            newMoneyMap.put(100, -1);
+            new Money(newMoneyMap);
+        });
+    }
+
+    @Test
+    void constructorFillEmptyDenominations() {
+        HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+        newMoneyMap.put(100, 1);
+        Money newMoney = new Money(newMoneyMap);
+        assertEquals(0, newMoney.checkDenominationAmount(200));
     }
 }
