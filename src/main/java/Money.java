@@ -42,7 +42,8 @@ public class Money {
     }
 
     public Map<Integer, Integer> getDenominationAmounts() {
-        return Map.copyOf(denominationAmounts);
+        //return Map.copyOf(denominationAmounts);
+        return createNewFilledMoneyMap((denominationAmounts));
     }
 
     public int checkAmount() {
@@ -64,12 +65,12 @@ public class Money {
         return new Money(newMoneyMap);
     }
 
-    public Money add(Money oldMoney) {
+    public Money add(Money incomingMoney) {
         HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
 
-        for (int denomination : oldMoney.getDenominationAmounts().keySet()) {
+        for (int denomination : incomingMoney.getDenominationAmounts().keySet()) {
             int amount;
-            amount = this.denominationAmounts.get(denomination) + oldMoney.getDenominationAmounts().get(denomination);
+            amount = this.denominationAmounts.get(denomination) + incomingMoney.getDenominationAmounts().get(denomination);
             newMoneyMap.put(denomination, amount);
         }
         return new Money(newMoneyMap);
@@ -93,13 +94,24 @@ public class Money {
             throw new IllegalArgumentException("Not enough money in balance");
         }
         HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+        //CHECK THIS
+        HashMap<Integer, Integer> newMoneyMap2 = new HashMap<>(incomingMoney.getDenominationAmounts());
 
-        for (int denomination : incomingMoney.getDenominationAmounts().keySet()) {
+
+        for (int denomination : newMoneyMap2.keySet()) {
             int amount;
-            amount = this.denominationAmounts.get(denomination) - incomingMoney.getDenominationAmounts().get(denomination);
+            amount = this.denominationAmounts.get(denomination) - newMoneyMap2.get(denomination);
             newMoneyMap.put(denomination, amount);
         }
         return new Money(newMoneyMap);
+    }
+
+    private HashMap<Integer, Integer> createNewFilledMoneyMap(Map<Integer, Integer> oldMap) {
+        HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+        for (int denomination : oldMap.keySet()) {
+            newMoneyMap.put(denomination, oldMap.get(denomination));
+        }
+        return newMoneyMap;
     }
 
     public int checkDenominationAmount(int denomination) {

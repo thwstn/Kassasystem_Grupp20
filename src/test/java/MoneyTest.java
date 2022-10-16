@@ -124,7 +124,7 @@ public class MoneyTest {
     @Test
     void removeMoneyFromMoney() {
         Money newMoney = moneyWithBalanceNonZero.remove(moneyWithBalanceNonZero);
-        assertEquals(1888000 - 1888000, newMoney.checkAmount());
+        assertEquals(0, newMoney.checkAmount());
     }
 
     @Test
@@ -150,9 +150,8 @@ public class MoneyTest {
 
     @Test
     void removeMoreMoneyThanExists() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            moneyWithBalanceZero.remove(moneyWithBalanceNonZero);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+                moneyWithBalanceZero.remove(moneyWithBalanceNonZero));
     }
 
     @Test
@@ -165,7 +164,7 @@ public class MoneyTest {
     }
 
     @Test
-    void constructorFillEmptyDenominations() {
+    void constructorFillsEmptyDenominations() {
         HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
         newMoneyMap.put(100, 1);
         Money newMoney = new Money(newMoneyMap);
