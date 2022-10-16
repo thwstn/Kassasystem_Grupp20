@@ -6,7 +6,15 @@ public class Checkout {
     private CheckOutSession checkOutSession;
     private ArrayList<Integer> orderIds;
     private int moneyId;
+
+    private ArrayList<ProductGroup> productGroups;
+    private  ArrayList<Employee> employees;
+    private ArrayList<Customer> customers;
+    private ArrayList<CheckOutSession> checkOutSessions;
+    private ArrayList<Order> orders;
     ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
+    //ArrayList<Order> orders = new ArrayList<>();
+    ArrayList<EAN> eans = new ArrayList<>();
 
     public Checkout(int id, int employeeId, ArrayList<Integer> orderIds, int moneyid) {
         this.id = id;
@@ -67,5 +75,11 @@ public class Checkout {
         }
         return employeeIDs;
     }
+    public void createOrder() {
 
+    }
+
+    private void readAllProductsFromDatabase(){ //Jacob fixar
+
+    }
 }

@@ -1,19 +1,20 @@
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Customer {
-    private int customerID;
+    private UUID customerID;
     private String name;
     private int age;
-    private ArrayList<Order> orders;
+    //private ArrayList<Order> orders;
 
-    public Customer(int customerID, String name, int age) {
+    public Customer(UUID customerID, String name, int age) {
         this.customerID = customerID;
         this.name = name;
         this.age = age;
-        this.orders = new ArrayList<>();
+        //this.orders = new ArrayList<>();
     }
 
-    public int getCustomerID() {
+    public UUID getCustomerID() {
         return customerID;
     }
 
@@ -25,9 +26,9 @@ public class Customer {
         return age;
     }
 
-    public ArrayList<Order> getOrders() {
-        return orders;
-    }
+    //public ArrayList<Order> getOrders() {
+    //    return orders;
+    //}
 
     public void increaseAge() {
         age++;
@@ -36,7 +37,7 @@ public class Customer {
         name = newName;
     }
 
-    public void addOrder(Order order) {
+    /*public void addOrder(Order order) {
         orders.add(order);
-    }
+    }*/
 }
