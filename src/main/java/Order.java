@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Order {
 
-    private final List<OrderLine> orderLines = new ArrayList<>();
+    private List<OrderLine> orderLines = new ArrayList<>();
     private final UUID orderID;
     private final Employee employee;
     private final Date date;
@@ -28,7 +28,7 @@ public class Order {
 
     public OrderLine getOrderLine(String orderLine) {
         for (OrderLine o: orderLines) {
-            if (o.name().equalsIgnoreCase(orderLine)){
+            if (o.getName().equalsIgnoreCase(orderLine)){
                 return o;
             }
         }
@@ -57,14 +57,37 @@ public class Order {
     public void sortByAlphabeticalOrderDescending() {
         orderLines.sort(Collections.reverseOrder());
     }
+    public void groupAllOrderLinesTogether() {
+        ArrayList<OrderLine> newList = new ArrayList<>();
+        boolean itemExistsInNewList = false;
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
         for (OrderLine o : orderLines) {
-            sb.append(o.toString()).append("\n");
+            if (newList.size() == 0) {
+                newList.add(o);
+            }
+            else {
+                for (OrderLine ol : newList) {
+                    if (ol.getName().equals(o.getName())) {
+                        ol.setQuantity(ol.getQuantity() + o.getQuantity());
+                        itemExistsInNewList = true;
+                    }
+                }
+                if(!itemExistsInNewList){
+                    newList.add(o);
+                }
+            }
+            itemExistsInNewList = false;
         }
-        return sb.toString();
+        this.orderLines = newList;
     }
+        @Override
+        public String toString () {
+            StringBuilder sb = new StringBuilder();
+            for (OrderLine o : orderLines) {
+                sb.append(o.toString()).append("\n");
+            }
+            return sb.toString();
+        }
 
-}
+
+    }

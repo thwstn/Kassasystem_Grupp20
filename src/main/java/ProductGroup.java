@@ -6,27 +6,24 @@ public class ProductGroup {
     private static final List<String> PRODUCT_GROUPS = List.of("Fruit&Vegetables", "Dairy", "Meat&Poultry", "Dry");
 
     public String productGroupName;
-    public VAT.VATCategories vat;
+    private VAT vat;
+
     ArrayList<Product> productList = new ArrayList<>();
-    public void setVAT(VAT.VATCategories vat){
-        this.vat = vat;
+    public void addProduct(Product product){
+        productList.add(product);
     }
 
-    ProductGroup(String productGroupName, VAT.VATCategories vat) {
-        if(PRODUCT_GROUPS.contains(productGroupName) && VAT.VATCategories.contains(vat)){
+    ProductGroup(String productGroupName, VAT.VATCategories vatCategory) {
+        if(PRODUCT_GROUPS.contains(productGroupName)){
             this.productGroupName = productGroupName;
-            this.vat = vat;
+            this.vat = new VAT(vatCategory);
         }else {
             throw new IllegalArgumentException("Not a valid Product group!");
         }
     }
 
-    ProductGroup(VAT vat) {
-        vat = vat;
-    }
-
-    public void changeCategoryName(String oldNameOfProductGroup, String newNameOfProductGroup){
-        this.productGroupName = productGroupName;
+    public void changeCategoryName(String newProductGroupName){
+        this.productGroupName = newProductGroupName;
 
     }
     public List<String> productGroupsList(){
@@ -41,16 +38,17 @@ public class ProductGroup {
     }
 
     public ArrayList<Product> getAllProducts(){  //Filen som parameter?
-        return new ArrayList<>();
+        return productList;
     }
 
-    public boolean productExists() {
+    /*public boolean productExists() {
         return false;
+    }*/
+    public VAT getVAT() {
+        return vat;
     }
 
-    /*public VAT getVat() {
-        return vat;
-    }*/
-
-
+    public String getProductGroupName() {
+        return productGroupName;
+    }
 }

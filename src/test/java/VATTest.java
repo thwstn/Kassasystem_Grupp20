@@ -5,20 +5,25 @@ import static org.junit.jupiter.api.Assertions.*;
 class VATTest {
     @Test
     void getPercentSix() {
-        ProductGroup productGroup = new ProductGroup("VEGETABLES", VAT.VATCategories.VAT6);
-        System.out.print(productGroup);
-        assertEquals(0.06,0.06);
+        VAT vat = new VAT(VAT.VATCategories.VAT6);
+        assertEquals(0.06,vat.getPercent(),"Wrong percentage.");
     }
     @Test
     void getPercentTwelve() {
-        ProductGroup productGroup = new ProductGroup("Soda", VAT.VATCategories.VAT12);
+        ProductGroup productGroup = new ProductGroup("Dairy", VAT.VATCategories.VAT12);
         System.out.println(productGroup);
         assertEquals(0.12,0.12);
     }
     @Test
     void getPercentTwentyFive() {
-        ProductGroup productGroup = new ProductGroup("Fresh", VAT.VATCategories.VAT25);
+        ProductGroup productGroup = new ProductGroup("Meat&Poultry", VAT.VATCategories.VAT25);
         System.out.println(productGroup);
         assertEquals(0.25,0.25);
     }
+    /*@Test
+    void changeVATTest(){
+        ProductGroup Dairy = new ProductGroup("Dairy", VAT.VATCategories.VAT12);
+        Dairy.setVAT(VAT.VATCategories.VAT6);
+        assertEquals(0.06,Dairy.getVAT().getPercent(), "Wrong percentage!");
+    }*/
 }
