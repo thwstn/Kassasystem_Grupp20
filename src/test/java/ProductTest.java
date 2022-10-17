@@ -23,7 +23,7 @@ public class ProductTest {
     @BeforeEach
     void init() {
         vegetablesMock = mock(ProductGroup.class);
-        vegetables = new ProductGroup("Fruit&Vegetables",(VAT.VATCategories.VAT25));
+        vegetables = new ProductGroup("Fruit&Vegetables",(VAT.VATCategories.VAT6));
         eanCucumber = mock(EAN.class);
         //vegetablesMock = Mockito.mock(ProductGroup.class);
         //Mockito.when(eanCucumber.getEANCode()).thenReturn(12345678910L);
@@ -34,7 +34,7 @@ public class ProductTest {
     @Test
     void ctr_setsArgumentsAsCorrectDataFields() {
         assertEquals("Cucumber", cucumber.getName());
-        assertEquals(11.66, cucumber.getPriceIncVat());
+        assertEquals(11.66, cucumber.getPriceIncVat());//menade du vat 6?
         assertEquals(vegetables, cucumber.getProductGroup());
         assertEquals(eanCucumber, cucumber.getEan());
     }
@@ -47,7 +47,7 @@ public class ProductTest {
     }
 
     @Test
-    void getPriceReturnsPriceIncVat25() {
+    void getPriceReturnsPriceIncVat25() {//Menade du vat 6?
         assertEquals(11.66, cucumber.getPriceIncVat());
     }
 
