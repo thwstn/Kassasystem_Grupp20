@@ -18,7 +18,7 @@ public class VAT {
                 case VAT12:
                     return 0.12;
                 case VAT6:
-                    return 0.6;
+                    return 0.06;
             }return 0;
         }
              //Ska inte vara return 0, ändra på det efter tester.

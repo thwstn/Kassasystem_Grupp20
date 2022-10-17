@@ -23,7 +23,7 @@ public class ProductTest {
     @BeforeEach
     void init() {
         vegetablesMock = mock(ProductGroup.class);
-        vegetables = new ProductGroup("Fruit&Vegetables",(VAT.VATCategories.VAT6));
+        vegetables = new ProductGroup("Fruit&Vegetables",(VAT.VATCategories.VAT25));
         eanCucumber = mock(EAN.class);
         //vegetablesMock = Mockito.mock(ProductGroup.class);
         //Mockito.when(eanCucumber.getEANCode()).thenReturn(12345678910L);
