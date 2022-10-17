@@ -2,7 +2,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.InstanceOf;
 
 import java.util.UUID;
 
@@ -18,7 +17,7 @@ public class OrderTest {
     private OrderLine orderLine6;
     @BeforeEach
     void init(){
-        order = new Order(UUID.randomUUID(), new Employee(), new Customer(UUID.randomUUID(), "Johan", 23));
+        order = new Order(UUID.randomUUID(), new Employee("Håkan", 20000), new Customer(UUID.randomUUID(), "Johan", 23));
         orderLine1 = Mockito.mock(OrderLine.class);
         orderLine2 = Mockito.mock(OrderLine.class);
         orderLine3 = Mockito.mock(OrderLine.class);
@@ -167,8 +166,50 @@ public class OrderTest {
 
         order.groupAllOrderLinesTogether();
         order.sortByAlphabeticalOrderAscending();
-        Assertions.assertEquals("Fikon: 50.0 x1\nGurka: 5.0 x9\nMorot: 9.0 x6\nTomat: 8.0 x4\n", order.toString());
+        Assertions.assertEquals("Fikon: 50.0 x1 50.0:-\nGurka: 5.0 x9 45.0:-\nMorot: 9.0 x6 54.0:-\nTomat: 8.0 x4 32.0:-\n", order.toString());
     }
 
+    @Test
+    void GroupingEmptyOrderThrowsNoException(){
+        Assertions.assertDoesNotThrow(order :: groupAllOrderLinesTogether);
+
+    }
+
+    @Test
+    void totalAmountComputesCorrectly(){
+        fillOrderWIthRealData();
+        Assertions.assertEquals(196.0, order.getTotalAmount());
+    }
+
+    @Test
+    void RemovingOrderLineUpdatesTotalAmount(){
+        fillOrderWIthRealData();
+        OrderLine o = new OrderLine("Gurka", 5.0, 10);
+        order.addOrderLineToList(o);
+        order.removeOrderLineFromList(o);
+        Assertions.assertEquals(196,order.getTotalAmount());
+    }
+
+    @Test
+    void PrintReceiptFormatsCorrectly(){
+        fillOrderWIthRealData();
+        Assertions.assertEquals("""
+                \t\t\tWillys
+                \tHandla smart, Bunkra hårt
+                Gurka: 5.0 x2 10.0:-
+                Tomat: 8.0 x4 32.0:-
+                Morot: 9.0 x6 54.0:-
+                Pasta: 10.0 x10 100.0:-
+
+                Totalt:\t196.0:-
+                Du betjänades av: Håkan
+                Tack för att du handlade hos oss Johan!""", order.getReceipt());
+    }
+    private void fillOrderWIthRealData(){ //Metod skriven efter jag prövat på mockning. OrderLine är nu implementerad
+        order.addOrderLineToList(new OrderLine("Gurka", 5.0, 2));
+        order.addOrderLineToList(new OrderLine("Tomat", 8.0, 4));
+        order.addOrderLineToList(new OrderLine("Morot", 9.0, 6));
+        order.addOrderLineToList(new OrderLine("Pasta", 10.0, 10));
+    }
 
 }
