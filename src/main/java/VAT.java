@@ -9,20 +9,11 @@ public class VAT {
         VAT12,
         VAT6;
     }
-        //Ska det verkligen vara ENUM? Måste ha ett värde?
-
-        public double getPercent() {       //Ändra till switch-sats
-            switch (vatCategory) {
-                case VAT25:
-                    return 0.25;
-                case VAT12:
-                    return 0.12;
-                case VAT6:
-                    return 0.06;
-            }return 0;
+        public double getPercent() {
+            return switch (vatCategory) {
+                case VAT25 -> 0.25;
+                case VAT12 -> 0.12;
+                case VAT6 -> 0.06;
+            };
         }
-             //Ska inte vara return 0, ändra på det efter tester.
-            //göra en if-sats för att se vilken procentsats som ska tilldelas?
-            //Hur gör man när det är ENUMS?//fel, bara för att kunna köra andra tester.
-
 }
