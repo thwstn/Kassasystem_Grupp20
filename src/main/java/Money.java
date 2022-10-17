@@ -42,7 +42,6 @@ public class Money {
     }
 
     public Map<Integer, Integer> getDenominationAmounts() {
-        //return Map.copyOf(denominationAmounts);
         return createNewFilledMoneyMap((denominationAmounts));
     }
 
@@ -94,13 +93,10 @@ public class Money {
             throw new IllegalArgumentException("Not enough money in balance");
         }
         HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
-        //CHECK THIS
-        HashMap<Integer, Integer> newMoneyMap2 = new HashMap<>(incomingMoney.getDenominationAmounts());
 
-
-        for (int denomination : newMoneyMap2.keySet()) {
+        for (int denomination : incomingMoney.getDenominationAmounts().keySet()) {
             int amount;
-            amount = this.denominationAmounts.get(denomination) - newMoneyMap2.get(denomination);
+            amount = this.denominationAmounts.get(denomination) - incomingMoney.getDenominationAmounts().get(denomination);
             newMoneyMap.put(denomination, amount);
         }
         return new Money(newMoneyMap);
@@ -116,5 +112,20 @@ public class Money {
 
     public int checkDenominationAmount(int denomination) {
         return denominationAmounts.get(denomination);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int denomination : DENOMINATION_LIST){
+            if (denomination >= 2000){
+                sb.append(denomination / 100).append("(sedlar): ").append(checkDenominationAmount(denomination)).append("\n");
+            }
+            if (denomination <= 1000){
+                sb.append(denomination / 100).append("(mynt): ").append(checkDenominationAmount(denomination)).append("\n");
+            }
+        }
+        sb.append("Total amount: ").append(checkAmount());
+        return sb.toString();
     }
 }
