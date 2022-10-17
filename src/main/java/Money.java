@@ -42,7 +42,7 @@ public class Money {
     }
 
     public Map<Integer, Integer> getDenominationAmounts() {
-        return Map.copyOf(denominationAmounts);
+        return createNewFilledMoneyMap((denominationAmounts));
     }
 
     public int checkAmount() {
@@ -64,12 +64,12 @@ public class Money {
         return new Money(newMoneyMap);
     }
 
-    public Money add(Money oldMoney) {
+    public Money add(Money incomingMoney) {
         HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
 
-        for (int denomination : oldMoney.getDenominationAmounts().keySet()) {
+        for (int denomination : incomingMoney.getDenominationAmounts().keySet()) {
             int amount;
-            amount = this.denominationAmounts.get(denomination) + oldMoney.getDenominationAmounts().get(denomination);
+            amount = this.denominationAmounts.get(denomination) + incomingMoney.getDenominationAmounts().get(denomination);
             newMoneyMap.put(denomination, amount);
         }
         return new Money(newMoneyMap);
@@ -102,7 +102,30 @@ public class Money {
         return new Money(newMoneyMap);
     }
 
+    private HashMap<Integer, Integer> createNewFilledMoneyMap(Map<Integer, Integer> oldMap) {
+        HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+        for (int denomination : oldMap.keySet()) {
+            newMoneyMap.put(denomination, oldMap.get(denomination));
+        }
+        return newMoneyMap;
+    }
+
     public int checkDenominationAmount(int denomination) {
         return denominationAmounts.get(denomination);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int denomination : DENOMINATION_LIST){
+            if (denomination >= 2000){
+                sb.append(denomination / 100).append("(sedlar): ").append(checkDenominationAmount(denomination)).append("\n");
+            }
+            if (denomination <= 1000){
+                sb.append(denomination / 100).append("(mynt): ").append(checkDenominationAmount(denomination)).append("\n");
+            }
+        }
+        sb.append("Total amount: ").append(checkAmount());
+        return sb.toString();
     }
 }

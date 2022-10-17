@@ -15,7 +15,7 @@ public class MoneyTest {
 
     private static final List<Integer> DENOMINATION_LIST = List.of(
             100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
-    private static final int INVALID_DENOMINATION = 110;
+    private static final int INVALID_DENOMINATION = 1;
     private Money moneyWithBalanceZero;
     private Money moneyWithBalanceNonZero;
 
@@ -124,7 +124,7 @@ public class MoneyTest {
     @Test
     void removeMoneyFromMoney() {
         Money newMoney = moneyWithBalanceNonZero.remove(moneyWithBalanceNonZero);
-        assertEquals(1888000 - 1888000, newMoney.checkAmount());
+        assertEquals(0, newMoney.checkAmount());
     }
 
     @Test
@@ -150,9 +150,8 @@ public class MoneyTest {
 
     @Test
     void removeMoreMoneyThanExists() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            moneyWithBalanceZero.remove(moneyWithBalanceNonZero);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+                moneyWithBalanceZero.remove(moneyWithBalanceNonZero));
     }
 
     @Test
@@ -165,10 +164,26 @@ public class MoneyTest {
     }
 
     @Test
-    void constructorFillEmptyDenominations() {
+    void constructorFillsEmptyDenominations() {
         HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
         newMoneyMap.put(100, 1);
         Money newMoney = new Money(newMoneyMap);
         assertEquals(0, newMoney.checkDenominationAmount(200));
+    }
+
+    @Test
+    void toStringTest() {
+        assertEquals("""
+                1000(sedlar): 10
+                500(sedlar): 10
+                200(sedlar): 10
+                100(sedlar): 10
+                50(sedlar): 10
+                20(sedlar): 10
+                10(mynt): 10
+                5(mynt): 10
+                2(mynt): 10
+                1(mynt): 10
+                Total amount: 1888000""", moneyWithBalanceNonZero.toString());
     }
 }

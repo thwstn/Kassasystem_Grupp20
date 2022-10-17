@@ -26,6 +26,10 @@ public class OrderLine implements Comparable<OrderLine> {
         this.quantity = newQuantity;
     }
 
+    public double getTotalAmount(){
+        return this.getPrice() * this.getQuantity();
+    }
+
     @Override
     public int compareTo(OrderLine o) {
         if (this.getName().compareTo(o.getName()) != 0) {
@@ -39,6 +43,6 @@ public class OrderLine implements Comparable<OrderLine> {
 
     @Override
     public String toString(){
-        return this.getName() + ": " + this.getPrice() + " x" + this.getQuantity();
+        return this.getName() + ": " + this.getPrice() + " x" + this.getQuantity() + " " + this.getTotalAmount() + ":-";
     }
 }
