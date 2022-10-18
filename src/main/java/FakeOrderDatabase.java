@@ -8,9 +8,9 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     private static final Employee AMANDA = new Employee ("Amanda", 27000);
     private static final Employee THEO = new Employee ("Theo", 32000);
 
-    private static final Customer MARY = new Customer(UUID.randomUUID(), "Mary", 45);
-    private static final Customer TRACY = new Customer(UUID.randomUUID(), "Tracy", 23);
-    private static final Customer HILDA = new Customer(UUID.randomUUID(), "Hilda", 84);
+    private static final Customer MARY = new Customer("Mary", 45);
+    private static final Customer TRACY = new Customer( "Tracy", 23);
+    private static final Customer HILDA = new Customer( "Hilda", 84);
 
     private static final Order O1 = new Order(JOHN, MARY,
     new OrderLine("Cucumber", 5.0, 3),
