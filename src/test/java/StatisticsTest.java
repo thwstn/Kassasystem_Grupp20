@@ -11,16 +11,27 @@ public class StatisticsTest {
     FakeEmployeeDatabase fakeEmployeeDatabase;
     Statistics statistics;
     FakeOrderDatabase fakeOrderDatabase;
+    FakeCustomerDatabase fakeCustomerDatabase;
+    FakeProductDatabase fakeProductDatabase;
 
     @BeforeEach
         void init() {
             fakeEmployeeDatabase = new FakeEmployeeDatabase();
             statistics = new Statistics();
-            fakeEmployeeDatabase.fillDatabase();
+            fakeCustomerDatabase = new FakeCustomerDatabase();
+            fakeProductDatabase = new FakeProductDatabase();
     }
 
     @Test
     void getAverageSalaryReturnsCorrectNumber() {
         assertEquals(150, statistics.getAverageSalary());
+    }
+
+    @Test
+    void getCustomerMostSold() {
+        Product pasta = fakeProductDatabase.getProductFromName("Butter");
+        System.out.println(pasta);
+        Product p = statistics.getCustomerMostSold(fakeCustomerDatabase.getCustomer("Jacob"));
+        assertEquals(pasta, p);
     }
 }

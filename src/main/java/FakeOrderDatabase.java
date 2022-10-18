@@ -32,7 +32,7 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     new OrderLine("Butter", 45.0, 12));
     private static final Order O4 = new Order(DANIELLA, JACOB,
     new OrderLine("Pasta", 12.0, 5),
-    new OrderLine("Butter", 45.0, 11),
+    new OrderLine("Butter", 45.0, 21),
     new OrderLine("Crushed Tomatoes", 8.0, 4),
     new OrderLine("Pasta", 5.0, 10));
     private static final Order O5 = new Order(CALLE, THEO,
