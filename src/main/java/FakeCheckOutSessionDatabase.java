@@ -2,7 +2,24 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class FakeCheckOutSessionDatabase implements CheckOutSessionDatabase {
-    ArrayList<CheckOutSession> checkOutSessions = new ArrayList<>();
+    private final ArrayList<CheckOutSession> checkOutSessions = new ArrayList<>();
+
+    public FakeCheckOutSessionDatabase() {
+        addTestcheckOutSessions();
+    }
+
+    private void addTestcheckOutSessions() {
+        FakeEmployeeDatabase employees = new FakeEmployeeDatabase();
+        for (Employee employee : employees.get()) {
+            CheckOutSession checkOutSession = new CheckOutSession(employee);
+            checkOutSessions.add(checkOutSession);
+        }
+    }
+
+    @Override
+    public void addCheckOutSession(CheckOutSession checkOutSession) {
+        checkOutSessions.add(checkOutSession);
+    }
 
     @Override
     public ArrayList<CheckOutSession> getCheckOutSessionFromDatabaseWithEmployee(Employee employee) {

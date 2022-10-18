@@ -1,11 +1,10 @@
-import java.util.ArrayList;
 import java.util.Date;
 
 public class CheckOutSession {
     //private static ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
-    private Date startDate;
+    private final Date startDate;
     private Date endDate;
-    private Employee employee;
+    private final Employee employee;
 
     public CheckOutSession(Employee employee) {
         startDate = new Date();
