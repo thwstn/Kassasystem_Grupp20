@@ -3,37 +3,41 @@ import java.util.List;
 import java.util.UUID;
 
 public class FakeOrderDatabase implements OrderDatabaseIO{
+    private static final FakeEmployeeDatabase FED = new FakeEmployeeDatabase();
+    private static final FakeCustomerDatabase FCD = new FakeCustomerDatabase();
     ArrayList<Order> orderData = new ArrayList<>();
-    private static final Employee JOHN = new Employee ("John", 25000);
-    private static final Employee AMANDA = new Employee ("Amanda", 27000);
-    private static final Employee THEO = new Employee ("Theo", 32000);
 
-    private static final Customer MARY = new Customer("Mary", 45);
-    private static final Customer TRACY = new Customer( "Tracy", 23);
-    private static final Customer HILDA = new Customer( "Hilda", 84);
+    private static final Employee ANNA = FED.getEmployee("Anna");
+    private static final Employee CALLE = FED.getEmployee("Calle");
+    private static final Employee DANIELLA = FED.getEmployee("Daniella");
 
-    private static final Order O1 = new Order(JOHN, MARY,
+    private static final Customer THEO = FCD.getCustomer("Theo");
+    private static final Customer JACOB = FCD.getCustomer("Jacob");
+    private static final Customer JOHAN = FCD.getCustomer("Johan");
+
+
+    private static final Order O1 = new Order(ANNA, THEO,
     new OrderLine("Cucumber", 5.0, 3),
     new OrderLine("Tomato", 12.0, 8),
     new OrderLine("Pasta", 12.90, 3));
 
-    private static final Order O2 = new Order(AMANDA, MARY,new OrderLine("Mjölk", 5.0, 8),
+    private static final Order O2 = new Order(ANNA, JACOB,new OrderLine("Mjölk", 5.0, 8),
     new OrderLine("Pasta", 12.0, 2),
     new OrderLine("Tomat", 9.0, 10),
     new OrderLine("Kikärtor", 4.0, 7),
     new OrderLine("Köttfärs", 5.0, 3));
 
-    private static final Order O3 = new Order(THEO, MARY,
+    private static final Order O3 = new Order(CALLE, JOHAN,
     new OrderLine("Mjölk", 5.0, 2),
     new OrderLine("Grädde", 5.0, 1),
     new OrderLine("Pasta", 12.0, 8),
     new OrderLine("Smör", 5.0, 12));
-    private static final Order O4 = new Order(JOHN, TRACY,
+    private static final Order O4 = new Order(DANIELLA, JACOB,
     new OrderLine("Pasta", 12.0, 5),
     new OrderLine("Smör", 5.0, 11),
     new OrderLine("Krossade tomater", 5.0, 4),
     new OrderLine("Pasta", 5.0, 10));
-    private static final Order O5 = new Order(THEO, HILDA,
+    private static final Order O5 = new Order(CALLE, THEO,
     new OrderLine("Mjölk", 5.0, 2),
     new OrderLine("Pasta", 12.0, 5),
     new OrderLine("Tomat", 9.0, 12),
@@ -41,7 +45,7 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     new OrderLine("Köttfärs", 5.0, 9),
     new OrderLine("Mjölk", 5.0, 3),
     new OrderLine("Grädde", 5.0, 1));
-    private static final Order O6 = new Order(THEO, TRACY,
+    private static final Order O6 = new Order(ANNA, JOHAN,
     new OrderLine("Kikärtor", 4.0, 7),
     new OrderLine("Köttfärs", 5.0, 3),
     new OrderLine("Mjölk", 5.0, 2),
@@ -50,7 +54,7 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     new OrderLine("Smör", 5.0, 12),
     new OrderLine("Krossade tomater", 5.0, 4),
     new OrderLine("Pasta", 5.0, 3));
-    private static final Order O7 = new Order(AMANDA, HILDA,
+    private static final Order O7 = new Order(DANIELLA, THEO,
     new OrderLine("Tomat", 9.0, 2),
     new OrderLine("Kikärtor", 4.0, 12),
     new OrderLine("Köttfärs", 5.0, 200),
@@ -58,6 +62,10 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     new OrderLine("Grädde", 5.0, 2),
     new OrderLine("Pasta", 12.0, 3),
     new OrderLine("Smör", 5.0, 2));
+
+    public FakeOrderDatabase(){
+        fillDatabase();
+    }
 
     @Override
     public Order getOrderFromID(UUID uuid) {
