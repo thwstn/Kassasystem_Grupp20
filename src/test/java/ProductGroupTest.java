@@ -35,7 +35,7 @@ class ProductGroupTest {
     void newGroupTestMeat(){
         ProductGroup meat = new ProductGroup("Meat&Poultry", VAT.VATCategories.VAT25);
         meat.addProduct(new Product("Pork",25.0,meat,new EAN(111111111111L)));
-        assertEquals(1,meat.productList.size());
+        assertEquals(1,meat.getAllProducts().size());
 
     } //fixa
     @Test
@@ -61,5 +61,14 @@ class ProductGroupTest {
         assertThrows(IllegalArgumentException.class, ()->{new ProductGroup("", VAT.VATCategories.VAT25);
         });
     }
-
+    @Test
+    void removeByNameTest() {
+        ProductGroup vegetables = new ProductGroup("Fruit&Vegetables", VAT.VATCategories.VAT12);
+        vegetables.addProduct(new Product("Tomato",25.0,vegetables,new EAN(121212121212L)));
+        System.out.println(vegetables);
+        if(vegetables.containsProductByName("Tomato")){
+            vegetables.removeProductByName("Tomato",1);
+        }
+        assertEquals(0,vegetables.getAllProducts());
+    }
 }

@@ -134,7 +134,7 @@ int percentage;
 VAT(Int percentage){
 this.percentage = percentage;
     }
-}
+}Lägg till så att den kollar att procenten är 6,12 eller 25. // Niklas 
 
 Class Discount{
 int discountPercentage;

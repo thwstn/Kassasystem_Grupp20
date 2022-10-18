@@ -76,6 +76,17 @@ public class Product implements DiscountInterface{
     }
 
     @Override
+    public String toString() {
+        return "Products{" +
+                "name: " + name + ',' +
+                " price: " + price +
+                ", productGroup: " + productGroup +
+                ", ean: " + ean +
+                ", amount: " + amount +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(name);
     }
