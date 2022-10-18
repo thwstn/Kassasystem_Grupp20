@@ -18,8 +18,8 @@ public class Money {
                 throw new IllegalArgumentException("Not a valid denomination");
             }
         }
-        for (int denomination : DENOMINATION_LIST){
-            if (!denominations.containsKey(denomination)){
+        for (int denomination : DENOMINATION_LIST) {
+            if (!denominations.containsKey(denomination)) {
                 denominations.put(denomination, 0);
             }
         }
@@ -117,11 +117,11 @@ public class Money {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int denomination : DENOMINATION_LIST){
-            if (denomination >= 2000){
+        for (int denomination : DENOMINATION_LIST) {
+            if (denomination >= 2000) {
                 sb.append(denomination / 100).append("(sedlar): ").append(checkDenominationAmount(denomination)).append("\n");
             }
-            if (denomination <= 1000){
+            if (denomination <= 1000) {
                 sb.append(denomination / 100).append("(mynt): ").append(checkDenominationAmount(denomination)).append("\n");
             }
         }

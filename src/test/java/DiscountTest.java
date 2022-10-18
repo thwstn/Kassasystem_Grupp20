@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DiscountTest {
 
     @Test
-    void discountAppliedCorrectlyToPrice(){
-
+    void discountCorrectlyAppliedToPrice() {
     }
 }
 */

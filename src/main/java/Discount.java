@@ -1,17 +1,17 @@
-/*
+
 //discounts on products or orders/orderline or product/productg/order/orderline?
 //why is abstract decorator necessary
-public class Discount {
+public abstract class Discount implements DiscountInterface{
 
-    private ProductInterface product;
+    private final DiscountInterface product;
 
-    public Discount(ProductInterface product){
+    public Discount(DiscountInterface product) {
         this.product = product;
     }
 
     @Override
-    public double getPrice(){
-        return product.getPrice();
+    public double getPriceIncVat() {
+        return product.getPriceIncVat();
     }
 }
-*/
+

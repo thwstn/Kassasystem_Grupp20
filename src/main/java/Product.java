@@ -15,7 +15,7 @@
 import java.io.InvalidObjectException;
 import java.util.Objects;
 
-public class Product {
+public class Product implements DiscountInterface{
 
     private String name;
     private double price;
@@ -34,6 +34,7 @@ public class Product {
         return name;
     }
 
+    @Override
     public double getPriceIncVat() {
         return price * (1.0 + getProductGroup().getVAT().getPercent());
     }
