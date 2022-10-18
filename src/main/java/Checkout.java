@@ -5,6 +5,7 @@ public class Checkout {
     private CheckOutSession checkOutSession;
     private Money money;
     private Order order;
+    private FakeCheckOutSessionDatabase checkOutSessionDatabase = new FakeCheckOutSessionDatabase();
 
     public Checkout() {
         ID = UUID.randomUUID();
@@ -40,13 +41,13 @@ public class Checkout {
     public void logoutEmployee() {
         if (checkOutSession != null) {
             checkOutSession.addEndDateToSession();
-            //save checkOutSession to database;
+            checkOutSessionDatabase.addCheckOutSession(checkOutSession);
             checkOutSession = null;
         } else throw new IllegalStateException("Nobody is logged in!");
     }
     public void changeEmployee(Employee employee) {
         checkOutSession.addEndDateToSession();
-        //save checkOutSession to database;
+        checkOutSessionDatabase.addCheckOutSession(checkOutSession);
         checkOutSession = new CheckOutSession(employee);
     }
 }

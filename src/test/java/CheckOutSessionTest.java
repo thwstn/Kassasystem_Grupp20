@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,5 +36,13 @@ public class CheckOutSessionTest {
         CheckOutSession checkOutSession = new CheckOutSession(employee);
         assertEquals(employee, checkOutSession.getEmployee(), "Wrong employeeId");
     }
-
+    @Test
+    void getLenghtOfSessionInText() throws InterruptedException {
+        CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
+        TimeUnit.SECONDS.sleep(2);
+        checkOutSession.addEndDateToSession();
+        long timeDiff = checkOutSession.getEndDate().getTime() - checkOutSession.getStartDate().getTime();
+        assertTrue(timeDiff < 2100 && timeDiff > 1900, "Time diff is too large or too short!");
+        //assertEquals(5, checkOutSession.getEndDate().getTime() - checkOutSession.getStartDate().getTime(), "Should be 5 seconds!");
+    }
 }
