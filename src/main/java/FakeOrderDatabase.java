@@ -66,8 +66,14 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     }
 
     @Override
-    public Order getOrderFromID(UUID uuid) {
-        return null;
+    public ArrayList<Order> getAllOrdersByCustomer(Customer customer) {
+        ArrayList<Order> newList = new ArrayList<>();
+        for (Order o:orderData) {
+            if(o.getCustomer().equals(customer)){
+                newList.add(o);
+            }
+        }
+        return newList;
     }
 
     @Override

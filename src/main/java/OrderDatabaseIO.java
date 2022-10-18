@@ -1,8 +1,9 @@
+import java.util.ArrayList;
 import java.util.UUID;
 
 public interface OrderDatabaseIO {
 
-    Order getOrderFromID(UUID uuid);
+    ArrayList<Order> getAllOrdersByCustomer(Customer customer);
 
     void fillDatabase();
 }

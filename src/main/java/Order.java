@@ -54,6 +54,10 @@ public class Order {
         return this.date;
     }
 
+    public Customer getCustomer(){
+        return customer;
+    }
+
     public boolean isOrderPayed(){
         return orderIsPayed;
     }
