@@ -210,6 +210,8 @@ public class OrderTest {
     @Test
     void FinalizingOrderWorks(){
         fillOrderWIthRealData();
+        order.debitOrder();
+        Assertions.assertTrue(order.isOrderPayed());
 
     }
     private void fillOrderWIthRealData(){ //Metod skriven efter jag prövat på mockning. OrderLine är nu implementerad

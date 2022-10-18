@@ -9,6 +9,7 @@ public class Order {
     private final Date date;
     private final Customer customer;
     private double totalAmount;
+    private boolean orderIsPayed;
     public Order(Employee employee, Customer customer) {
         this.orderID = UUID.randomUUID();
         this.employee = employee;
@@ -51,6 +52,10 @@ public class Order {
 
     public Date getDate (){
         return this.date;
+    }
+
+    public boolean isOrderPayed(){
+        return orderIsPayed;
     }
 
     public void addOrderLineToList(OrderLine orderLine){
@@ -103,6 +108,13 @@ public class Order {
         this.orderLines = newList;
     }
 
+
+    public double debitOrder() {
+        orderIsPayed = true;
+        this.employee.addOrder(this);
+        return this.getTotalAmount();
+    }
+
     //TODO En debit metod som avslutar köpet, metoden skickar ut data dit den ska lagras och t.ex. drar pengar från kassan.
 
     public String getReceipt(){
@@ -131,4 +143,4 @@ public class Order {
         }
 
 
-    }
+}
