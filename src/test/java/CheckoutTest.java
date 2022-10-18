@@ -54,12 +54,14 @@ public class CheckoutTest {
         assertEquals("Harald", checkout.getCheckOutSession().getEmployee().getName(), "Employee not changed, or never set at all");
     }
     @Test
-    void createEmptyOrder() {
+    void createEmptyOrderWhileLoggedIn() {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
         checkout.addNewEmptyOrder();
         assertTrue(checkout.getOrder() != null);
     }
+    //createEmptyOrderWhileLoggedOut
     @Test
     void removeOrder() {
         Checkout checkout = new Checkout();

@@ -45,6 +45,6 @@ public class CustomerTest {
 
     private Customer createNewCustomer() {
         custumerID = UUID.randomUUID();
-        return new Customer(custumerID, "Anders Andersson", 52);
+        return new Customer("Anders Andersson", 52);
     }
 }
