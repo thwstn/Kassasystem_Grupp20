@@ -31,6 +31,23 @@ public class Checkout {
     public void removeOrder() {
         order = null;
     }
+    public void loginEmployee(Employee employee) {
+        if (checkOutSession == null) {
+            checkOutSession = new CheckOutSession(employee);
+        } else throw new IllegalStateException("You cant login! Someone else is already logged in!");
+    }
+    public void logoutEmployee() {
+        if (checkOutSession != null) {
+            checkOutSession.getEndDate();
+            //save checkOutSession to database;
+            checkOutSession = null;
+        } else throw new IllegalStateException("Nobody is logged in!");
+    }
+    public void changeEmployee(Employee employee) {
+        checkOutSession.getEndDate();
+        //save checkOutSession to database;
+        checkOutSession = new CheckOutSession(employee);
+    }
 }
 
 /*public class Checkout{

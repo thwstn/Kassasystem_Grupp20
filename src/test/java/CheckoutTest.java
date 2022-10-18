@@ -30,18 +30,40 @@ public class CheckoutTest {
         assertEquals(null, checkout.getOrder());
     }
     @Test
+    void logInEmployeeAndCreateASession() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        assertTrue(checkout.getCheckOutSession() != null, "Session should not be null");
+    }
+    @Test
+    void logOutEmployeeAndEndSession() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.logoutEmployee();
+        assertTrue(checkout.getCheckOutSession() == null);
+    }
+    @Test
+    void changeEmployeeAndStartANewSession() {
+        Checkout checkout = new Checkout();
+        Employee employee1 = new Employee("Lisa", 30000);
+        Employee employee2 = new Employee("Harald", 29000);
+        checkout.loginEmployee(employee1);
+        checkout.changeEmployee(employee2);
+        assertEquals("Harald", checkout.getCheckOutSession().getEmployee().getName(), "Employee not changed, or never set at all");
+    }
+    @Test
     void createEmptyOrder() {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
-        Order order = new Order(employee);
         checkout.addNewEmptyOrder();
-        assertTrue(checkout.getOrder() instanceof Order);
+        assertTrue(checkout.getOrder() != null);
     }
     @Test
     void removeOrder() {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);;
-        Order order = new Order(employee);
         checkout.addNewEmptyOrder();
         checkout.removeOrder();
         assertEquals(null, checkout.getOrder(), "Order exist but i should not");
