@@ -3,7 +3,7 @@
 //why is abstract decorator necessary
 public abstract class Discount implements DiscountInterface{
 
-    private final DiscountInterface product;
+    protected final DiscountInterface product;
 
     public Discount(DiscountInterface product) {
         this.product = product;

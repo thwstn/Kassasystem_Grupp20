@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FakeProductDatabase implements ProductDatabase{
+public class FakeProductDatabase implements ProductDatabase {
     ArrayList<Product> productData = new ArrayList<>();
     private static final ProductGroup FRUVEG = new ProductGroup("Fruit&Vegetables", VAT.VATCategories.VAT25);
     private static final ProductGroup MEAT = new ProductGroup("Meat&Poultry", VAT.VATCategories.VAT25);
@@ -20,17 +20,17 @@ public class FakeProductDatabase implements ProductDatabase{
     private static final Product YOGHURT = new Product("Yoghurt", 21.90, DAIRY, new EAN(917569267583L));
     private static final Product SALAMI = new Product("Salami", 25.90, MEAT, new EAN(917563840003L));
 
-    public void fillDatabase(){
+    public void fillDatabase() {
         productData.addAll(List.of(CUCUMBER, PASTA, MILK, SAUSAGE, BREAD, TOMATO, CHICKPEAS, RICE, ENTRECOTE, YOGHURT, SALAMI));
     }
 
     @Override
     public Product getProductForOrderLine(EAN ean) {
         for (Product p : productData) {
-            if(p.getEan().equals(ean)){
+            if (p.getEan().equals(ean)) {
                 return p;
             }
         }
-    return null;
+        return null;
     }
 }
