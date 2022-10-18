@@ -49,6 +49,10 @@ public class Order {
         return this.totalAmount;
     }
 
+    public Date getDate (){
+        return this.date;
+    }
+
     public void addOrderLineToList(OrderLine orderLine){
         if(orderLine == null)
             throw new IllegalArgumentException("Orderline can't be null");
@@ -99,10 +103,12 @@ public class Order {
         this.orderLines = newList;
     }
 
+    //TODO En debit metod som avslutar köpet, metoden skickar ut data dit den ska lagras och t.ex. drar pengar från kassan.
+
     public String getReceipt(){
         this.groupAllOrderLinesTogether();
         StringBuilder sb = new StringBuilder();
-        sb.append("\t\t\tWillys\n").append
+        sb.append("\t\t\tBillys\n").append
                 ("\tHandla smart, Bunkra hårt").append
                 ("\n").append
                 (this).append
@@ -110,7 +116,9 @@ public class Order {
                 ("Totalt:\t").append(this.getTotalAmount()).append(":-").append
                 ("\n").append
                 ("Du betjänades av: ").append(this.employee.getName()).append
-                ("\nTack för att du handlade hos oss ").append(this.customer.getName()).append("!");
+                ("\nTack för att du handlade hos oss ").append(this.customer.getName()).append("!").append
+                ("\n").append
+                (this.date.toString());
        return sb.toString();
     }
         @Override

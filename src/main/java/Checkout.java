@@ -1,20 +1,16 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
-public class Checkout {
+public class Checkout implements ProductDatabase{
     private int id;
     private CheckOutSession checkOutSession;
     private ArrayList<Integer> orderIds;
     private int moneyId;
 
-    private ArrayList<ProductGroup> productGroups;
-    private  ArrayList<Employee> employees;
-    private ArrayList<Customer> customers;
-    private ArrayList<CheckOutSession> checkOutSessions;
     private ArrayList<Order> orders;
     ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
-    //ArrayList<Order> orders = new ArrayList<>();
-    ArrayList<EAN> eans = new ArrayList<>();
+
 
     public Checkout(int id, int employeeId, ArrayList<Integer> orderIds, int moneyid) {
         this.id = id;
@@ -81,5 +77,17 @@ public class Checkout {
 
     private void readAllProductsFromDatabase(){ //Jacob fixar
 
+    }
+
+    @Override
+    public HashMap<String, Double> getProductForOrderLine(EAN ean) {
+        for (Product p: productData) {
+            if (p.getEan().equals(ean)){
+                HashMap<String, Double> map = new HashMap<>();
+                map.put(p.getName(), p.getPriceIncVat());
+                return map;
+            }
+        }
+        return null;
     }
 }

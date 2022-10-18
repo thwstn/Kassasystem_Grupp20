@@ -194,7 +194,7 @@ public class OrderTest {
     void PrintReceiptFormatsCorrectly(){
         fillOrderWIthRealData();
         Assertions.assertEquals("""
-                \t\t\tWillys
+                \t\t\tBillys
                 \tHandla smart, Bunkra hårt
                 Gurka: 5.0 x2 10.0:-
                 Tomat: 8.0 x4 32.0:-
@@ -203,7 +203,8 @@ public class OrderTest {
 
                 Totalt:\t196.0:-
                 Du betjänades av: Håkan
-                Tack för att du handlade hos oss Johan!""", order.getReceipt());
+                Tack för att du handlade hos oss Johan!
+                """ + order.getDate().toString(), order.getReceipt());
     }
     private void fillOrderWIthRealData(){ //Metod skriven efter jag prövat på mockning. OrderLine är nu implementerad
         order.addOrderLineToList(new OrderLine("Gurka", 5.0, 2));
