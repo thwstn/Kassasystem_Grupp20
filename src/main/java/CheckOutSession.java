@@ -1,7 +1,7 @@
 import java.util.Date;
 
 public class CheckOutSession {
-    private final Date startDate;
+    private Date startDate;
     private Date endDate;
     private final Employee employee;
 
@@ -26,5 +26,8 @@ public class CheckOutSession {
     public void addEndDateToSession() {
         endDate = new Date();
     }
-
+    /*public getSessionLenghtInString() {
+        long sessionLenghtInSeconds = endDate.getTime() - startDate.getTime();
+        int hours =
+    }*/
 }
