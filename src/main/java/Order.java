@@ -3,7 +3,7 @@ import java.util.*;
 public class Order {
 
     private List<OrderLine> orderLines = new ArrayList<>();
-    private static final Customer NOT_REGISTERED_CUSTOMER = new Customer(UUID.randomUUID(),"Kund", 0);
+    private static final Customer NOT_REGISTERED_CUSTOMER = new Customer("Kund", 0);
     private final UUID orderID;
     private final Employee employee;
     private final Date date;

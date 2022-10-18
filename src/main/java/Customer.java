@@ -7,10 +7,11 @@ public class Customer {
     private int age;
     //private ArrayList<Order> orders;
 
-    public Customer(UUID customerID, String name, int age) {
+    public Customer(String name, int age) {
         this.customerID = customerID;
         this.name = name;
         this.age = age;
+        this.customerID = UUID.randomUUID();
         //this.orders = new ArrayList<>();
     }
 
