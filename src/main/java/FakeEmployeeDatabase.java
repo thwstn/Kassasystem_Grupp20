@@ -17,9 +17,18 @@ public class FakeEmployeeDatabase implements EmployeeDatabase {
         employees.addAll(List.of(E1,E2,E3,E4,E5));
     }
 
-    @Override
-    public Employee get(Employee employee) {
+
+    public Employee getEmployee(Employee employee) {
+        for (Employee e : employees) {
+            if (employee.equals(e)) {
+                return e;
+            }
+        }
         return null;
+    }
+
+    public ArrayList<Employee> get() {
+        return employees;
     }
 
     @Override
