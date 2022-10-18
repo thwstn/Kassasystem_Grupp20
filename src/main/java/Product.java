@@ -30,6 +30,14 @@ public class Product implements DiscountInterface{
         this.ean = ean;
     }
 
+    public Product(String name, double price, ProductGroup productGroup, EAN ean, int amount) {
+        this.name = name;
+        this.price = price;
+        this.productGroup = productGroup;
+        this.ean = ean;
+        this.amount = amount;
+    }
+
     public String getName() {
         return name;
     }
@@ -53,6 +61,10 @@ public class Product implements DiscountInterface{
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public void decreaseAmount(int amountToDecrease) {
+        this.amount = amount - amountToDecrease;
     }
 
     @Override
