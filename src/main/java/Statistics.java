@@ -15,10 +15,12 @@ public class Statistics {
         int totalSalary = 0;
         int counter = 0;
         for (Employee e : fakeEmployeeDatabase.get()) {
-            totalSalary = e.getSalary();
+            totalSalary = totalSalary + e.getSalary();
             counter++;
         }
         return totalSalary / counter;
     }
+
+
 
 }

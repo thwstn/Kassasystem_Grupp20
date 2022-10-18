@@ -19,8 +19,11 @@ public class StatisticsTest {
     }
 
     @Test
-    void getAverageSalary() {
-        ArrayList<Employee> employees = new ArrayList<>();
+    void getAverageSalaryReturnsCorrectNumber() {
         assertEquals(150, statistics.getAverageSalary());
+    }
+
+    void getAverageAmountOfOrdersPerHour() {
+
     }
 }
