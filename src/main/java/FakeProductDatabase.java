@@ -24,14 +24,28 @@ public class FakeProductDatabase implements ProductDatabase {
     private static final Product CREAM = new Product("Cream", 5.0, DAIRY, new EAN(9485736253926L));
     private static final Product BUTTER = new Product("Butter", 45.0, DAIRY, new EAN(9684736485769L));
     private static final Product CRUSHED_TOMATOES = new Product("Crushed Tomatoes", 8.0, DRY, new EAN(8573928374659L));
+
+    public FakeProductDatabase() {
+        fillDatabase();
+    }
+
     public void fillDatabase() {
-        productData.addAll(List.of(CUCUMBER, PASTA, MILK, SAUSAGE, BREAD, TOMATO, CHICKPEAS, RICE, ENTRECOTE, YOGHURT, SALAMI));
+        productData.addAll(List.of(CUCUMBER, PASTA, MILK, SAUSAGE, BREAD, TOMATO, CHICKPEAS, RICE, ENTRECOTE, YOGHURT, SALAMI, MINCED_MEAT, BUTTER, CREAM, CRUSHED_TOMATOES));
     }
 
     @Override
     public Product getProductFromDatabase(EAN ean) {
         for (Product p : productData) {
             if (p.getEan().equals(ean)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public Product getProductFromName(String name) {
+        for (Product p : productData) {
+            if (p.getName().equals(name)) {
                 return p;
             }
         }
