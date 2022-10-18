@@ -31,6 +31,7 @@ public class Checkout {
     public void removeOrder() {
         order = null;
     }
+
 }
 
 /*public class Checkout{
