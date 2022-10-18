@@ -25,10 +25,7 @@ public class ProductTest {
         vegetablesMock = mock(ProductGroup.class);
         vegetables = new ProductGroup("Fruit&Vegetables",(VAT.VATCategories.VAT6));
         eanCucumber = mock(EAN.class);
-        //vegetablesMock = Mockito.mock(ProductGroup.class);
-        //Mockito.when(eanCucumber.getEANCode()).thenReturn(12345678910L);
-        //Mockito.when(vegetables.getVat().getPercent()).thenReturn(0.25);
-        cucumber = new Product("Cucumber",11.0,vegetables, eanCucumber);
+        cucumber = new Product("Cucumber",11.0,vegetables, eanCucumber, 100);
     }
 
     @Test
@@ -37,8 +34,8 @@ public class ProductTest {
         assertEquals(11.66, cucumber.getPriceIncVat());//menade du vat 6?
         assertEquals(vegetables, cucumber.getProductGroup());
         assertEquals(eanCucumber, cucumber.getEan());
+        assertEquals(100, cucumber.getAmount());
     }
-
 
     @Test
     void setAmountSetsCorrectAmount() {
@@ -49,6 +46,18 @@ public class ProductTest {
     @Test
     void getPriceReturnsPriceIncVat25() {//Menade du vat 6?
         assertEquals(11.66, cucumber.getPriceIncVat());
+    }
+
+    @Test
+    void decreaseAmountDecreasesValidAmount() {
+        cucumber.decreaseAmount(5);
+        assertEquals(95, cucumber.getAmount());
+    }
+
+    @Test
+    void decreaseAmountDecreasesTooMany() {
+        cucumber.decreaseAmount(101);
+        assertEquals(-1, cucumber.getAmount());
     }
 
 
