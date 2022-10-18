@@ -1,3 +1,3 @@
 public interface CustomerDataBase {
-    Customer getCustomer(Customer customer);
+    Customer getCustomer(String name);
 }

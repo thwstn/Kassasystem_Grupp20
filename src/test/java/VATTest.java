@@ -20,6 +20,10 @@ class VATTest {
         System.out.println(productGroup);
         assertEquals(0.25,0.25);
     }
+
+    // Tester att göra
+    //Vat är inte null, VAt är inte 0, VAT är inte >25
+    //
     /*@Test
     void changeVATTest(){
         ProductGroup Dairy = new ProductGroup("Dairy", VAT.VATCategories.VAT12);
