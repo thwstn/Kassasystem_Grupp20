@@ -23,6 +23,14 @@ public class Checkout {
     public Order getOrder() {
         return order;
     }
+
+    public void addNewEmptyOrder() {
+        Employee employee = checkOutSession.getEmployee();
+        order = new Order(employee);
+    }
+    public void removeOrder() {
+        order = null;
+    }
 }
 
 /*public class Checkout{

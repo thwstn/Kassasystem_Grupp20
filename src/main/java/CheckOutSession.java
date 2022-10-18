@@ -5,20 +5,20 @@ public class CheckOutSession {
     //private static ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
     private Date startDate;
     private Date endDate;
-    private int employeeId;
+    private Employee employee;
 
-    public CheckOutSession(int employeeId) {
+    public CheckOutSession(Employee employee) {
         startDate = new Date();
         endDate = null;
-        this.employeeId = employeeId;
+        this.employee = employee;
     }
 
     /*public static ArrayList<CheckOutSession> getCheckOutSessionsHistory() {
         return checkOutSessionsHistory;
     }*/
 
-    public int getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
     public Date getEndDate() {

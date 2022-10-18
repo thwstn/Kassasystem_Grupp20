@@ -32,17 +32,19 @@ public class CheckoutTest {
     @Test
     void createEmptyOrder() {
         Checkout checkout = new Checkout();
-        Employee employee = new Employee();
+        Employee employee = new Employee("Lisa", 30000);
         Order order = new Order(employee);
-        checkout.addNewOrder(order);
-
+        checkout.addNewEmptyOrder();
+        assertTrue(checkout.getOrder() instanceof Order);
     }
     @Test
     void removeOrder() {
         Checkout checkout = new Checkout();
-        Employee employee = new Employee();
+        Employee employee = new Employee("Lisa", 30000);;
         Order order = new Order(employee);
-        checkout.addNewOrder(
+        checkout.addNewEmptyOrder();
+        checkout.removeOrder();
+        assertEquals(null, checkout.getOrder(), "Order exist but i should not");
     }
 }
 
