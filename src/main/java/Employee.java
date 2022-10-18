@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Employee {
-
+    private ArrayList<CheckOutSession> checkOutSessions = new ArrayList<>();
     private String name;
     private int salary;
     private final UUID employeeId;
@@ -23,6 +23,10 @@ public class Employee {
 
     public UUID getEmployeeID() {
         return employeeId;
+    }
+
+    public ArrayList<CheckOutSession> getCheckOutSessions() {
+        return checkOutSessions;
     }
 
     /*
