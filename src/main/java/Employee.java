@@ -3,6 +3,7 @@ import java.util.UUID;
 
 public class Employee {
     private ArrayList<CheckOutSession> checkOutSessions = new ArrayList<>();
+    private ArrayList<Order> orders = new ArrayList<>();
     private String name;
     private int salary;
     private final UUID employeeId;
@@ -27,6 +28,10 @@ public class Employee {
 
     public ArrayList<CheckOutSession> getCheckOutSessions() {
         return checkOutSessions;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
     }
 
     /*
