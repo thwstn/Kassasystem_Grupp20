@@ -41,8 +41,13 @@ public class CheckOutSessionTest {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
         TimeUnit.SECONDS.sleep(2);
         checkOutSession.addEndDateToSession();
-        long timeDiff = checkOutSession.getEndDate().getTime() - checkOutSession.getStartDate().getTime();
-        assertTrue(timeDiff < 2100 && timeDiff > 1900, "Time diff is too large or too short!");
+        //long timeDiff = checkOutSession.getEndDate().getTime() - checkOutSession.getStartDate().getTime();
+        assertTrue(checkOutSession.getSessionLenghtInSeconds() < 2100 && checkOutSession.getSessionLenghtInSeconds() > 1900, "Time diff is too large or too short!");
         //assertEquals(5, checkOutSession.getEndDate().getTime() - checkOutSession.getStartDate().getTime(), "Should be 5 seconds!");
     }
+    /*@Test
+    void getLenghtOfSessionInSecondsIsAnIntAndLongerThanMinus1() {
+        CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
+        //continue here
+    }*/
 }

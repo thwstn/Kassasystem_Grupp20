@@ -26,8 +26,24 @@ public class CheckOutSession {
     public void addEndDateToSession() {
         endDate = new Date();
     }
-    /*public getSessionLenghtInString() {
+    public String getSessionLenghtInString() {
         long sessionLenghtInSeconds = endDate.getTime() - startDate.getTime();
-        int hours =
-    }*/
+        int hours = 0;
+        int minutes = 0;
+        int seconds = 0;
+        while (sessionLenghtInSeconds >= 3600) {
+            sessionLenghtInSeconds -= 3600;
+            hours++;
+        }
+        while (sessionLenghtInSeconds >= 60) {
+            sessionLenghtInSeconds -= 60;
+            minutes++;
+        }
+        seconds = (int) sessionLenghtInSeconds;
+        String returnString = "Session lenght: " + hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
+        return returnString;
+    }
+    public int  getSessionLenghtInSeconds() {
+        return (int) (endDate.getTime() - startDate.getTime());
+    }
 }
