@@ -9,6 +9,10 @@ public class Checkout {
     private Money money;
     private Order order;
 
+    public Checkout() {
+        ID = UUID.randomUUID();
+    }
+
     public UUID getID() {
         return ID;
     }

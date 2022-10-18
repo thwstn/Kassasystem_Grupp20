@@ -65,7 +65,8 @@ public class CheckoutTest {
     @Test
     void removeOrder() {
         Checkout checkout = new Checkout();
-        Employee employee = new Employee("Lisa", 30000);;
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
         checkout.addNewEmptyOrder();
         checkout.removeOrder();
         assertEquals(null, checkout.getOrder(), "Order exist but i should not");
