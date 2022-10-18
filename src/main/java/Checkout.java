@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class Checkout implements ProductDatabase{
+public class Checkout{
     private int id;
     private CheckOutSession checkOutSession;
     private ArrayList<Integer> orderIds;
@@ -79,15 +79,4 @@ public class Checkout implements ProductDatabase{
 
     }
 
-    @Override
-    public HashMap<String, Double> getProductForOrderLine(EAN ean) {
-        for (Product p: productData) {
-            if (p.getEan().equals(ean)){
-                HashMap<String, Double> map = new HashMap<>();
-                map.put(p.getName(), p.getPriceIncVat());
-                return map;
-            }
-        }
-        return null;
-    }
 }

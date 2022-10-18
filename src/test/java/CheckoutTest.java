@@ -106,6 +106,14 @@ public class CheckoutTest {
         assertEquals(true, checkout.getUniqueEmployeeIDsFromSessionHistory().equals(employeeIDs), "Wrong set returned!");
     }
 
+    @Test
+    void GetProductFromDataBaseReturnsCorrectProduct(){
+        FakeProductDatabase d1 = new FakeProductDatabase();
+        d1.fillDatabase();
+        Product p1 = d1.getProductForOrderLine(new EAN(917563927583L));
+        assertEquals("Pasta",p1.getName());
+    }
+
     private Checkout getEmptyCheckout() {
         ArrayList<Integer> orderIds = new ArrayList<>();
         Checkout checkout = new Checkout(123, 456, orderIds, 789);

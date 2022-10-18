@@ -1,4 +1,5 @@
 import java.util.IllegalFormatException;
+import java.util.Objects;
 
 public class EAN {
     private final long eanCode;
@@ -14,5 +15,18 @@ public class EAN {
 
     public long getEANCode() {
         return eanCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EAN ean = (EAN) o;
+        return eanCode == ean.eanCode;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eanCode);
     }
 }
