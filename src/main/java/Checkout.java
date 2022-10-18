@@ -1,10 +1,7 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.UUID;
 
 public class Checkout {
-    private UUID ID;
+    private final UUID ID;
     private CheckOutSession checkOutSession;
     private Money money;
     private Order order;
@@ -42,13 +39,13 @@ public class Checkout {
     }
     public void logoutEmployee() {
         if (checkOutSession != null) {
-            checkOutSession.getEndDate();
+            checkOutSession.addEndDateToSession();
             //save checkOutSession to database;
             checkOutSession = null;
         } else throw new IllegalStateException("Nobody is logged in!");
     }
     public void changeEmployee(Employee employee) {
-        checkOutSession.getEndDate();
+        checkOutSession.addEndDateToSession();
         //save checkOutSession to database;
         checkOutSession = new CheckOutSession(employee);
     }
