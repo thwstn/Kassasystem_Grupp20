@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public interface ProductDatabase {
 
-    Product getProductForOrderLine(EAN ean);
+    Product getProductFromDatabase(EAN ean);
 
 
 

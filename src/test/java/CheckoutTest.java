@@ -149,7 +149,7 @@ public class CheckoutTest {
     void GetProductFromDataBaseReturnsCorrectProduct(){
         FakeProductDatabase d1 = new FakeProductDatabase();
         d1.fillDatabase();
-        Product p1 = d1.getProductForOrderLine(new EAN(917563927583L));
+        Product p1 = d1.getProductFromDatabase(new EAN(917563927583L));
         assertEquals("Pasta",p1.getName());
     }
 

@@ -25,7 +25,7 @@ public class FakeProductDatabase implements ProductDatabase {
     }
 
     @Override
-    public Product getProductForOrderLine(EAN ean) {
+    public Product getProductFromDatabase(EAN ean) {
         for (Product p : productData) {
             if (p.getEan().equals(ean)) {
                 return p;
