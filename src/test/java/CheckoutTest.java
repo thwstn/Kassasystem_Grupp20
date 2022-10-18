@@ -4,10 +4,49 @@ import org.springframework.boot.web.servlet.server.Session;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckoutTest {
+    @Test
+    void getIDReturnsUUID() {
+        Checkout checkout = new Checkout();
+        assertEquals(true, checkout.getID() instanceof UUID, "Wrong type for ID");
+    }
+    @Test
+    void checkOutSessionIsNullByDefault() {
+        Checkout checkout = new Checkout();
+        assertEquals(null, checkout.getCheckOutSession(), "CheckOutSession should be null");
+    }
+    @Test
+    void moneyIsNullByDefault() {
+        Checkout checkout = new Checkout();
+        assertEquals(null, checkout.getMoney(), "Money should be null by defualt");
+    }
+    @Test
+    void checkOutHasNoCurrentOrder() {
+        Checkout checkout = new Checkout();
+        assertEquals(null, checkout.getOrder());
+    }
+    @Test
+    void createEmptyOrder() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee();
+        Order order = new Order(employee);
+        checkout.addNewOrder(order);
+
+    }
+    @Test
+    void removeOrder() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee();
+        Order order = new Order(employee);
+        checkout.addNewOrder(
+    }
+}
+
+/*public class CheckoutTest {
 
     @Test
     void numberOfOrderIdsTest() {
@@ -120,3 +159,4 @@ public class CheckoutTest {
         return  checkout;
     }
 }
+*/
