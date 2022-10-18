@@ -18,9 +18,9 @@ public class FakeEmployeeDatabase implements EmployeeDatabase {
     }
 
 
-    public Employee getEmployee(Employee employee) {
+    public Employee getEmployee(String name) {
         for (Employee e : employees) {
-            if (employee.equals(e)) {
+            if (e.getName().equals(name)) {
                 return e;
             }
         }
