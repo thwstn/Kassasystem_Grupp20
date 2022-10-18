@@ -54,6 +54,14 @@ public class Order {
         return this.date;
     }
 
+    public Customer getCustomer(){
+        return customer;
+    }
+
+    public Collection<OrderLine> getOrderLineList(){
+        return Collections.unmodifiableList(orderLines);
+    }
+
     public boolean isOrderPayed(){
         return orderIsPayed;
     }

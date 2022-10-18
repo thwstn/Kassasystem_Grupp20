@@ -4,11 +4,13 @@ import java.util.ArrayList;
 public class Statistics {
 
     FakeEmployeeDatabase fakeEmployeeDatabase;
+    FakeOrderDatabase fakeOrderDatabase;
 
 
     public Statistics() {
         fakeEmployeeDatabase = new FakeEmployeeDatabase();
-        fakeEmployeeDatabase.fillDatabase();
+        fakeOrderDatabase = new FakeOrderDatabase();
+
     }
 
     public int getAverageSalary() {
@@ -20,6 +22,13 @@ public class Statistics {
         }
         return totalSalary / counter;
     }
+
+    public Product getCustomerMostSold(Customer customer) {
+        //ArrayList<Order> customerOrders = fakeOrderDatabase.getAllOrdersByCustomer(customer);
+        return null;
+    }
+
+    //kundens mest köpta vara
 
 
 
