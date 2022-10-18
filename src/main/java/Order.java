@@ -9,21 +9,21 @@ public class Order {
     private final Date date;
     private final Customer customer;
     private double totalAmount;
-    public Order(UUID orderID, Employee employee, Customer customer) {
-        this.orderID = orderID;
+    public Order(Employee employee, Customer customer) {
+        this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = customer;
     }
-    public Order(UUID orderID, Employee employee) {
-        this.orderID = orderID;
+    public Order(Employee employee) {
+        this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = NOT_REGISTERED_CUSTOMER;
     }
-    public Order( UUID orderID, Employee employee,Customer customer, OrderLine ... orderLine) {
+    public Order(Employee employee,Customer customer, OrderLine ... orderLine) {
         orderLines.addAll(Arrays.asList(orderLine));
-        this.orderID = orderID;
+        this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = customer;

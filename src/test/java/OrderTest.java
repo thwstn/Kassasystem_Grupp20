@@ -17,7 +17,7 @@ public class OrderTest {
     private OrderLine orderLine6;
     @BeforeEach
     void init(){
-        order = new Order(UUID.randomUUID(), new Employee("Håkan", 20000), new Customer(UUID.randomUUID(), "Johan", 23));
+        order = new Order(new Employee("Håkan", 20000), new Customer(UUID.randomUUID(), "Johan", 23));
         orderLine1 = Mockito.mock(OrderLine.class);
         orderLine2 = Mockito.mock(OrderLine.class);
         orderLine3 = Mockito.mock(OrderLine.class);
