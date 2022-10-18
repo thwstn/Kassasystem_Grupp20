@@ -9,7 +9,7 @@ public class CustomerTest {
     @Test
     void customerIDTest() {
         Customer customer = createNewCustomer();
-        assertEquals(custumerID, customer.getCustomerID(), "Wrong ID set for customer!");
+        assertEquals(true, customer.getCustomerID() instanceof UUID, "Wrong ID set for customer!");
     }
     @Test
     void customerNameTest() {
