@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Customer {
@@ -41,4 +42,17 @@ public class Customer {
     /*public void addOrder(Order order) {
         orders.add(order);
     }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return name.equals(customer.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

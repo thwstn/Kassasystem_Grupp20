@@ -10,6 +10,7 @@ public class StatisticsTest {
 
     FakeEmployeeDatabase fakeEmployeeDatabase;
     Statistics statistics;
+    FakeOrderDatabase fakeOrderDatabase;
 
     @BeforeEach
         void init() {
@@ -21,9 +22,5 @@ public class StatisticsTest {
     @Test
     void getAverageSalaryReturnsCorrectNumber() {
         assertEquals(150, statistics.getAverageSalary());
-    }
-
-    void getAverageAmountOfOrdersPerHour() {
-
     }
 }

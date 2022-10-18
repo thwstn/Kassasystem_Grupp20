@@ -12,7 +12,7 @@ public class FakeEmployeeDatabase implements EmployeeDatabase {
     private final Employee E5 = new Employee("Evelyn", 17_000);
 
 
-    public void FakeEmployeeDataBase() {
+    public FakeEmployeeDatabase() {
         fillDatabase();
     }
 
