@@ -1,7 +1,6 @@
 import java.util.Date;
 
 public class CheckOutSession {
-    //private static ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
     private final Date startDate;
     private Date endDate;
     private final Employee employee;
@@ -11,10 +10,6 @@ public class CheckOutSession {
         endDate = null;
         this.employee = employee;
     }
-
-    /*public static ArrayList<CheckOutSession> getCheckOutSessionsHistory() {
-        return checkOutSessionsHistory;
-    }*/
 
     public Employee getEmployee() {
         return employee;
@@ -30,10 +25,6 @@ public class CheckOutSession {
 
     public void addEndDateToSession() {
         endDate = new Date();
-        //addSessionToHistory();
     }
 
-    /*protected void addSessionToHistory() {
-        checkOutSessionsHistory.add(this);
-    }*/
 }
