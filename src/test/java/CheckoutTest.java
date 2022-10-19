@@ -120,18 +120,22 @@ public class CheckoutTest {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
-
         checkout.addMoney(money);
         assertEquals(10, checkout.getMoney().checkDenominationAmount(100000), "Money is not aded to checkout");
     }
-    /*@Test
+    @Test
     void payWithCashUpdatesMoney() {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
+        checkout.addMoney(money);
         checkout.scanEAN(917563847583L);
 
-    }*/
+        Money moneyFromCustomer = new Money();
+        moneyFromCustomer = moneyFromCustomer.add(50000);
+        checkout.payWithCash(moneyFromCustomer);
+        assertEquals(1887100m checkout.getMoney().checkAmount());
+    }
 
 
 }
