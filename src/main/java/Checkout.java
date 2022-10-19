@@ -11,6 +11,7 @@ public class Checkout {
 
     public Checkout() {
         ID = UUID.randomUUID();
+        money = new Money();
     }
 
     public UUID getID() {
@@ -72,6 +73,11 @@ public class Checkout {
     public void payWithCard() {
         orderDatabase.addOrder(order);
         order = null;
+    }
+
+    public void addMoney(Money money) {
+        this.money.add(money);
+        //this.money = this.money.add(money);
     }
 }
 

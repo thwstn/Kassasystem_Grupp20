@@ -1,14 +1,36 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.servlet.server.Session;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+
 public class CheckoutTest {
+
+    private Money money;
+
+    @BeforeEach
+    void init() {
+        HashMap<Integer, Integer> denominations = new HashMap<>();
+        denominations.put(100000, 10);
+        denominations.put(50000, 10);
+        denominations.put(20000, 10);
+        denominations.put(10000, 10);
+        denominations.put(5000, 10);
+        denominations.put(2000, 10);
+        denominations.put(1000, 10);
+        denominations.put(500, 10);
+        denominations.put(200, 10);
+        denominations.put(100, 10);
+        money = new Money(denominations);
+    }
     @Test
     void getIDReturnsUUID() {
         Checkout checkout = new Checkout();
@@ -88,16 +110,27 @@ public class CheckoutTest {
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
         Order order = checkout.getOrder();
+        //Order order1 = new Order(employee, new OrderLine("test", 1, 1));
         checkout.payWithCard();
         assertTrue(checkout.orderDatabase.orderExistsInDatabase(order));
     }
-    @Test
+    /*@Test
     void payWithCashUpdatesMoney() {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
 
+    }*/
+
+    @Test
+    void addMoneyAddsMoney() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+
+        checkout.addMoney(money);
+        assertEquals(10, money.checkDenominationAmount(100000), "Money is not aded to checkout");
     }
 }
 
