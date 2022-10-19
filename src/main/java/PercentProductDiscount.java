@@ -1,3 +1,4 @@
+//no negative, not above 100
 public class PercentProductDiscount extends Discount{
 
     private final double discount;
