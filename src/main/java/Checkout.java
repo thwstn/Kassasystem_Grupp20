@@ -68,6 +68,11 @@ public class Checkout {
             order.addOrderLineToList(orderLine);
         }
     }
+
+    public void payWithCard() {
+        orderDatabase.addOrder(order);
+        order = null;
+    }
 }
 
 /*public class Checkout{

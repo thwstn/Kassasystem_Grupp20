@@ -82,13 +82,22 @@ public class CheckoutTest {
         assertTrue(checkout.getOrder() != null);
     }
     @Test
-    void payWithCard() {
+    void payWithCardUpdatesOrderDatabase() {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
+        Order order = checkout.getOrder();
         checkout.payWithCard();
-        assertTrue(checkout.orderDatabase.g);
+        assertTrue(checkout.orderDatabase.orderExistsInDatabase(order));
+    }
+    @Test
+    void payWithCashUpdatesMoney() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.scanEAN(917563847583L);
+
     }
 }
 
