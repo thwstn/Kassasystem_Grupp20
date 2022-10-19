@@ -103,9 +103,8 @@ public class MoneyTest {
 
     @Test
     void addMoneyOfInvalidDenomination() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Money newMoney = moneyWithBalanceZero.add(INVALID_DENOMINATION);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+                moneyWithBalanceZero.add(INVALID_DENOMINATION));
     }
 
     @Test
@@ -116,15 +115,20 @@ public class MoneyTest {
 
     @Test
     void removeMoneyThatDoesNotExist() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Money newMoney = moneyWithBalanceZero.remove(1000);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+                moneyWithBalanceZero.remove(1000));
     }
 
     @Test
     void removeMoneyFromMoney() {
         Money newMoney = moneyWithBalanceNonZero.remove(moneyWithBalanceNonZero);
         assertEquals(0, newMoney.checkAmount());
+    }
+
+    @Test
+    void removeMoneyOfInvalidDenomination() {
+        assertThrows(IllegalArgumentException.class, () ->
+                moneyWithBalanceNonZero.remove(INVALID_DENOMINATION));
     }
 
     @Test
