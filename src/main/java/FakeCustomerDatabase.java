@@ -15,7 +15,7 @@ class FakeCustomerDatabase implements CustomerDataBase{
     public FakeCustomerDatabase(){
         fillDB();
     }
-    public void fillDB() {
+    private void fillDB() {
         customerList.addAll(List.of(THEO, NIKLAS, JOHAN, DAVID, JACOB));
     }
 
