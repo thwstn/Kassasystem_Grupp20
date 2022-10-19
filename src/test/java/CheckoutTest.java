@@ -134,7 +134,7 @@ public class CheckoutTest {
         Money moneyFromCustomer = new Money();
         moneyFromCustomer = moneyFromCustomer.add(50000);
         checkout.payWithCash(moneyFromCustomer);
-        assertEquals(1887100m checkout.getMoney().checkAmount());
+        assertEquals(1887100, checkout.getMoney().checkAmount());
     }
 
 

@@ -128,4 +128,24 @@ public class Money {
         sb.append("Total amount: ").append(checkAmount());
         return sb.toString();
     }
+
+    public Money giveChange(double moneyToGet) {
+        HashMap<Integer, Integer> newMoneyToReturn = new HashMap<>();
+        TreeMap<Integer, Integer> moneyLeft = (TreeMap<Integer, Integer>) denominationAmounts;
+        double moneyToGetLeft = moneyToGet;
+        for (int key : moneyLeft.descendingKeySet()) {
+            while(moneyToGetLeft > key){
+                if(moneyLeft.get(key) > 0){
+                    moneyLeft.put(key,moneyLeft.get(key) - 1);
+                    newMoneyToReturn.put(key, moneyLeft.get(key) + 1);
+                    moneyToGetLeft -= key;
+                }
+                else {break;}
+            }
+        }
+        if(moneyToGetLeft > 0){
+            return null;
+        }
+        return new Money(newMoneyToReturn);
+    }
 }
