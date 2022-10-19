@@ -76,8 +76,7 @@ public class Checkout {
     }
 
     public void addMoney(Money money) {
-        this.money.add(money);
-        //this.money = this.money.add(money);
+        this.money = this.money.add(money);
     }
 }
 
