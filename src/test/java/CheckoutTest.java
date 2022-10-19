@@ -114,14 +114,6 @@ public class CheckoutTest {
         checkout.payWithCard();
         assertTrue(checkout.orderDatabase.orderExistsInDatabase(order));
     }
-    /*@Test
-    void payWithCashUpdatesMoney() {
-        Checkout checkout = new Checkout();
-        Employee employee = new Employee("Lisa", 30000);
-        checkout.loginEmployee(employee);
-        checkout.scanEAN(917563847583L);
-
-    }*/
 
     @Test
     void addMoneyAddsMoney() {
@@ -132,6 +124,16 @@ public class CheckoutTest {
         checkout.addMoney(money);
         assertEquals(10, money.checkDenominationAmount(100000), "Money is not aded to checkout");
     }
+    /*@Test
+    void payWithCashUpdatesMoney() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.scanEAN(917563847583L);
+
+    }*/
+
+
 }
 
 /*public class CheckoutTest {
