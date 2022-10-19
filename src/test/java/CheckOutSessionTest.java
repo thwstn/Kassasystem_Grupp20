@@ -45,9 +45,11 @@ public class CheckOutSessionTest {
         assertTrue(checkOutSession.getSessionLenghtInSeconds() < 2100 && checkOutSession.getSessionLenghtInSeconds() > 1900, "Time diff is too large or too short!");
         //assertEquals(5, checkOutSession.getEndDate().getTime() - checkOutSession.getStartDate().getTime(), "Should be 5 seconds!");
     }
-    /*@Test
+    @Test
     void getLenghtOfSessionInSecondsIsAnIntAndLongerThanMinus1() {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
+        checkOutSession.addEndDateToSession();
+        assertTrue(checkOutSession.getSessionLenghtInString().contains("Session lenght: 0 hours, 0 minutes, "), "String is wrong or session is longer than 59 seconds.");
         //continue here
-    }*/
+    }
 }
