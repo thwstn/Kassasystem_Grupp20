@@ -6,16 +6,6 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckOutSessionTest {
-    /*@Test
-    void addCheckOutSessionHistory() {
-        CheckOutSession checkOutSession = new CheckOutSession(123);
-        checkOutSession.addSessionToHistory();
-        checkOutSession.addSessionToHistory();
-        checkOutSession.addSessionToHistory();
-        checkOutSession.addSessionToHistory();
-        checkOutSession.addSessionToHistory();
-        assertEquals(true, CheckOutSession.getCheckOutSessionsHistory().size() > 4, "Wrong number of sessions in history");
-    }*/
     @Test
     void startDateExistAndIsWithin0Point5Seconds() {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
@@ -50,6 +40,5 @@ public class CheckOutSessionTest {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
         checkOutSession.addEndDateToSession();
         assertTrue(checkOutSession.getSessionLenghtInString().contains("Session lenght: 0 hours, 0 minutes, "), "String is wrong or session is longer than 59 seconds.");
-        //continue here
     }
 }
