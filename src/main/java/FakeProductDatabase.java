@@ -8,7 +8,7 @@ public class FakeProductDatabase implements ProductDatabase {
     private static final ProductGroup MEAT = new ProductGroup("Meat&Poultry", VAT.VATCategories.VAT25);
     private static final ProductGroup DAIRY = new ProductGroup("Dairy", VAT.VATCategories.VAT25);
     private static final ProductGroup DRY = new ProductGroup("Dry", VAT.VATCategories.VAT25);
-    private static final Product CUCUMBER = new Product("Gurka", 9.0, FRUVEG, new EAN(917563847583L));
+    private static final Product CUCUMBER = new Product("Cucumber", 9.0, FRUVEG, new EAN(917563847583L));
     private static final Product PASTA = new Product("Pasta", 12.0, DRY, new EAN(917563927583L));
     private static final Product MILK = new Product("Milk", 5.0, DAIRY, new EAN(917547847583L));
     private static final Product SAUSAGE = new Product("Sausage", 45.90, MEAT, new EAN(917563848693L));

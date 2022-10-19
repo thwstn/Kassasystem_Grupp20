@@ -58,7 +58,8 @@ public class CheckoutTest {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
-        checkout.addNewEmptyOrder();
+        checkout.scanEAN(917563847583L);
+        //checkout.addNewEmptyOrder();
         assertTrue(checkout.getOrder() != null);
     }
     //createEmptyOrderWhileLoggedOut
@@ -67,13 +68,27 @@ public class CheckoutTest {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
-        checkout.addNewEmptyOrder();
+        checkout.scanEAN(917563847583L);
+        //checkout.addNewEmptyOrder();
         checkout.removeOrder();
         assertEquals(null, checkout.getOrder(), "Order exist but i should not");
     }
     @Test
-    void scanEANAndSaveOrderLineToOrderInEmptyOrder() {
+    void scanEANWithNoActiveOrderCreatesNewOrder() {
         Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.scanEAN(917563847583L);
+        assertTrue(checkout.getOrder() != null);
+    }
+    @Test
+    void payWithCard() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.scanEAN(917563847583L);
+        checkout.payWithCard();
+        assertTrue(checkout.orderDatabase.g);
     }
 }
 
