@@ -50,6 +50,10 @@ public class Checkout {
         checkOutSessionDatabase.addCheckOutSession(checkOutSession);
         checkOutSession = new CheckOutSession(employee);
     }
+    
+    public void payWithPaymentCard() {
+
+    }
 }
 
 /*public class Checkout{

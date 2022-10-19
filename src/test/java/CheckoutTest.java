@@ -71,6 +71,10 @@ public class CheckoutTest {
         checkout.removeOrder();
         assertEquals(null, checkout.getOrder(), "Order exist but i should not");
     }
+    @Test
+    void scanEANAndSaveOrderLineToOrderInEmptyOrder() {
+        Checkout checkout = new Checkout();
+    }
 }
 
 /*public class CheckoutTest {
