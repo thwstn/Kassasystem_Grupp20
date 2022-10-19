@@ -50,6 +50,8 @@ public class Checkout {
         checkOutSessionDatabase.addCheckOutSession(checkOutSession);
         checkOutSession = new CheckOutSession(employee);
     }
+
+    //TODO: Skapa order, avslutar, uppdatera i employee
 }
 
 /*public class Checkout{

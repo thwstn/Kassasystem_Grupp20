@@ -44,7 +44,7 @@ public class Statistics {
                 product = orderLine.getName();
             }
         }
-        Product p = fakeProductDatabase.getProductFromName(product);
+        Product p = fakeProductDatabase.getProductFromDatabase(product);
         return p;
     }
 

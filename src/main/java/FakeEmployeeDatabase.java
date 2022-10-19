@@ -5,11 +5,11 @@ public class FakeEmployeeDatabase implements EmployeeDatabase {
 
     ArrayList<Employee> employees = new ArrayList<>();
 
-    private final Employee E1 = new Employee("Anna", 28_000);
-    private final Employee E2 = new Employee("Boris", 140_000);
-    private final Employee E3 = new Employee("Calle", 35_000);
-    private final Employee E4 = new Employee("Daniella", 16_000);
-    private final Employee E5 = new Employee("Evelyn", 17_000);
+    private final Employee E1 = new Employee("Anna", 20_000);
+    private final Employee E2 = new Employee("Boris", 30_000);
+    private final Employee E3 = new Employee("Calle", 40_000);
+    private final Employee E4 = new Employee("Daniella", 50_000);
+    private final Employee E5 = new Employee("Evelyn", 60_000);
 
 
     public FakeEmployeeDatabase() {
