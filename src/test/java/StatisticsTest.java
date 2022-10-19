@@ -24,12 +24,12 @@ public class StatisticsTest {
 
     @Test
     void getAverageSalaryReturnsCorrectNumber() {
-        assertEquals(150, statistics.getAverageSalary());
+        assertEquals(40_000, statistics.getAverageSalary());
     }
 
     @Test
     void getCustomerMostSold() {
-        Product pasta = fakeProductDatabase.getProductFromName("Butter");
+        Product pasta = fakeProductDatabase.getProductFromDatabase("Butter");
         System.out.println(pasta);
         Product p = statistics.getCustomerMostSold(fakeCustomerDatabase.getCustomer("Jacob"));
         assertEquals(pasta, p);

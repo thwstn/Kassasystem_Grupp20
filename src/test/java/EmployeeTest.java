@@ -33,6 +33,7 @@ public class EmployeeTest {
     Employee e1 = new Employee("Lena", 140);
     Employee e2 = new Employee("Hasse", 150);
     Employee e3 = new Employee("Boris", 160);
+    Order o1 = new Order(e1);
 
 
     @Test

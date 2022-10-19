@@ -43,7 +43,7 @@ public class FakeProductDatabase implements ProductDatabase {
         return null;
     }
 
-    public Product getProductFromName(String name) {
+    public Product getProductFromDatabase(String name) {
         for (Product p : productData) {
             if (p.getName().equals(name)) {
                 return p;
