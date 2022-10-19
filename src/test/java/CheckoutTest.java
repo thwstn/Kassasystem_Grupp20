@@ -122,7 +122,7 @@ public class CheckoutTest {
         checkout.loginEmployee(employee);
 
         checkout.addMoney(money);
-        assertEquals(10, money.checkDenominationAmount(100000), "Money is not aded to checkout");
+        assertEquals(10, checkout.getMoney().checkDenominationAmount(100000), "Money is not aded to checkout");
     }
     /*@Test
     void payWithCashUpdatesMoney() {
