@@ -9,9 +9,9 @@ public class DiscountTest {
     private PercentProductDiscount tenPercentDiscountOnTomato;
     private FlatProductDiscount oneHundredSEKDiscountOnTomato;
     private FlatProductDiscount tenSEKDiscountOnBread;
+
     @BeforeEach
     void init() {
-        PRODUCT_DB.fillDatabase();
         tenPercentDiscountOnTomato = new PercentProductDiscount(PRODUCT_DB.getProductFromDatabase(
                 new EAN(917563849363L)), 10);
         oneHundredSEKDiscountOnTomato = new FlatProductDiscount(PRODUCT_DB.getProductFromDatabase(
