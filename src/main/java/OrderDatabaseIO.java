@@ -8,4 +8,6 @@ public interface OrderDatabaseIO {
     void fillDatabase();
 
     boolean orderExistsInDatabase(Order order);
+
+    void addOrder(Order order);
 }

@@ -90,4 +90,9 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
         }
         return false;
     }
+
+    @Override
+    public void addOrder(Order order) {
+        orderData.add(order);
+    }
 }

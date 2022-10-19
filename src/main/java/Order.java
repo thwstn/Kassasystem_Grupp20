@@ -10,17 +10,15 @@ public class Order {
     private final Customer customer;
     private double totalAmount;
     private boolean orderIsPayed;
-    public Order(Employee employee, Customer customer) {
-        this.orderID = UUID.randomUUID();
-        this.employee = employee;
-        this.date = new Date();
-        this.customer = customer;
-    }
-    public Order(Employee employee) {
+    public Order(Employee employee, OrderLine ... orderLine) {
+        orderLines.addAll(Arrays.asList(orderLine));
         this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = NOT_REGISTERED_CUSTOMER;
+        for (OrderLine o : orderLines) {
+            this.totalAmount += o.getTotalAmount();
+        }
     }
     public Order(Employee employee,Customer customer, OrderLine ... orderLine) {
         orderLines.addAll(Arrays.asList(orderLine));

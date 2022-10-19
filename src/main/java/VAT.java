@@ -1,7 +1,15 @@
 public class VAT {
     private VATCategories vatCategory;
     public VAT(VATCategories vat) {
-        this.vatCategory = vat;
+        if(vat.equals(null)){
+            throw new NullPointerException("vat can not be null!");
+        }else{
+            this.vatCategory = vat;
+        }
+    }
+
+    public void setVatCategory(VATCategories vatCategory) {
+        this.vatCategory = vatCategory;
     }
 
     enum VATCategories {
