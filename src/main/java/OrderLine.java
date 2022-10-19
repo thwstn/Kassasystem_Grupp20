@@ -1,3 +1,4 @@
+
 public class OrderLine implements Comparable<OrderLine> {
 
     private final String name;
@@ -5,9 +6,15 @@ public class OrderLine implements Comparable<OrderLine> {
     private int quantity;
 
     public OrderLine(String name, double price, int quantity) {
+        if(price <= 0){
+            throw new IllegalArgumentException("Price has to be more than 0");
+        }
+        else if(name.isBlank()){
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
         this.name = name;
         this.price = price;
-        this.quantity = quantity;
+        this.setQuantity(quantity);
     }
 
     public String getName() {
@@ -23,7 +30,10 @@ public class OrderLine implements Comparable<OrderLine> {
     }
 
     public void setQuantity(int newQuantity){
-        this.quantity = newQuantity;
+       if(newQuantity <= 0){
+            throw new IllegalArgumentException("Quantity has to be more than 0");
+        }
+       this.quantity = newQuantity;
     }
 
     public double getTotalAmount(){

@@ -19,7 +19,8 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     new OrderLine("Tomato", 12.0, 8),
     new OrderLine("Pasta", 12.90, 3));
 
-    private static final Order O2 = new Order(ANNA, JACOB,new OrderLine("Mjölk", 5.0, 8),
+    private static final Order O2 = new Order(ANNA, JACOB,
+    new OrderLine("Milk", 5.0, 8),
     new OrderLine("Pasta", 12.0, 2),
     new OrderLine("Tomato", 9.0, 10),
     new OrderLine("Chickpeas", 4.0, 7),

@@ -1,8 +1,10 @@
+import net.bytebuddy.pool.TypePool;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.Collection;
 import java.util.UUID;
 
 
@@ -62,6 +64,31 @@ public class OrderTest {
     }
 
     @Test
+    void AddingOrderLineWithNegativePriceThrowsException(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> order.addOrderLineToList(new OrderLine("Butter", -2.0, 10 )));
+
+    }
+
+    @Test
+    void AddingOrderLineWithEmptyNameThrowsException(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> order.addOrderLineToList(new OrderLine("", 10, 20)));
+    }
+
+    @Test
+    void AddingOrderLineWithOnlySpacesThrowsException(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> order.addOrderLineToList(new OrderLine("    ", 10,20)));
+    }
+
+    @Test
+    void AddingOrderLineWithZeroQuantityThrowsException(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> order.addOrderLineToList(new OrderLine("Gurka", 10, 0)));
+    }
+
+    @Test
+    void AddingOrderLineWithNegativeQuantityThrowsException(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> order.addOrderLineToList(new OrderLine("Tomat", 10.0, -1)));
+    }
+    @Test
     void AddingOrderLineDuplicateDoesntAddDuplicates(){
         order.addOrderLineToList(orderLine1);
         String s1 = order.toString();
@@ -72,6 +99,20 @@ public class OrderTest {
 
     }
 
+    @Test
+    void CreatingNewOrderWithoutCustomerSetsCustomerToDefault(){
+        Order order1 = new Order(new Employee("Johan", 25000));
+        Customer defaultCustomer = order1.getCustomer();
+        Assertions.assertEquals(new Customer("Kund", 0), defaultCustomer);
+    }
+
+    @Test
+    void ModifiyngUnmodifiableListThrowsException(){
+        Order order2 = new Order(new Employee("John", 20000), new Customer("Maria", 25), orderLine1, orderLine2);
+        Collection<OrderLine> orderLineList = order2.getOrderLineList();
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> orderLineList.remove(orderLine1));
+
+    }
     @Test
     void RemoveOrderLineFromListRemovesObject(){
         order.addOrderLineToList(orderLine1);
