@@ -3,10 +3,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.servlet.server.Session;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +15,7 @@ public class CheckoutTest {
 
     @BeforeEach
     void init() {
-        HashMap<Integer, Integer> denominations = new HashMap<>();
+        TreeMap<Integer, Integer> denominations = new TreeMap<>();
         denominations.put(100000, 10);
         denominations.put(50000, 10);
         denominations.put(20000, 10);
