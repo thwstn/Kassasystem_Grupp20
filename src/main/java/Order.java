@@ -3,27 +3,28 @@ import java.util.*;
 public class Order {
 
     private List<OrderLine> orderLines = new ArrayList<>();
-    private static final Customer NOT_REGISTERED_CUSTOMER = new Customer(UUID.randomUUID(),"Kund", 0);
+    private static final Customer NOT_REGISTERED_CUSTOMER = new Customer("Kund", 0);
     private final UUID orderID;
     private final Employee employee;
     private final Date date;
     private final Customer customer;
     private double totalAmount;
-    public Order(UUID orderID, Employee employee, Customer customer) {
-        this.orderID = orderID;
+    private boolean orderIsPayed;
+    public Order(Employee employee, Customer customer) {
+        this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = customer;
     }
-    public Order(UUID orderID, Employee employee) {
-        this.orderID = orderID;
+    public Order(Employee employee) {
+        this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = NOT_REGISTERED_CUSTOMER;
     }
-    public Order( UUID orderID, Employee employee,Customer customer, OrderLine ... orderLine) {
+    public Order(Employee employee,Customer customer, OrderLine ... orderLine) {
         orderLines.addAll(Arrays.asList(orderLine));
-        this.orderID = orderID;
+        this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = customer;
@@ -51,6 +52,18 @@ public class Order {
 
     public Date getDate (){
         return this.date;
+    }
+
+    public Customer getCustomer(){
+        return customer;
+    }
+
+    public Collection<OrderLine> getOrderLineList(){
+        return Collections.unmodifiableList(orderLines);
+    }
+
+    public boolean isOrderPayed(){
+        return orderIsPayed;
     }
 
     public void addOrderLineToList(OrderLine orderLine){
@@ -103,6 +116,13 @@ public class Order {
         this.orderLines = newList;
     }
 
+
+    public double debitOrder() {
+        orderIsPayed = true;
+        this.employee.addOrder(this);
+        return this.getTotalAmount();
+    }
+
     //TODO En debit metod som avslutar köpet, metoden skickar ut data dit den ska lagras och t.ex. drar pengar från kassan.
 
     public String getReceipt(){
@@ -131,4 +151,4 @@ public class Order {
         }
 
 
-    }
+}

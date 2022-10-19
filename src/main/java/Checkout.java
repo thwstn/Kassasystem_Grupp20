@@ -1,19 +1,69 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.UUID;
 
-public class Checkout{
-    private int id;
+public class Checkout {
+    private final UUID ID;
     private CheckOutSession checkOutSession;
-    private ArrayList<Integer> orderIds;
-    private int moneyId;
+    private Money money;
+    private Order order;
+    private FakeCheckOutSessionDatabase checkOutSessionDatabase = new FakeCheckOutSessionDatabase();
 
-    private ArrayList<Order> orders;
+    public Checkout() {
+        ID = UUID.randomUUID();
+    }
+
+    public UUID getID() {
+        return ID;
+    }
+    public CheckOutSession getCheckOutSession() {
+        return checkOutSession;
+    }
+
+    public Money getMoney() {
+        return money;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void addNewEmptyOrder() {
+        Employee employee = checkOutSession.getEmployee();
+        order = new Order(employee);
+    }
+    public void removeOrder() {
+        order = null;
+    }
+    public void loginEmployee(Employee employee) {
+        if (checkOutSession == null) {
+            checkOutSession = new CheckOutSession(employee);
+        } else throw new IllegalStateException("You cant login! Someone else is already logged in!");
+    }
+    public void logoutEmployee() {
+        if (checkOutSession != null) {
+            checkOutSession.addEndDateToSession();
+            checkOutSessionDatabase.addCheckOutSession(checkOutSession);
+            checkOutSession = null;
+        } else throw new IllegalStateException("Nobody is logged in!");
+    }
+    public void changeEmployee(Employee employee) {
+        checkOutSession.addEndDateToSession();
+        checkOutSessionDatabase.addCheckOutSession(checkOutSession);
+        checkOutSession = new CheckOutSession(employee);
+    }
+}
+
+/*public class Checkout{
+    private UUID id;
+    private CheckOutSession checkOutSession;
+    private Money money;
+    private Order order;
+
+    //private ArrayList<Order> orders;
     ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
 
 
-    public Checkout(int id, int employeeId, ArrayList<Integer> orderIds, int moneyid) {
-        this.id = id;
+    public Checkout(int employeeId, ArrayList<Integer> orderIds, int moneyid) {
+        this.id = UUID.randomUUID();
         //this.employeeId = employeeId;
         this.orderIds = orderIds;
         this.moneyId = moneyid;
@@ -80,3 +130,4 @@ public class Checkout{
     }
 
 }
+*/

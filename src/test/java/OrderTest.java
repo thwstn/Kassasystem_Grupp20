@@ -17,7 +17,7 @@ public class OrderTest {
     private OrderLine orderLine6;
     @BeforeEach
     void init(){
-        order = new Order(UUID.randomUUID(), new Employee("Håkan", 20000), new Customer(UUID.randomUUID(), "Johan", 23));
+        order = new Order(new Employee("Håkan", 20000), new Customer("Johan", 23));
         orderLine1 = Mockito.mock(OrderLine.class);
         orderLine2 = Mockito.mock(OrderLine.class);
         orderLine3 = Mockito.mock(OrderLine.class);
@@ -205,6 +205,14 @@ public class OrderTest {
                 Du betjänades av: Håkan
                 Tack för att du handlade hos oss Johan!
                 """ + order.getDate().toString(), order.getReceipt());
+    }
+
+    @Test
+    void FinalizingOrderWorks(){
+        fillOrderWIthRealData();
+        order.debitOrder();
+        Assertions.assertTrue(order.isOrderPayed());
+
     }
     private void fillOrderWIthRealData(){ //Metod skriven efter jag prövat på mockning. OrderLine är nu implementerad
         order.addOrderLineToList(new OrderLine("Gurka", 5.0, 2));

@@ -1,24 +1,18 @@
-import java.util.ArrayList;
 import java.util.Date;
 
 public class CheckOutSession {
-    //private static ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
     private Date startDate;
     private Date endDate;
-    private int employeeId;
+    private final Employee employee;
 
-    public CheckOutSession(int employeeId) {
+    public CheckOutSession(Employee employee) {
         startDate = new Date();
         endDate = null;
-        this.employeeId = employeeId;
+        this.employee = employee;
     }
 
-    /*public static ArrayList<CheckOutSession> getCheckOutSessionsHistory() {
-        return checkOutSessionsHistory;
-    }*/
-
-    public int getEmployeeId() {
-        return employeeId;
+    public Employee getEmployee() {
+        return employee;
     }
 
     public Date getEndDate() {
@@ -31,10 +25,25 @@ public class CheckOutSession {
 
     public void addEndDateToSession() {
         endDate = new Date();
-        //addSessionToHistory();
     }
-
-    /*protected void addSessionToHistory() {
-        checkOutSessionsHistory.add(this);
-    }*/
+    public String getSessionLenghtInString() {
+        long sessionLenghtInSeconds = endDate.getTime() - startDate.getTime();
+        int hours = 0;
+        int minutes = 0;
+        int seconds = 0;
+        while (sessionLenghtInSeconds >= 3600) {
+            sessionLenghtInSeconds -= 3600;
+            hours++;
+        }
+        while (sessionLenghtInSeconds >= 60) {
+            sessionLenghtInSeconds -= 60;
+            minutes++;
+        }
+        seconds = (int) sessionLenghtInSeconds;
+        String returnString = "Session lenght: " + hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
+        return returnString;
+    }
+    public int  getSessionLenghtInSeconds() {
+        return (int) (endDate.getTime() - startDate.getTime());
+    }
 }
