@@ -6,4 +6,6 @@ public interface OrderDatabaseIO {
     ArrayList<Order> getAllOrdersByCustomer(Customer customer);
 
     void fillDatabase();
+
+    boolean orderExistsInDatabase(Order order);
 }
