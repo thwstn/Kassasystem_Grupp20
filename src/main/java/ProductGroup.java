@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class ProductGroup implements ProductDatabase{
+public class ProductGroup {
 
     private static final List<String> PRODUCT_GROUPS = List.of("Fruit&Vegetables", "Dairy", "Meat&Poultry", "Dry");
     private String productGroupName;
@@ -109,16 +109,6 @@ public class ProductGroup implements ProductDatabase{
         }
 
     }
-
-    @Override
-    public Product getProductFromDatabase(EAN ean) {
-        return product;
-    }
-
-
-    /*public boolean productExists() {
-        return false;
-    }*/
     //strukturera upp koden
     //Sortera listan, hitta en vara i listan genom bokstav eller pris
 }
