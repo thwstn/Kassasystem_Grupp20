@@ -8,6 +8,12 @@ public interface ProductDatabase {
 
     Product getProductFromDatabase(String name);
 
+    void addProductToDatabase(Product product);
+
+    void removeProductFromDatabase(Product product);
+
+
+
 
 
 

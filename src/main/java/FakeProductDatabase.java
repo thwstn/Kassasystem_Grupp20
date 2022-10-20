@@ -19,7 +19,6 @@ public class FakeProductDatabase implements ProductDatabase {
     private static final Product ENTRECOTE = new Product("Entrecote", 359.0, MEAT, new EAN(961063847583L));
     private static final Product YOGHURT = new Product("Yoghurt", 21.90, DAIRY, new EAN(917569267583L));
     private static final Product SALAMI = new Product("Salami", 25.90, MEAT, new EAN(917563840003L));
-
     private static final Product  MINCED_MEAT = new Product("Minced Meat", 5.0, MEAT, new EAN (928374658273L));
     private static final Product CREAM = new Product("Cream", 5.0, DAIRY, new EAN(9485736253926L));
     private static final Product BUTTER = new Product("Butter", 45.0, DAIRY, new EAN(9684736485769L));
@@ -50,6 +49,18 @@ public class FakeProductDatabase implements ProductDatabase {
             }
         }
         return null;
+    }
+
+    @Override
+    public void addProductToDatabase(Product product) {
+        productData.add(product);
+
+    }
+
+    @Override
+    public void removeProductFromDatabase(Product product) {
+        productData.remove(product);
+
     }
 
 }
