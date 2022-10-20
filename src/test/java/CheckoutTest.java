@@ -129,12 +129,12 @@ public class CheckoutTest {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.addMoney(money);
-        checkout.scanEAN(917563847583L);
+        checkout.scanEAN(917563848693L);
 
         Money moneyFromCustomer = new Money();
         moneyFromCustomer = moneyFromCustomer.add(50000);
         checkout.payWithCash(moneyFromCustomer);
-        assertEquals(1887100, checkout.getMoney().checkAmount());
+        assertEquals(1888000 + 5700, checkout.getMoney().checkAmount());
     }
 
 

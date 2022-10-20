@@ -130,14 +130,15 @@ public class Money {
     }
 
     public Money giveChange(double moneyToGet) {
-        HashMap<Integer, Integer> newMoneyToReturn = new HashMap<>();
-        TreeMap<Integer, Integer> moneyLeft = (TreeMap<Integer, Integer>) denominationAmounts;
+        Money newMoneyToReturn = new Money();
+        TreeMap<Integer, Integer> moneyLeft = new TreeMap<>();
+        moneyLeft.putAll(denominationAmounts);
         double moneyToGetLeft = moneyToGet;
         for (int key : moneyLeft.descendingKeySet()) {
-            while(moneyToGetLeft > key){
+            while(moneyToGetLeft >= key){
                 if(moneyLeft.get(key) > 0){
                     moneyLeft.put(key,moneyLeft.get(key) - 1);
-                    newMoneyToReturn.put(key, moneyLeft.get(key) + 1);
+                    newMoneyToReturn = newMoneyToReturn.add(key);
                     moneyToGetLeft -= key;
                 }
                 else {break;}
@@ -146,6 +147,6 @@ public class Money {
         if(moneyToGetLeft > 0){
             return null;
         }
-        return new Money(newMoneyToReturn);
+        return newMoneyToReturn;
     }
 }

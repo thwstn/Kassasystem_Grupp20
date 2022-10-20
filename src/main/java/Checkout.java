@@ -81,7 +81,7 @@ public class Checkout {
 
     public void payWithCash(Money moneyFromCustomer) {
 
-        double moneyToGet = moneyFromCustomer.checkAmount() - order.getTotalAmount() * 100;
+        double moneyToGet = moneyFromCustomer.checkAmount() - Math.round(order.getTotalAmount()) * 100;
         money = money.add(moneyFromCustomer);
         if(money.giveChange(moneyToGet) == null){
             money = money.remove(moneyFromCustomer);
