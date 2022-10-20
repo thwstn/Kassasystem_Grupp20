@@ -78,6 +78,19 @@ public class Checkout {
     public void addMoney(Money money) {
         this.money = this.money.add(money);
     }
+
+    public void payWithCash(Money moneyFromCustomer) {
+
+        double moneyToGet = moneyFromCustomer.checkAmount() - Math.round(order.getTotalAmount()) * 100;
+        money = money.add(moneyFromCustomer);
+        if(money.giveChange(moneyToGet) == null){
+            money = money.remove(moneyFromCustomer);
+            return;
+        }
+        money = money.remove(money.giveChange(moneyToGet));
+        orderDatabase.addOrder(order);
+
+    }
 }
 
 /*public class Checkout{
