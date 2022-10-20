@@ -1,4 +1,5 @@
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -17,14 +18,6 @@ class FakeCustomerDatabase implements CustomerDataBase{
     }
     private void fillDB() {
         customerList.addAll(List.of(THEO, NIKLAS, JOHAN, DAVID, JACOB));
-    }
-
-    public Customer getCustomerID(UUID uuid){
-        for(Customer c : customerList){
-            if(c.getCustomerID().equals(uuid)){
-                return c;
-            }
-        }return null;
     }
 
     @Override
