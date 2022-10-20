@@ -6,6 +6,8 @@ public interface ProductDatabase {
     Product getProductFromDatabase(EAN ean);
 
 
+    Product getProductFromDatabase(String name);
+
 
 
 

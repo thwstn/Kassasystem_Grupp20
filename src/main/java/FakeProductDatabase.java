@@ -42,7 +42,7 @@ public class FakeProductDatabase implements ProductDatabase {
         }
         return null;
     }
-
+    @Override
     public Product getProductFromDatabase(String name) {
         for (Product p : productData) {
             if (p.getName().equals(name)) {
