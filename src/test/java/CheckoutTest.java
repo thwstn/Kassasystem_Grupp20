@@ -137,6 +137,15 @@ public class CheckoutTest {
         assertEquals(1888000 + 5700, checkout.getMoney().checkAmount());
     }
 
+    //PaywithCashGivesCorrectDenominationsInChange
+
+    //PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney
+
+    //PayWithCashAndNotEnoughMoneyThrowsException
+
+
+
+
 
 }
 
