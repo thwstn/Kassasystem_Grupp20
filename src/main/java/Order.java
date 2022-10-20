@@ -115,10 +115,8 @@ public class Order {
     }
 
 
-    public double debitOrder() {
+    public void debitOrder() {
         orderIsPayed = true;
-        this.employee.addOrder(this);
-        return this.getTotalAmount();
     }
 
     //TODO En debit metod som avslutar köpet, metoden skickar ut data dit den ska lagras och t.ex. drar pengar från kassan.

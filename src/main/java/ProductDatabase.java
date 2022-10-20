@@ -12,6 +12,8 @@ public interface ProductDatabase {
 
     void removeProductFromDatabase(Product product);
 
+    boolean doesProductExistInDatabase(Product product);
+
 
 
 

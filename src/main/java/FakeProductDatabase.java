@@ -28,7 +28,7 @@ public class FakeProductDatabase implements ProductDatabase {
         fillDatabase();
     }
 
-    public void fillDatabase() {
+    private void fillDatabase() {
         productData.addAll(List.of(CUCUMBER, PASTA, MILK, SAUSAGE, BREAD, TOMATO, CHICKPEAS, RICE, ENTRECOTE, YOGHURT, SALAMI, MINCED_MEAT, BUTTER, CREAM, CRUSHED_TOMATOES));
     }
 
@@ -62,5 +62,11 @@ public class FakeProductDatabase implements ProductDatabase {
         productData.remove(product);
 
     }
+
+    @Override
+    public boolean doesProductExistInDatabase(Product product) {
+        return productData.contains(product);
+    }
+
 
 }
