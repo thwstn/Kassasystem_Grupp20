@@ -12,5 +12,6 @@ public interface OrderDatabaseIO {
 
     void addOrder(Order order);
 
+
     Collection<Order> getAllOrders();
 }

@@ -30,6 +30,7 @@ public class StatisticsTest {
         statistics = new Statistics();
         fakeCustomerDatabase = new FakeCustomerDatabase();
         fakeProductDatabase = new FakeProductDatabase();
+        fakeOrderDatabase = new FakeOrderDatabase();
         fakeCheckOutSessionDatabase = Mockito.mock(FakeCheckOutSessionDatabase.class);
 
         checkOutSession1 = Mockito.mock(CheckOutSession.class);
@@ -87,4 +88,23 @@ public class StatisticsTest {
         TreeMap<Integer, String> topFive = statistics.getTopFiveSoldProductsEver();
         assertEquals("{215=Minced Meat, 47=Butter, 32=Tomato, 28=Chickpeas, 21=Milk}", topFive.toString());
     }
+
+    @Test
+    void PullingTopFiveProductsEverSoldWorksAfterAddingNewOrder(){
+        Checkout c = new Checkout();
+        c.loginEmployee(fakeEmployeeDatabase.getEmployee("Calle"));
+        for (int i = 0; i < 20; i++){
+            c.scanEAN(917563849363L);
+            c.scanEAN(925463847583L);
+            c.scanEAN(917563848693L);
+            c.scanEAN(917563849363L);
+            c.scanEAN(928374658273L);
+            c.scanEAN(917569267583L);
+            c.scanEAN(917263847583L);
+        }
+        statistics.fakeOrderDatabase.addOrder(c.getOrder()); //Får hårdkoda detta eftersom det är olika instanser av databasen som Checkout och Statistics jobbar mot
+        c.payWithCard();
+        assertEquals("{235=Minced Meat, 72=Tomato, 48=Chickpeas, 47=Butter, 21=Milk}", statistics.getTopFiveSoldProductsEver().toString());
+    }
+
 }

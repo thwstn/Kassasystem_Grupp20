@@ -23,7 +23,7 @@ public class FakeEmployeeDatabase implements EmployeeDatabase {
         employees.addAll(List.of(E1,E3,E4));
     }
 
-
+    @Override
     public Employee getEmployee(String name) {
         for (Employee e : employees) {
             if (e.getName().equals(name)) {
