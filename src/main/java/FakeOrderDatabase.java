@@ -65,14 +65,14 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     }
 
     @Override
-    public ArrayList<Order> getAllOrdersByCustomer(Customer customer) {
+    public List<Order> getAllOrdersByCustomer(Customer customer) {
         ArrayList<Order> newList = new ArrayList<>();
         for (Order o:orderData) {
             if(o.getCustomer().equals(customer)){
                 newList.add(o);
             }
         }
-        return newList;
+        return Collections.unmodifiableList(newList);
     }
 
     @Override
@@ -92,6 +92,11 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     @Override
     public void addOrder(Order order) {
         orderData.add(order);
+    }
+
+    @Override
+    public void removeOrder(Order order) {
+        orderData.remove(order);
     }
 
 

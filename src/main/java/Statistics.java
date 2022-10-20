@@ -2,6 +2,7 @@
 import com.sun.source.tree.Tree;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Statistics {
@@ -34,11 +35,11 @@ public class Statistics {
 
     public Product getCustomerMostSold(Customer customer) {
         Order fuling = new Order(new Employee("Theo", 12));
-        ArrayList<Order> customerOrders = fakeOrderDatabase.getAllOrdersByCustomer(customer);
+        List<Order> customerOrders = fakeOrderDatabase.getAllOrdersByCustomer(customer);
         for (Order o : customerOrders) {
             Collection<OrderLine> ol = o.getOrderLineList();
             for (OrderLine orderLine : ol) {
-                fuling.addOrderLineToList(orderLine);
+                fuling.addOrderLineToList(new OrderLine(orderLine.getName(), orderLine.getPrice(), orderLine.getQuantity()));
             }
         }
         fuling.groupAllOrderLinesTogether();
@@ -115,9 +116,9 @@ public class Statistics {
         return totalSeconds / counter;
     }
 
-    public TreeMap<Integer, String> getTopFiveSoldProductsEver(){
+    public Map<String, Integer> getTopFiveSoldProductsEver(){
         Collection<Order> allOrders = fakeOrderDatabase.getAllOrders();
-        TreeMap<Integer, String> topFive = new TreeMap<>(Collections.reverseOrder());
+        TreeMap<String, Integer> topFive = new TreeMap<>(Collections.reverseOrder());
         Order combinedOrder = new Order(new Employee("NA", 0));
         for (Order o : allOrders) {
             Collection<OrderLine> currentOrderLines = o.getOrderLineList();
@@ -127,13 +128,16 @@ public class Statistics {
         }
         combinedOrder.groupAllOrderLinesTogether();
         combinedOrder.sortByQuantityHighestToLowest();
-        for(int i = 0; i <= 5; i++){
+        for(int i = 0; i < 5; i++){
             Product p = fakeProductDatabase.getProductFromDatabase(combinedOrder.getOrderLineAtIndex(i).getName());
             int quantity = combinedOrder.getOrderLineAtIndex(i).getQuantity();
-            topFive.put(quantity, p.getName());
+            topFive.put(p.getName(), quantity);
         }
-
-        return topFive;
+        Map<String, Integer> top = topFive.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(
+                        Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+              return top;
     }
 
     public Map.Entry<Customer, Integer> getCustomerWithMostOrders() {
