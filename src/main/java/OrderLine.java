@@ -1,5 +1,5 @@
 
-public class OrderLine implements Comparable<OrderLine> {
+public class OrderLine {
 
     private final String name;
     private final double price;
@@ -40,17 +40,17 @@ public class OrderLine implements Comparable<OrderLine> {
         return this.getPrice() * this.getQuantity();
     }
 
-    @Override
+  /*  @Override
     public int compareTo(OrderLine o) {
         if (this.getName().compareTo(o.getName()) != 0) {
             return this.getName().compareTo(o.getName());
         } /*else if (Double.compare(this.getPrice(), o.getPrice()) != 0) {
             return Double.compare(this.getPrice(), o.getPrice());  TODO Tror inte denna behövs då alla varor med samma namn har samma pris
-        }*/ else {
+        } else {
             return Integer.compare(this.getQuantity(), o.getQuantity());
         }
     }
-
+*/
     @Override
     public String toString(){
         return this.getName() + ": " + this.getPrice() + " x" + this.getQuantity() + " " + this.getTotalAmount() + ":-";

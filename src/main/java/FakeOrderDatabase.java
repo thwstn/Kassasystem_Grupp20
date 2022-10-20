@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class FakeOrderDatabase implements OrderDatabaseIO{
     ArrayList<Order> orderData = new ArrayList<>();
@@ -94,5 +92,10 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     @Override
     public void addOrder(Order order) {
         orderData.add(order);
+    }
+
+    @Override
+    public Collection<Order> getAllOrders() {
+        return Collections.unmodifiableList(orderData);
     }
 }

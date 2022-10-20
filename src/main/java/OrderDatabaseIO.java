@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 
 public interface OrderDatabaseIO {
@@ -10,4 +11,6 @@ public interface OrderDatabaseIO {
     boolean orderExistsInDatabase(Order order);
 
     void addOrder(Order order);
+
+    Collection<Order> getAllOrders();
 }

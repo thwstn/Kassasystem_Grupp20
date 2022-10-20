@@ -91,6 +91,7 @@ public class Checkout {
         money = money.remove(money.giveChange(moneyToGet));
         order.debitOrder();
         orderDatabase.addOrder(order);
+        order = null;
 
     }
 }

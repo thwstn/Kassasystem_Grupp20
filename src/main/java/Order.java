@@ -83,12 +83,17 @@ public class Order {
     }
 
     public void sortByAlphabeticalOrderAscending() {
-        Collections.sort(orderLines);
-
+        //Collections.sort(orderLines);
+        orderLines.sort((Comparator.comparing(OrderLine::getName)));
     }
 
     public void sortByAlphabeticalOrderDescending() {
-        orderLines.sort(Collections.reverseOrder());
+        //orderLines.sort(Collections.reverseOrder());
+        orderLines.sort((o1,o2) -> o2.getName().compareTo(o1.getName()));
+    }
+
+    public void sortByQuantityHighestToLowest() {
+        orderLines.sort((o1,o2) -> o2.getQuantity() - o1.getQuantity());
     }
     public void groupAllOrderLinesTogether() {
         ArrayList<OrderLine> newList = new ArrayList<>();
@@ -145,6 +150,28 @@ public class Order {
             }
             return sb.toString();
         }
+
+        public  Comparator<OrderLine> orderLineNameComparator = new Comparator<OrderLine>() {
+            @Override
+            public int compare(OrderLine o1, OrderLine o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        };
+
+    public  Comparator<OrderLine> orderLineNameComparatorReverseOrder = new Comparator<OrderLine>() {
+        @Override
+        public int compare(OrderLine o1, OrderLine o2) {
+            return o2.getName().compareTo(o1.getName());
+        }
+    };
+
+        public  Comparator<OrderLine> orderLineQuantityComparator = new Comparator<OrderLine>() {
+            @Override
+            public int compare(OrderLine o1, OrderLine o2) {
+                return o1.getQuantity() - o2.getQuantity();
+            }
+        };
+
 
 
 }
