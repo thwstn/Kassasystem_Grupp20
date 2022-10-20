@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mockito;
@@ -79,5 +80,11 @@ public class StatisticsTest {
     @Test
     void getEmployeesSortedBySpeedTest() {
         System.out.println(statistics.getEmployeesSortedBySpeed(checkOutSessionsA));
+    }
+
+    @Test
+    void PullingTopFiveProductsEverSoldReturnsCorrectResult(){
+        TreeMap<Integer, String> topFive = statistics.getTopFiveSoldProductsEver();
+        assertEquals("{215=Minced Meat, 47=Butter, 32=Tomato, 28=Chickpeas, 21=Milk}", topFive.toString());
     }
 }
