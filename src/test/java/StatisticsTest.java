@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -105,6 +105,18 @@ public class StatisticsTest {
         statistics.fakeOrderDatabase.addOrder(c.getOrder()); //Får hårdkoda detta eftersom det är olika instanser av databasen som Checkout och Statistics jobbar mot
         c.payWithCard();
         assertEquals("{235=Minced Meat, 72=Tomato, 48=Chickpeas, 47=Butter, 21=Milk}", statistics.getTopFiveSoldProductsEver().toString());
+    }
+
+    @Test
+    void GetCustomerWhoShoppedMostReturnsCorrectCustomer(){
+        assertEquals("Theo", statistics.getCustomerWithMostOrders().getKey().getName());
+    }
+    @Test
+    void GetCustomerWhoShoppedMostReturnsCorrectAfterAddingOrder(){
+
+        statistics.fakeOrderDatabase.addOrder(new Order(fakeEmployeeDatabase.getEmployee("Daniella"), fakeCustomerDatabase.getCustomer("Johan"), new OrderLine("Cucumber", 5.0, 10)));
+        statistics.fakeOrderDatabase.addOrder(new Order(fakeEmployeeDatabase.getEmployee("Calle"), fakeCustomerDatabase.getCustomer("Johan"), new OrderLine("Chickpeas", 8.0, 10)));
+        assertEquals("Johan", statistics.getCustomerWithMostOrders().getKey().getName());
     }
 
 }

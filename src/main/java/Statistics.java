@@ -1,5 +1,8 @@
 
+import com.sun.source.tree.Tree;
+
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Statistics {
 
@@ -131,5 +134,21 @@ public class Statistics {
         }
 
         return topFive;
+    }
+
+    public Map.Entry<Customer, Integer> getCustomerWithMostOrders() {
+        TreeMap<Customer, Integer> allCustomers = new TreeMap<>();
+        Collection<Order> allOrders = fakeOrderDatabase.getAllOrders();
+        for (Order o : allOrders) {
+
+            if(allCustomers.containsKey(o.getCustomer())){
+                allCustomers.put(o.getCustomer(), allCustomers.get(o.getCustomer()) + 1);
+            }
+            else{
+                allCustomers.put(o.getCustomer(), 1);
+            }
+        }
+        return Collections.max(allCustomers.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
+
     }
 }
