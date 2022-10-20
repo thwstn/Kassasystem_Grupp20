@@ -34,6 +34,14 @@ public class Employee {
         orders.add(order);
     }
 
+    public void addCheckOutSession(CheckOutSession cos) {
+        checkOutSessions.add(cos);
+    }
+
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
     /*
     @Override
     public ArrayList<CheckOutSession> getCheckOutSessions(int employeeId) {
