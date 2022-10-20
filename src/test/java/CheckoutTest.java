@@ -39,9 +39,9 @@ public class CheckoutTest {
         assertEquals(null, checkout.getCheckOutSession(), "CheckOutSession should be null");
     }
     @Test
-    void moneyIsNullByDefault() {
+    void moneyIsEmptyByDefault() {
         Checkout checkout = new Checkout();
-        assertEquals(null, checkout.getMoney(), "Money should be null by defualt");
+        assertEquals(0, checkout.getMoney().checkAmount(), "Money balance should be zero by defualt");
     }
     @Test
     void checkOutHasNoCurrentOrder() {

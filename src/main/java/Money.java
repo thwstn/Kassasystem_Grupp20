@@ -42,8 +42,20 @@ public class Money {
         return denominations;
     }
 
+    private TreeMap<Integer, Integer> createNewFilledMoneyMap(Map<Integer, Integer> oldMap) {
+        TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
+        for (int denomination : oldMap.keySet()) {
+            newMoneyMap.put(denomination, oldMap.get(denomination));
+        }
+        return newMoneyMap;
+    }
+
     public TreeMap<Integer, Integer> getDenominationAmounts() {
         return createNewFilledMoneyMap((denominationAmounts));
+    }
+
+    public int checkDenominationAmount(int denomination) {
+        return denominationAmounts.get(denomination);
     }
 
     public int checkAmount() {
@@ -103,16 +115,24 @@ public class Money {
         return new Money(newMoneyMap);
     }
 
-    private TreeMap<Integer, Integer> createNewFilledMoneyMap(Map<Integer, Integer> oldMap) {
-        TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
-        for (int denomination : oldMap.keySet()) {
-            newMoneyMap.put(denomination, oldMap.get(denomination));
+    public Money giveChange(double changeToGet) {
+        Money newMoneyToReturn = new Money();
+        TreeMap<Integer, Integer> moneyLeft = new TreeMap<>(denominationAmounts);
+        double remainingChangeToGet = changeToGet;
+        for (int key : moneyLeft.descendingKeySet()) {
+            while(remainingChangeToGet >= key){
+                if(moneyLeft.get(key) > 0){
+                    moneyLeft.put(key,moneyLeft.get(key) - 1);
+                    newMoneyToReturn = newMoneyToReturn.add(key);
+                    remainingChangeToGet -= key;
+                }
+                else {break;}
+            }
         }
-        return newMoneyMap;
-    }
-
-    public int checkDenominationAmount(int denomination) {
-        return denominationAmounts.get(denomination);
+        if(remainingChangeToGet > 0){
+            return null;
+        }
+        return newMoneyToReturn;
     }
 
     @Override
@@ -128,26 +148,5 @@ public class Money {
         }
         sb.append("Total amount: ").append(checkAmount());
         return sb.toString();
-    }
-
-    public Money giveChange(double moneyToGet) {
-        Money newMoneyToReturn = new Money();
-        TreeMap<Integer, Integer> moneyLeft = new TreeMap<>();
-        moneyLeft.putAll(denominationAmounts);
-        double moneyToGetLeft = moneyToGet;
-        for (int key : moneyLeft.descendingKeySet()) {
-            while(moneyToGetLeft >= key){
-                if(moneyLeft.get(key) > 0){
-                    moneyLeft.put(key,moneyLeft.get(key) - 1);
-                    newMoneyToReturn = newMoneyToReturn.add(key);
-                    moneyToGetLeft -= key;
-                }
-                else {break;}
-            }
-        }
-        if(moneyToGetLeft > 0){
-            return null;
-        }
-        return newMoneyToReturn;
     }
 }
