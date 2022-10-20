@@ -109,18 +109,6 @@ public class ProductGroup implements ProductDatabase{
         }
 
     }
-    private List<String> productGroupsList(){
-        return PRODUCT_GROUPS;
-    }
-    /*private void sortListOfProducts(){
-        List<Product>sortedList = productList.stream().sorted().toList();
-        sortedList.forEach(System.out::println);
-    }*/
-    @Override
-    public String toString() {
-        return "ProductGroup: " +productGroupName + "\n"
-                ;
-    }
 
     @Override
     public Product getProductFromDatabase(EAN ean) {
@@ -128,9 +116,6 @@ public class ProductGroup implements ProductDatabase{
     }
 
 
-    public String getProductFromDatabase(String name) {
-        return name;
-    }
     /*public boolean productExists() {
         return false;
     }*/

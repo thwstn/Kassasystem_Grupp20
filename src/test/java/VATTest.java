@@ -25,15 +25,15 @@ class VATTest {
         assertThrows(NullPointerException.class, ()->{new VAT(null);
         });
     }
-
-    // Tester att göra
-    //Vat är inte null, VAt är inte 0, VAT är inte >25
-    //
     @Test
     void changeVATTest(){
         ProductGroup Dairy = new ProductGroup("Dairy", VAT.VATCategories.VAT12);
         Dairy.getVAT().setVatCategory(VAT.VATCategories.VAT6);
         assertEquals(0.06,Dairy.getVAT().getPercent(), "Wrong percentage!");
     }
+    @Test
+    void VAT25Test(){
+        VAT.VATCategories vat = VAT.VATCategories.VAT25;
 
+    }
 }
