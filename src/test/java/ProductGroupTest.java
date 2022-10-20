@@ -44,12 +44,6 @@ class ProductGroupTest {
         assertEquals(0.25,vegetables.getVAT().getPercent());
         System.out.println(vegetables.getVAT().getPercent());
     }
-    @Test
-    void getProductFromDatabaseTest(){
-        Product test = productDatabase.getProductFromDatabase(new EAN(917563847583L));
-        assertEquals(productDatabase.getProductFromDatabase(new EAN(917563847583L)),test);
-        System.out.println(test);
-    }
 }
     /*@Test
     void removeByNameTest() {
