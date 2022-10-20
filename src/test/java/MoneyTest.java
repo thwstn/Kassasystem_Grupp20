@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,7 +23,7 @@ public class MoneyTest {
     void init() {
         this.moneyWithBalanceZero = new Money();
 
-        HashMap<Integer, Integer> nonZeroMoney = new HashMap<>();
+        TreeMap<Integer, Integer> nonZeroMoney = new TreeMap<>();
         nonZeroMoney.put(100000, 10);
         nonZeroMoney.put(50000, 10);
         nonZeroMoney.put(20000, 10);
@@ -48,7 +48,7 @@ public class MoneyTest {
 
     @Test
     void createMoneyWithMoney() {
-        HashMap<Integer, Integer> newMoneySetup = new HashMap<>();
+        TreeMap<Integer, Integer> newMoneySetup = new TreeMap<>();
         newMoneySetup.put(100000, 1);
         newMoneySetup.put(50000, 1);
         newMoneySetup.put(20000, 1);
@@ -67,7 +67,7 @@ public class MoneyTest {
     @ParameterizedTest(name = "{index} The map contains {0}, a valid denomination")
     @CsvSource(value = {"100", "100000", "200", "50000", "500", "20000", "1000", "10000", "2000", "5000"})
     void createMoneyOfValidDenomination(int denomination) {
-        HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+        TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
         newMoneyMap.put(denomination, 1);
         Money newMoney = new Money(newMoneyMap);
         assertTrue(DENOMINATION_LIST.contains(denomination) && newMoney.getDenominationAmounts().containsKey(denomination));
@@ -77,7 +77,7 @@ public class MoneyTest {
     @Test
     void createMoneyOfInvalidDenomination() {
         assertThrows(IllegalArgumentException.class, () -> {
-            HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+            TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
             newMoneyMap.put(INVALID_DENOMINATION, 1);
             new Money(newMoneyMap);
         });
@@ -161,7 +161,7 @@ public class MoneyTest {
     @Test
     void createNegativeDenominationAmount() {
         assertThrows(IllegalArgumentException.class, () -> {
-            HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+            TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
             newMoneyMap.put(100, -1);
             new Money(newMoneyMap);
         });
@@ -169,7 +169,7 @@ public class MoneyTest {
 
     @Test
     void constructorFillsEmptyDenominations() {
-        HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+        TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
         newMoneyMap.put(100, 1);
         Money newMoney = new Money(newMoneyMap);
         assertEquals(0, newMoney.checkDenominationAmount(200));

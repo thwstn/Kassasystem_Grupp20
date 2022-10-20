@@ -1,15 +1,16 @@
 import java.util.*;
 
 public class Money {
-    private final Map<Integer, Integer> denominationAmounts;
+
+    private final TreeMap<Integer, Integer> denominationAmounts;
     private static final List<Integer> DENOMINATION_LIST = List.of(
             100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
 
     public Money() {
-        this.denominationAmounts = new HashMap<>(createEmptyMoneyMap());
+        this.denominationAmounts = new TreeMap<>(createEmptyMoneyMap());
     }
 
-    public Money(Map<Integer, Integer> denominations) {
+    public Money(TreeMap<Integer, Integer> denominations) {
         for (int denomination : denominations.keySet()) {
             if (denominations.get(denomination) < 0) {
                 throw new IllegalArgumentException("Cannot have negative balance of any denomination");
@@ -26,8 +27,8 @@ public class Money {
         this.denominationAmounts = denominations;
     }
 
-    private HashMap<Integer, Integer> createEmptyMoneyMap() {
-        HashMap<Integer, Integer> denominations = new HashMap<>();
+    private TreeMap<Integer, Integer> createEmptyMoneyMap() {
+        TreeMap<Integer, Integer> denominations = new TreeMap<>();
         denominations.put(100000, 0);
         denominations.put(50000, 0);
         denominations.put(20000, 0);
@@ -41,8 +42,20 @@ public class Money {
         return denominations;
     }
 
-    public Map<Integer, Integer> getDenominationAmounts() {
+    private TreeMap<Integer, Integer> createNewFilledMoneyMap(Map<Integer, Integer> oldMap) {
+        TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
+        for (int denomination : oldMap.keySet()) {
+            newMoneyMap.put(denomination, oldMap.get(denomination));
+        }
+        return newMoneyMap;
+    }
+
+    public TreeMap<Integer, Integer> getDenominationAmounts() {
         return createNewFilledMoneyMap((denominationAmounts));
+    }
+
+    public int checkDenominationAmount(int denomination) {
+        return denominationAmounts.get(denomination);
     }
 
     public int checkAmount() {
@@ -58,14 +71,14 @@ public class Money {
         if (!DENOMINATION_LIST.contains(denomination)) {
             throw new IllegalArgumentException("Not a valid denomination");
         }
-        HashMap<Integer, Integer> newMoneyMap = new HashMap<>(this.getDenominationAmounts());
+        TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>(this.getDenominationAmounts());
 
         newMoneyMap.put(denomination, newMoneyMap.get(denomination) + 1);
         return new Money(newMoneyMap);
     }
 
     public Money add(Money incomingMoney) {
-        HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+        TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
 
         for (int denomination : incomingMoney.getDenominationAmounts().keySet()) {
             int amount;
@@ -82,7 +95,7 @@ public class Money {
         if ((denominationAmounts.get(denomination) < 1)) {
             throw new IllegalArgumentException("There are no units of that denomination (" + denomination + ")");
         }
-        HashMap<Integer, Integer> newMoneyMap = new HashMap<>(this.getDenominationAmounts());
+        TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>(this.getDenominationAmounts());
 
         newMoneyMap.put(denomination, newMoneyMap.get(denomination) - 1);
         return new Money(newMoneyMap);
@@ -92,7 +105,7 @@ public class Money {
         if (incomingMoney.checkAmount() > this.checkAmount()) {
             throw new IllegalArgumentException("Not enough money in balance");
         }
-        HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
+        TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
 
         for (int denomination : incomingMoney.getDenominationAmounts().keySet()) {
             int amount;
@@ -102,16 +115,24 @@ public class Money {
         return new Money(newMoneyMap);
     }
 
-    private HashMap<Integer, Integer> createNewFilledMoneyMap(Map<Integer, Integer> oldMap) {
-        HashMap<Integer, Integer> newMoneyMap = new HashMap<>();
-        for (int denomination : oldMap.keySet()) {
-            newMoneyMap.put(denomination, oldMap.get(denomination));
+    public Money giveChange(double changeToGet) {
+        Money newMoneyToReturn = new Money();
+        TreeMap<Integer, Integer> moneyLeft = new TreeMap<>(denominationAmounts);
+        double remainingChangeToGet = changeToGet;
+        for (int key : moneyLeft.descendingKeySet()) {
+            while(remainingChangeToGet >= key){
+                if(moneyLeft.get(key) > 0){
+                    moneyLeft.put(key,moneyLeft.get(key) - 1);
+                    newMoneyToReturn = newMoneyToReturn.add(key);
+                    remainingChangeToGet -= key;
+                }
+                else {break;}
+            }
         }
-        return newMoneyMap;
-    }
-
-    public int checkDenominationAmount(int denomination) {
-        return denominationAmounts.get(denomination);
+        if(remainingChangeToGet > 0){
+            return null;
+        }
+        return newMoneyToReturn;
     }
 
     @Override

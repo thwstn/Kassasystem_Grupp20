@@ -1,13 +1,61 @@
-import ch.qos.logback.core.net.SyslogOutputStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.sql.Array;
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductGroupTest {/*
+class ProductGroupTest {
+    private final FakeProductDatabase productDatabase = new FakeProductDatabase();
+
+    @Test
+    void changeNameNewProductGroupTest() {
+        ProductGroup vegetables = new ProductGroup("Fruit&Vegetables", VAT.VATCategories.VAT12);
+        System.out.println(vegetables);
+        vegetables.changeCategoryName("Dry");
+        System.out.println(vegetables);
+        assertEquals("Dry", vegetables.getProductGroupName());
+    }
+
+    @Test
+    void changeNameTestFail() {
+        ProductGroup vegetables = new ProductGroup("Dry", VAT.VATCategories.VAT25);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> vegetables.changeCategoryName("Berries"));
+        System.out.println(vegetables.getProductGroupName());
+    }
+
+    @Test
+    void NameNullFailTest() {
+        assertThrows(NullPointerException.class, () -> new ProductGroup(null, VAT.VATCategories.VAT25));
+    }
+
+    @Test
+    void NameEmptyFail() {
+        assertThrows(IllegalArgumentException.class, () -> new ProductGroup("", VAT.VATCategories.VAT25));
+    }
+
+    @Test
+    void getProductGroupFromDatabaseTest() {
+        for (Product pGroup : productDatabase.productData) {
+            System.out.println(pGroup.getProductGroup());
+            assertEquals(15,productDatabase.productData.size());
+        }
+    }
+    @Test
+    void getVATTestAndPercentage(){
+        ProductGroup vegetables = new ProductGroup("Fruit&Vegetables", VAT.VATCategories.VAT25);
+        assertEquals(0.25,vegetables.getVAT().getPercent());
+        System.out.println(vegetables.getVAT().getPercent());
+    }
+}
+    /*@Test
+    void removeByNameTest() {
+        ProductGroup vegetables = new ProductGroup("Fruit&Vegetables", VAT.VATCategories.VAT12);
+        vegetables.addProduct(new Product("Tomato",25.0,vegetables,new EAN(121212121212L)));
+        System.out.println(vegetables);
+        if(vegetables.containsProductByName("Tomato")){
+            vegetables.removeProductByName("Tomato",1);
+        }
+        assertEquals(0,vegetables);
+    }*/
+    /*
 
     @Test
     void newGroupTestVegetables() {
@@ -38,37 +86,4 @@ class ProductGroupTest {/*
         assertEquals(1,meat.getAllProducts().size());
 
     } //fixa
-    @Test
-    void changeNameTest() {
-        ProductGroup vegetables = new ProductGroup("Fruit&Vegetables", VAT.VATCategories.VAT12);
-        System.out.println(vegetables);
-        vegetables.changeCategoryName("Dry");
-        System.out.println(vegetables);
-        assertEquals("Dry", vegetables.getProductGroupName());
-    }
-    @Test
-    void changeNameTestFail(){
-        ProductGroup vegetables = new ProductGroup("Dry", VAT.VATCategories.VAT25);
-        Assertions.assertThrows(IllegalArgumentException.class, ()  -> vegetables.changeCategoryName("Berries"));
-    }
-    @Test
-    void NameTestNullFail(){
-        assertThrows(NullPointerException.class, ()->{new ProductGroup(null, VAT.VATCategories.VAT25);
-        });
-    }
-    @Test
-    void NameTestEmptyFail() {
-        assertThrows(IllegalArgumentException.class, ()->{new ProductGroup("", VAT.VATCategories.VAT25);
-        });
-    }
-    @Test
-    void removeByNameTest() {
-        ProductGroup vegetables = new ProductGroup("Fruit&Vegetables", VAT.VATCategories.VAT12);
-        vegetables.addProduct(new Product("Tomato",25.0,vegetables,new EAN(121212121212L)));
-        System.out.println(vegetables);
-        if(vegetables.containsProductByName("Tomato")){
-            vegetables.removeProductByName("Tomato",1);
-        }
-        assertEquals(0,vegetables.getAllProducts());
-    }*/
-}
+   */

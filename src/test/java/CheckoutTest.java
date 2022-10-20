@@ -1,14 +1,33 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.servlet.server.Session;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+
 public class CheckoutTest {
+
+    private Money money;
+
+    @BeforeEach
+    void init() {
+        TreeMap<Integer, Integer> denominations = new TreeMap<>();
+        denominations.put(100000, 10);
+        denominations.put(50000, 10);
+        denominations.put(20000, 10);
+        denominations.put(10000, 10);
+        denominations.put(5000, 10);
+        denominations.put(2000, 10);
+        denominations.put(1000, 10);
+        denominations.put(500, 10);
+        denominations.put(200, 10);
+        denominations.put(100, 10);
+        money = new Money(denominations);
+    }
     @Test
     void getIDReturnsUUID() {
         Checkout checkout = new Checkout();
@@ -20,9 +39,9 @@ public class CheckoutTest {
         assertEquals(null, checkout.getCheckOutSession(), "CheckOutSession should be null");
     }
     @Test
-    void moneyIsNullByDefault() {
+    void moneyIsEmptyByDefault() {
         Checkout checkout = new Checkout();
-        assertEquals(null, checkout.getMoney(), "Money should be null by defualt");
+        assertEquals(0, checkout.getMoney().checkAmount(), "Money balance should be zero by defualt");
     }
     @Test
     void checkOutHasNoCurrentOrder() {
@@ -58,7 +77,8 @@ public class CheckoutTest {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
-        checkout.addNewEmptyOrder();
+        checkout.scanEAN(917563847583L);
+        //checkout.addNewEmptyOrder();
         assertTrue(checkout.getOrder() != null);
     }
     //createEmptyOrderWhileLoggedOut
@@ -67,10 +87,63 @@ public class CheckoutTest {
         Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
-        checkout.addNewEmptyOrder();
+        checkout.scanEAN(917563847583L);
+        //checkout.addNewEmptyOrder();
         checkout.removeOrder();
         assertEquals(null, checkout.getOrder(), "Order exist but i should not");
     }
+    @Test
+    void scanEANWithNoActiveOrderCreatesNewOrder() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.scanEAN(917563847583L);
+        assertTrue(checkout.getOrder() != null);
+    }
+    @Test
+    void payWithCardUpdatesOrderDatabase() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.scanEAN(917563847583L);
+        Order order = checkout.getOrder();
+        //Order order1 = new Order(employee, new OrderLine("test", 1, 1));
+        checkout.payWithCard();
+        assertTrue(checkout.orderDatabase.orderExistsInDatabase(order));
+    }
+
+    @Test
+    void addMoneyAddsMoney() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.addMoney(money);
+        assertEquals(10, checkout.getMoney().checkDenominationAmount(100000), "Money is not aded to checkout");
+    }
+    @Test
+    void payWithCashUpdatesMoney() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.addMoney(money);
+        checkout.scanEAN(917563848693L);
+
+        Money moneyFromCustomer = new Money();
+        moneyFromCustomer = moneyFromCustomer.add(50000);
+        checkout.payWithCash(moneyFromCustomer);
+        assertEquals(1888000 + 5700, checkout.getMoney().checkAmount());
+    }
+
+    //PaywithCashGivesCorrectDenominationsInChange
+
+    //PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney
+
+    //PayWithCashAndNotEnoughMoneyThrowsException
+
+
+
+
+
 }
 
 /*public class CheckoutTest {

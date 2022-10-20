@@ -81,4 +81,18 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     public void fillDatabase() {
         orderData.addAll(List.of(O1,O2,O3,O4,O5,O6,O7));
     }
+    @Override
+    public boolean orderExistsInDatabase(Order order){
+        for (Order o : orderData) {
+            if (o.equals(order)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void addOrder(Order order) {
+        orderData.add(order);
+    }
 }

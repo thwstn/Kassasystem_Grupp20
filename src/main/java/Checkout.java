@@ -5,10 +5,13 @@ public class Checkout {
     private CheckOutSession checkOutSession;
     private Money money;
     private Order order;
-    private FakeCheckOutSessionDatabase checkOutSessionDatabase = new FakeCheckOutSessionDatabase();
+    protected FakeCheckOutSessionDatabase checkOutSessionDatabase = new FakeCheckOutSessionDatabase();
+    protected FakeProductDatabase productDatabase = new FakeProductDatabase();
+    protected FakeOrderDatabase orderDatabase = new FakeOrderDatabase();
 
     public Checkout() {
         ID = UUID.randomUUID();
+        money = new Money();
     }
 
     public UUID getID() {
@@ -26,7 +29,7 @@ public class Checkout {
         return order;
     }
 
-    public void addNewEmptyOrder() {
+    private void addNewEmptyOrder() {
         Employee employee = checkOutSession.getEmployee();
         order = new Order(employee);
     }
@@ -51,7 +54,45 @@ public class Checkout {
         checkOutSession = new CheckOutSession(employee);
     }
 
-    //TODO: Skapa order, avslutar, uppdatera i employee
+    public void scanEAN(long ean) {
+        EAN eanToCheck = new EAN(ean);
+        Product product = productDatabase.getProductFromDatabase(eanToCheck);
+        if (product == null) {
+            //hantera att EAN inte finns
+            return;
+        }
+        OrderLine orderLine = new OrderLine(product.getName(), product.getPriceIncVat(), 1);
+        if(order == null) {
+            addNewEmptyOrder();
+            order.addOrderLineToList(orderLine);
+        } else {
+            order.addOrderLineToList(orderLine);
+        }
+    }
+
+    public void payWithCard() {
+        order.debitOrder();
+        orderDatabase.addOrder(order);
+        order = null;
+    }
+
+    public void addMoney(Money money) {
+        this.money = this.money.add(money);
+    }
+
+    public void payWithCash(Money moneyFromCustomer) {
+
+        double moneyToGet = moneyFromCustomer.checkAmount() - Math.round(order.getTotalAmount()) * 100;
+        money = money.add(moneyFromCustomer);
+        if(money.giveChange(moneyToGet) == null){
+            money = money.remove(moneyFromCustomer);
+            return;
+        }
+        money = money.remove(money.giveChange(moneyToGet));
+        order.debitOrder();
+        orderDatabase.addOrder(order);
+
+    }
 }
 
 /*public class Checkout{

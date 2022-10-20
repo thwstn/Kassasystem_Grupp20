@@ -63,6 +63,7 @@ public class OrderTest {
         Assertions.assertThrows(IllegalArgumentException.class, ()  -> order.addOrderLineToList(orderLine1));
     }
 
+
     @Test
     void AddingOrderLineWithNegativePriceThrowsException(){
         Assertions.assertThrows(IllegalArgumentException.class, () -> order.addOrderLineToList(new OrderLine("Butter", -2.0, 10 )));
@@ -101,7 +102,7 @@ public class OrderTest {
 
     @Test
     void CreatingNewOrderWithoutCustomerSetsCustomerToDefault(){
-        Order order1 = new Order(new Employee("Johan", 25000));
+        Order order1 = new Order(new Employee("Johan", 25000), orderLine1, orderLine2);
         Customer defaultCustomer = order1.getCustomer();
         Assertions.assertEquals(new Customer("Kund", 0), defaultCustomer);
     }
