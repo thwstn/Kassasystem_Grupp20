@@ -6,6 +6,16 @@ public interface ProductDatabase {
     Product getProductFromDatabase(EAN ean);
 
 
+    Product getProductFromDatabase(String name);
+
+    void addProductToDatabase(Product product);
+
+    void removeProductFromDatabase(Product product);
+
+    boolean doesProductExistInDatabase(Product product);
+
+
+
 
 
 

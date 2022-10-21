@@ -63,6 +63,7 @@ public class OrderTest {
         Assertions.assertThrows(IllegalArgumentException.class, ()  -> order.addOrderLineToList(orderLine1));
     }
 
+
     @Test
     void AddingOrderLineWithNegativePriceThrowsException(){
         Assertions.assertThrows(IllegalArgumentException.class, () -> order.addOrderLineToList(new OrderLine("Butter", -2.0, 10 )));
@@ -101,7 +102,7 @@ public class OrderTest {
 
     @Test
     void CreatingNewOrderWithoutCustomerSetsCustomerToDefault(){
-        Order order1 = new Order(new Employee("Johan", 25000));
+        Order order1 = new Order(new Employee("Johan", 25000), orderLine1, orderLine2);
         Customer defaultCustomer = order1.getCustomer();
         Assertions.assertEquals(new Customer("Kund", 0), defaultCustomer);
     }
@@ -129,10 +130,6 @@ public class OrderTest {
 
     @Test
     void SortingOrderLinesByAlphabeticalOrderWorks(){
-        Mockito.when(orderLine1.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
-        Mockito.when(orderLine2.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
-        Mockito.when(orderLine3.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
-        Mockito.when(orderLine4.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
         order.addOrderLineToList(orderLine1);
         order.addOrderLineToList(orderLine2);
         order.addOrderLineToList(orderLine3);
@@ -150,10 +147,6 @@ public class OrderTest {
 
     @Test
     void SortingOrderLinesByAlphabeticalOrderDescendingWorks(){
-        Mockito.when(orderLine1.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
-        Mockito.when(orderLine2.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
-        Mockito.when(orderLine3.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
-        Mockito.when(orderLine4.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
         order.addOrderLineToList(orderLine1);
         order.addOrderLineToList(orderLine2);
         order.addOrderLineToList(orderLine3);
@@ -169,24 +162,19 @@ public class OrderTest {
     }
 
     @Test
-    void TwoOrderLinesWithSameNameOrdersByQuantity(){
-        Mockito.when(orderLine1.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
-        Mockito.when(orderLine3.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
-        Mockito.when(orderLine5.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
-        Mockito.when(orderLine6.compareTo(Mockito.any(OrderLine.class))).thenCallRealMethod();
-
+    void SortingOrdersByQuantityHighestToLowestWorks(){
         order.addOrderLineToList(orderLine5);
         order.addOrderLineToList(orderLine1);
         order.addOrderLineToList(orderLine3);
         order.addOrderLineToList(orderLine6);
 
-        order.sortByAlphabeticalOrderAscending();
+        order.sortByQuantityHighestToLowest();
         StringBuilder answer = new StringBuilder();
         for(int i = 0; i < 4; i++){
             OrderLine ol = order.getOrderLineAtIndex(i);
             answer.append(ol.getName()).append(": ").append(ol.getPrice()).append(" x").append(ol.getQuantity()).append("\n");
         }
-        Assertions.assertEquals("Gurka: 5.0 x2\nGurka: 5.0 x3\nGurka: 5.0 x4\nMorot: 9.0 x6\n", answer.toString());
+        Assertions.assertEquals("Morot: 9.0 x6\nGurka: 5.0 x4\nGurka: 5.0 x3\nGurka: 5.0 x2\n", answer.toString());
     }
 
     @Test
@@ -249,12 +237,27 @@ public class OrderTest {
     }
 
     @Test
+    void AddingOrderLineToOrderThatIsPaidThrowsException(){
+        order.debitOrder();
+        Assertions.assertThrows(IllegalStateException.class, () -> order.addOrderLineToList(orderLine1));
+    }
+
+    @Test
+    void RemovingOrderLineToOrderThatIsPaidThrowsException(){
+        order.addOrderLineToList(orderLine1);
+        order.debitOrder();
+        Assertions.assertThrows(IllegalStateException.class, () -> order.removeOrderLineFromList(orderLine1));
+    }
+
+    @Test
     void FinalizingOrderWorks(){
         fillOrderWIthRealData();
         order.debitOrder();
-        Assertions.assertTrue(order.isOrderPayed());
+        Assertions.assertTrue(order.isOrderPaid());
 
     }
+
+
     private void fillOrderWIthRealData(){ //Metod skriven efter jag prövat på mockning. OrderLine är nu implementerad
         order.addOrderLineToList(new OrderLine("Gurka", 5.0, 2));
         order.addOrderLineToList(new OrderLine("Tomat", 8.0, 4));

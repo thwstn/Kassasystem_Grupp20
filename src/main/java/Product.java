@@ -90,4 +90,5 @@ public class Product implements DiscountInterface{
     public int hashCode() {
         return Objects.hash(name);
     }
+
 }

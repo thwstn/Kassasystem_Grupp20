@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Customer {
+public class Customer implements Comparable<Customer> {
     private UUID customerID;
     private String name;
     private int age;
@@ -54,5 +54,10 @@ public class Customer {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public int compareTo(Customer o) {
+        return this.getName().compareTo(o.getName());
     }
 }

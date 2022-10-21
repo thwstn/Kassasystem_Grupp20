@@ -71,6 +71,7 @@ public class Checkout {
     }
 
     public void payWithCard() {
+        order.debitOrder();
         orderDatabase.addOrder(order);
         order = null;
     }
@@ -88,7 +89,9 @@ public class Checkout {
             return;
         }
         money = money.remove(money.giveChange(moneyToGet));
+        order.debitOrder();
         orderDatabase.addOrder(order);
+        order = null;
 
     }
 }
