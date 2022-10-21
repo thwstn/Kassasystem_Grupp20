@@ -34,25 +34,24 @@ public class Statistics {
     //totalSalary
 
     public Product getCustomerMostSold(Customer customer) {
-        Order fuling = new Order(new Employee("Theo", 12));
+        Order tempOrder = new Order(new Employee("Theo", 12));
         List<Order> customerOrders = fakeOrderDatabase.getAllOrdersByCustomer(customer);
         for (Order o : customerOrders) {
             Collection<OrderLine> ol = o.getOrderLineList();
             for (OrderLine orderLine : ol) {
-                fuling.addOrderLineToList(new OrderLine(orderLine.getName(), orderLine.getPrice(), orderLine.getQuantity()));
+                tempOrder.addOrderLineToList(new OrderLine(orderLine.getName(), orderLine.getPrice(), orderLine.getQuantity()));
             }
         }
-        fuling.groupAllOrderLinesTogether();
+        tempOrder.groupAllOrderLinesTogether();
         String product = null;
         int highestAmount = 0;
-        for (OrderLine orderLine : fuling.getOrderLineList()) {
+        for (OrderLine orderLine : tempOrder.getOrderLineList()) {
             if (orderLine.getQuantity() > highestAmount) {
                 highestAmount = orderLine.getQuantity();
                 product = orderLine.getName();
             }
         }
-        Product p = fakeProductDatabase.getProductFromDatabase(product);
-        return p;
+        return fakeProductDatabase.getProductFromDatabase(product);
     }
 
     //kundens mest köpta vara

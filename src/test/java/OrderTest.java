@@ -236,14 +236,24 @@ public class OrderTest {
                 """ + order.getDate().toString(), order.getReceipt());
     }
 
+    @Test
+    void AddingOrderLineToOrderThatIsPaidThrowsException(){
+        order.debitOrder();
+        Assertions.assertThrows(IllegalStateException.class, () -> order.addOrderLineToList(orderLine1));
+    }
 
-    //adding orderlines to order that is payed Doesnt work
+    @Test
+    void RemovingOrderLineToOrderThatIsPaidThrowsException(){
+        order.addOrderLineToList(orderLine1);
+        order.debitOrder();
+        Assertions.assertThrows(IllegalStateException.class, () -> order.removeOrderLineFromList(orderLine1));
+    }
 
     @Test
     void FinalizingOrderWorks(){
         fillOrderWIthRealData();
         order.debitOrder();
-        Assertions.assertTrue(order.isOrderPayed());
+        Assertions.assertTrue(order.isOrderPaid());
 
     }
 

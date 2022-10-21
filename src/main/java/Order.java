@@ -9,7 +9,7 @@ public class Order {
     private final Date date;
     private final Customer customer;
     private double totalAmount;
-    private boolean orderIsPayed;
+    private boolean orderIsPaid;
     public Order(Employee employee, OrderLine ... orderLine) {
         orderLines.addAll(Arrays.asList(orderLine));
         this.orderID = UUID.randomUUID();
@@ -60,11 +60,14 @@ public class Order {
         return Collections.unmodifiableList(orderLines);
     }
 
-    public boolean isOrderPayed(){
-        return orderIsPayed;
+    public boolean isOrderPaid(){
+        return orderIsPaid;
     }
 
     public void addOrderLineToList(OrderLine orderLine){
+        if(this.orderIsPaid){
+            throw new IllegalStateException("Order is already paid, no more products can be added to order");
+        }
         if(orderLine == null)
             throw new IllegalArgumentException("Orderline can't be null");
         if(!orderLines.contains(orderLine)) {
@@ -74,6 +77,9 @@ public class Order {
     }
 
     public void removeOrderLineFromList(OrderLine orderLine) {
+        if(this.orderIsPaid){
+            throw new IllegalStateException("Order is already paid, no products can be removed from order");
+        }
         if (orderLines.contains(orderLine)) {
             orderLines.removeIf(o -> o.equals(orderLine));
             this.totalAmount -= orderLine.getTotalAmount();
@@ -83,12 +89,10 @@ public class Order {
     }
 
     public void sortByAlphabeticalOrderAscending() {
-        //Collections.sort(orderLines);
         orderLines.sort((Comparator.comparing(OrderLine::getName)));
     }
 
     public void sortByAlphabeticalOrderDescending() {
-        //orderLines.sort(Collections.reverseOrder());
         orderLines.sort((o1,o2) -> o2.getName().compareTo(o1.getName()));
     }
 
@@ -121,7 +125,7 @@ public class Order {
 
 
     public void debitOrder() {
-        orderIsPayed = true;
+        orderIsPaid = true;
     }
 
     //TODO En debit metod som avslutar köpet, metoden skickar ut data dit den ska lagras och t.ex. drar pengar från kassan.
@@ -150,27 +154,6 @@ public class Order {
             }
             return sb.toString();
         }
-
-        public  Comparator<OrderLine> orderLineNameComparator = new Comparator<OrderLine>() {
-            @Override
-            public int compare(OrderLine o1, OrderLine o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        };
-
-    public  Comparator<OrderLine> orderLineNameComparatorReverseOrder = new Comparator<OrderLine>() {
-        @Override
-        public int compare(OrderLine o1, OrderLine o2) {
-            return o2.getName().compareTo(o1.getName());
-        }
-    };
-
-        public  Comparator<OrderLine> orderLineQuantityComparator = new Comparator<OrderLine>() {
-            @Override
-            public int compare(OrderLine o1, OrderLine o2) {
-                return o1.getQuantity() - o2.getQuantity();
-            }
-        };
 
 
 
