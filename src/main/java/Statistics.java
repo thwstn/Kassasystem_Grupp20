@@ -58,6 +58,7 @@ public class Statistics {
 
     //den som scannar flest produkter per arbetad timme
 
+    /*
     public LinkedHashMap<String, Double> getEmployeesSortedBySpeed(ArrayList<CheckOutSession> checkOutSessions) {
         TreeMap<String, Integer> employeeNoOfProducts = new TreeMap<>();
         for (Employee employee : fakeEmployeeDatabase.get()) {
@@ -103,6 +104,7 @@ public class Statistics {
         //Returnera lista ordnad efter mest effektiv...
         return employeesWithSpeedSorted;
     }
+    */
 
     public int getAverageCheckOutSessionLength(Employee employee, FakeCheckOutSessionDatabase fos) {
         ArrayList<CheckOutSession> checkOutSessions = fos.getCheckOutSessionFromDatabaseWithEmployee(employee);

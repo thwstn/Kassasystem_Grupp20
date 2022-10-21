@@ -313,11 +313,6 @@ public class CheckoutTest {
         int balance = checkout.getMoney().checkAmount();
         Assertions.assertEquals(1896000, balance); //Money in checkout is correct
         Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
-        System.out.println(receipt1);
-        System.out.println(receipt2);
-
-
-
     }
 }
 

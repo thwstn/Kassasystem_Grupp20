@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mockito;
@@ -79,10 +78,10 @@ public class StatisticsTest {
         assertEquals(16800, statistics.getAverageCheckOutSessionLength(employee1, fakeCheckOutSessionDatabase));
     }
 
-   @Test
-    void getEmployeesSortedBySpeedTest() {
-        System.out.println(statistics.getEmployeesSortedBySpeed(checkOutSessionsA));
-    }
+//   @Test
+//    void getEmployeesSortedBySpeedTest() {
+//        System.out.println(statistics.getEmployeesSortedBySpeed(checkOutSessionsA));
+//    }
 
     @Test
     void PullingTopFiveProductsEverSoldReturnsCorrectResult(){
