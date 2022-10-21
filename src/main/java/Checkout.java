@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Checkout {
@@ -5,9 +6,11 @@ public class Checkout {
     private CheckOutSession checkOutSession;
     private Money money;
     private Order order;
+    private final ArrayList<Order> parkedOrders = new ArrayList<>();
     protected FakeCheckOutSessionDatabase checkOutSessionDatabase = new FakeCheckOutSessionDatabase();
     protected FakeProductDatabase productDatabase = new FakeProductDatabase();
     protected FakeOrderDatabase orderDatabase = new FakeOrderDatabase();
+
 
     public Checkout() {
         ID = UUID.randomUUID();
@@ -59,6 +62,9 @@ public class Checkout {
         checkOutSession = new CheckOutSession(employee);
     }
 
+    public void addCustomerToOrder(Customer customer){
+        this.order.setCustomer(customer);
+    }
     public void scanEAN(long ean) {
         EAN eanToCheck = new EAN(ean);
         Product product = productDatabase.getProductFromDatabase(eanToCheck);
@@ -101,6 +107,21 @@ public class Checkout {
         order.debitOrder();
         orderDatabase.addOrder(order);
         order = null;
+    }
+
+    public void parkOrder() {
+        parkedOrders.add(this.order);
+        this.order = null;
+
+    }
+
+    public Order getParkedOrder(String name) {
+        for (Order o : parkedOrders) {
+            if(o.getCustomer().getName().equals(name)){
+                return o;
+            }
+        }
+        return null;
     }
 }
 

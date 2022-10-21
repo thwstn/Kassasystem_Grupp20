@@ -149,7 +149,6 @@ public class CheckoutTest {
 
     //PaywithCashGivesCorrectDenominationsInChange
 
-    //PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney
     @Test
     void PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney(){
         Checkout c = new Checkout();
@@ -188,6 +187,25 @@ public class CheckoutTest {
 
         assertThrows(IllegalArgumentException.class, () ->
                 checkout.payWithCash(new Money()));
+    }
+
+    @Test
+    void ParkingOrderCorrectlyPlacesItInParkingList(){
+        Checkout c = new Checkout();
+        c.loginEmployee(new Employee("Lisa", 30000));
+        c.scanEAN(917563848693L);
+        Customer customer = new Customer("Pelle", 12);
+        c.addCustomerToOrder(customer);
+        c.scanEAN(917563848693L);
+        c.scanEAN(917563849363L);
+        Order tempOrder = c.getOrder();
+        c.parkOrder();
+        Assertions.assertEquals(tempOrder, c.getParkedOrder("Pelle"));
+    }
+
+    @Test
+    void UnparkingOrderCorrectlyPlacesTheParkedOrderAsTheActiveOrder(){
+
     }
 }
 

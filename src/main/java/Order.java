@@ -7,7 +7,7 @@ public class Order {
     private final UUID orderID;
     private final Employee employee;
     private final Date date;
-    private final Customer customer;
+    private Customer customer;
     private double totalAmount;
     private boolean orderIsPaid;
     public Order(Employee employee, OrderLine ... orderLine) {
@@ -56,6 +56,10 @@ public class Order {
         return customer;
     }
 
+    public void setCustomer(Customer customer){
+        this.customer = customer;
+    }
+
     public Collection<OrderLine> getOrderLineList(){
         return Collections.unmodifiableList(orderLines);
     }
@@ -63,6 +67,7 @@ public class Order {
     public boolean isOrderPaid(){
         return orderIsPaid;
     }
+
 
     public void addOrderLineToList(OrderLine orderLine){
         if(this.orderIsPaid){
