@@ -86,7 +86,7 @@ public class Checkout {
         money = money.add(moneyFromCustomer);
         if(money.giveChange(moneyToGet) == null){
             money = money.remove(moneyFromCustomer);
-            return;
+            throw new IllegalStateException("Not enough change in checkout");
         }
         money = money.remove(money.giveChange(moneyToGet));
         order.debitOrder();

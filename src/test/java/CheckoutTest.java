@@ -1,5 +1,7 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.Or;
 import org.springframework.boot.web.servlet.server.Session;
 
 import javax.swing.*;
@@ -137,6 +139,19 @@ public class CheckoutTest {
     //PaywithCashGivesCorrectDenominationsInChange
 
     //PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney
+    @Test
+    void PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney(){
+        Checkout c = new Checkout();
+        c.loginEmployee(new Employee("Lisa", 30000));
+        TreeMap<Integer,Integer> moneyMap = new TreeMap<>();
+        moneyMap.put(50000,10);
+        Money newMoney = new Money(moneyMap);
+        c.addMoney(newMoney);
+        c.scanEAN(917263847583L);
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        map.put(1000,1);
+        Assertions.assertThrows(IllegalStateException.class, () -> c.payWithCash((new Money(map))));
+    }
 
     //PayWithCashAndNotEnoughMoneyThrowsException
 
