@@ -163,25 +163,25 @@ public class CheckoutTest {
         checkout.payWithCash(moneyFromCustomer);
 
         boolean correctMoney = true;
-        if (checkout.getMoney().checkDenominationAmount(100000) != 11) {
+        if (checkout.getMoney().getSpecificDenominationAmounts(100000) != 11) {
             correctMoney = false;
-        } else if (checkout.getMoney().checkDenominationAmount(50000) != 10) {
+        } else if (checkout.getMoney().getSpecificDenominationAmounts(50000) != 10) {
             correctMoney = false;
-        } else if (checkout.getMoney().checkDenominationAmount(20000) != 8) {
+        } else if (checkout.getMoney().getSpecificDenominationAmounts(20000) != 8) {
             correctMoney = false;
-        } else if (checkout.getMoney().checkDenominationAmount(10000) != 10) {
+        } else if (checkout.getMoney().getSpecificDenominationAmounts(10000) != 10) {
             correctMoney = false;
-        } else if (checkout.getMoney().checkDenominationAmount(5000) != 10) {
+        } else if (checkout.getMoney().getSpecificDenominationAmounts(5000) != 10) {
             correctMoney = false;
-        } else if (checkout.getMoney().checkDenominationAmount(2000) != 8) {
+        } else if (checkout.getMoney().getSpecificDenominationAmounts(2000) != 8) {
             correctMoney = false;
-        } else if (checkout.getMoney().checkDenominationAmount(1000) != 10) {
+        } else if (checkout.getMoney().getSpecificDenominationAmounts(1000) != 10) {
             correctMoney = false;
-        } else if (checkout.getMoney().checkDenominationAmount(500) != 10) {
+        } else if (checkout.getMoney().getSpecificDenominationAmounts(500) != 10) {
             correctMoney = false;
-        } else if (checkout.getMoney().checkDenominationAmount(200) != 10) {
+        } else if (checkout.getMoney().getSpecificDenominationAmounts(200) != 10) {
             correctMoney = false;
-        } else if (checkout.getMoney().checkDenominationAmount(100) != 11) {
+        } else if (checkout.getMoney().getSpecificDenominationAmounts(100) != 11) {
             correctMoney = false;
         }
         assertTrue(correctMoney, "not good");
@@ -308,7 +308,7 @@ public class CheckoutTest {
         // B -> A Båge 2
         checkout.logoutEmployee();
 
-        int balance = checkout.getMoney().checkAmount();
+        int balance = checkout.getMoney().getBalance();
         Assertions.assertEquals(1896000, balance); //Money in checkout is correct
         Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
     }
