@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.servlet.server.Session;
@@ -174,10 +175,11 @@ public class CheckoutTest {
         } else if (checkout.getMoney().checkDenominationAmount(100) != 11) {
             correctMoney = false;
         }
+    }
 
     //PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney
     @Test
-    void PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney(){
+    void PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney (){
         Checkout c = new Checkout();
         c.loginEmployee(new Employee("Lisa", 30000));
         TreeMap<Integer,Integer> moneyMap = new TreeMap<>();
