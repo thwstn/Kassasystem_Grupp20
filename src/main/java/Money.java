@@ -146,7 +146,7 @@ public class Money {
                 sb.append(denomination / 100).append("(mynt): ").append(checkDenominationAmount(denomination)).append("\n");
             }
         }
-        sb.append("Total amount: ").append(checkAmount());
+        sb.append("Totalt: ").append(checkAmount() / 100).append("kr");
         return sb.toString();
     }
 }

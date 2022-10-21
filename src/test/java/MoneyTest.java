@@ -188,6 +188,6 @@ public class MoneyTest {
                 5(mynt): 10
                 2(mynt): 10
                 1(mynt): 10
-                Total amount: 1888000""", moneyWithBalanceNonZero.toString());
+                Totalt: 18880kr""", moneyWithBalanceNonZero.toString());
     }
 }
