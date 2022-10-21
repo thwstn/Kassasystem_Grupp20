@@ -1,17 +1,18 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class Employee {
-    private ArrayList<CheckOutSession> checkOutSessions = new ArrayList<>();
-    private ArrayList<Order> orders = new ArrayList<>();
     private String name;
-    private int salary;
+    private int monthly_salary;
     private final UUID employeeId;
+    private LocalDate employmentStartDate;
 
-    public Employee(String name, int salary) {
+    public Employee(String name, int monthly_salary) {
         this.name = name;
-        this.salary = salary;
+        this.monthly_salary = monthly_salary;
         this.employeeId = UUID.randomUUID();
+        employmentStartDate = LocalDate.now();
     }
 
     public String getName(){
@@ -19,40 +20,15 @@ public class Employee {
     }
 
     public int getSalary() {
-        return salary;
+        return monthly_salary;
     }
 
     public UUID getEmployeeID() {
         return employeeId;
     }
 
-    public ArrayList<CheckOutSession> getCheckOutSessions() {
-        return checkOutSessions;
+    public void changeMonthlySalary(int amount) {
+        this.monthly_salary = monthly_salary + amount;
     }
-
-    public void addOrder(Order order) {
-        orders.add(order);
-    }
-
-    public void addCheckOutSession(CheckOutSession cos) {
-        checkOutSessions.add(cos);
-    }
-
-    public ArrayList<Order> getOrders() {
-        return orders;
-    }
-
-    /*
-    @Override
-    public ArrayList<CheckOutSession> getCheckOutSessions(int employeeId) {
-        ArrayList<CheckOutSession> employeeCheckOutSessions = new ArrayList<>();
-        for (CheckOutSession cos : checkOutSessions) {
-            if (cos.getEmployeeId() == employeeId) {
-                employeeCheckOutSessions.add(cos);
-            }
-        }
-        return employeeCheckOutSessions;
-    }
-    */
 
 }

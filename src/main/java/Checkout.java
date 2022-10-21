@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.UUID;
 
 public class Checkout {
@@ -5,9 +7,12 @@ public class Checkout {
     private CheckOutSession checkOutSession;
     private Money money;
     private Order order;
+    private final ArrayList<Order> parkedOrders = new ArrayList<>();
     protected FakeCheckOutSessionDatabase checkOutSessionDatabase = new FakeCheckOutSessionDatabase();
     protected FakeProductDatabase productDatabase = new FakeProductDatabase();
     protected FakeOrderDatabase orderDatabase = new FakeOrderDatabase();
+    protected FakeEmployeeDatabase fakeEmployeeDatabase = new FakeEmployeeDatabase();
+
 
     public Checkout() {
         ID = UUID.randomUUID();
@@ -59,6 +64,9 @@ public class Checkout {
         checkOutSession = new CheckOutSession(employee);
     }
 
+    public void addCustomerToOrder(Customer customer){
+        this.order.setCustomer(customer);
+    }
     public void scanEAN(long ean) {
         EAN eanToCheck = new EAN(ean);
         Product product = productDatabase.getProductFromDatabase(eanToCheck);
@@ -75,17 +83,21 @@ public class Checkout {
         }
     }
 
-    public void payWithCard() {
-        order.debitOrder();
+    public String payWithCard() {
+        if (!this.order.getEmployee().equals(this.checkOutSession.getEmployee())){
+            order.setEmployee(this.checkOutSession.getEmployee());
+        }
+        String receipt = order.finalizeOrder();
         orderDatabase.addOrder(order);
         order = null;
+        return receipt;
     }
 
     public void addMoney(Money money) {
         this.money = this.money.add(money);
     }
 
-    public void payWithCash(Money moneyFromCustomer) {
+    public String payWithCash(Money moneyFromCustomer) {
         if (moneyFromCustomer.getBalance() < order.getTotalAmount() * 100) {
             throw new IllegalArgumentException("You have not paid enough money");
         }
@@ -94,13 +106,43 @@ public class Checkout {
         money = money.add(moneyFromCustomer);
         if (money.giveChange(moneyToGet) == null) {
             money = money.remove(moneyFromCustomer);
-            return;
+            throw new IllegalStateException("Not enough change in checkout");
         }
 
         money = money.remove(money.giveChange(moneyToGet));
-        order.debitOrder();
+        if (!this.order.getEmployee().equals(this.checkOutSession.getEmployee())){
+            order.setEmployee(this.checkOutSession.getEmployee());
+        }
+        String receipt = order.finalizeOrder();
         orderDatabase.addOrder(order);
         order = null;
+        return receipt;
+    }
+
+    public void parkOrder() {
+        parkedOrders.add(this.order);
+        this.order = null;
+
+    }
+
+    public Order getParkedOrder(String customerName) {
+        for (Order o : parkedOrders) {
+            if(o.getCustomer().getName().equals(customerName)){
+                return o;
+            }
+        }
+        return null;
+    }
+
+    public void unparkOrder(String customerName) {
+        Iterator<Order> iterator = parkedOrders.iterator();
+        while(iterator.hasNext()){
+            Order o = iterator.next();
+            if(o.getCustomer().getName().equals(customerName)){
+                this.order = o;
+                iterator.remove();
+            }
+        }
     }
 }
 

@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -144,8 +145,61 @@ public class CheckoutTest {
     }
 
     //PaywithCashGivesCorrectDenominationsInChange
+    @Test
+    void payWithCashGivesCorrectDenominationsInChange() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.addMoney(money);
+        checkout.scanEAN(9684736485769L);
+        checkout.scanEAN(9684736485769L);
+        checkout.scanEAN(961063847583L);
 
-    //PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney
+        Money moneyFromCustomer = new Money();
+        moneyFromCustomer = moneyFromCustomer.add(100000);
+        moneyFromCustomer = moneyFromCustomer.add(50000);
+        moneyFromCustomer = moneyFromCustomer.add(100);
+
+        checkout.payWithCash(moneyFromCustomer);
+
+        boolean correctMoney = true;
+        if (checkout.getMoney().checkDenominationAmount(100000) != 11) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(50000) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(20000) != 8) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(10000) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(5000) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(2000) != 8) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(1000) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(500) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(200) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(100) != 11) {
+            correctMoney = false;
+        }
+        assertTrue(correctMoney, "not good");
+    }
+
+    @Test
+    void PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney() {
+        Checkout c = new Checkout();
+        c.loginEmployee(new Employee("Lisa", 30000));
+        TreeMap<Integer, Integer> moneyMap = new TreeMap<>();
+        moneyMap.put(50000, 10);
+        Money newMoney = new Money(moneyMap);
+        c.addMoney(newMoney);
+        c.scanEAN(917263847583L);
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        map.put(1000, 1);
+        Assertions.assertThrows(IllegalStateException.class, () -> c.payWithCash((new Money(map))));
+    }
 
     @Test
     void PayWithCashAndNotEnoughMoneyThrowsException() {
@@ -171,6 +225,92 @@ public class CheckoutTest {
 
         assertThrows(IllegalArgumentException.class, () ->
                 checkout.payWithCash(new Money()));
+    }
+
+    @Test
+    void ParkingOrderCorrectlyPlacesItInParkingList() {
+        Checkout c = new Checkout();
+        c.loginEmployee(new Employee("Lisa", 30000));
+        c.scanEAN(917563848693L);
+        Customer customer = new Customer("Pelle", 12);
+        c.addCustomerToOrder(customer);
+        c.scanEAN(917563848693L);
+        c.scanEAN(917563849363L);
+        Order tempOrder = c.getOrder();
+        c.parkOrder();
+        Assertions.assertEquals(tempOrder, c.getParkedOrder("Pelle"));
+    }
+
+    @Test
+    void UnparkingOrderCorrectlyPlacesTheParkedOrderAsTheActiveOrder() {
+        Checkout c = new Checkout();
+        c.loginEmployee(new Employee("Lisa", 30000));
+        c.scanEAN(917563848693L);
+        Customer customer = new Customer("Pelle", 12);
+        c.addCustomerToOrder(customer);
+        c.scanEAN(917563848693L);
+        c.scanEAN(917563849363L);
+        Order tempOrder = c.getOrder();
+        c.parkOrder();
+        c.unparkOrder("Pelle");
+        Assertions.assertEquals(tempOrder, c.getOrder());
+        Assertions.assertNull(c.getParkedOrder("Pelle"));
+    }
+
+    @Test
+    void TestingTwoPurchasesGoesThrough(){
+        Checkout checkout = new Checkout();
+        Customer customer = new Customer("Olof", 97);
+        checkout.addMoney(money);
+        Employee employee = checkout.fakeEmployeeDatabase.getEmployee("Anna");
+
+        //A -> B Båge 1
+        checkout.loginEmployee(employee);
+
+        //B -> C Båge 3
+        checkout.scanEAN(961063847583L);
+
+        //C -> C Båge 6
+        checkout.scanEAN(917563840003L);
+
+        //C -> B Båge 4
+        checkout.addCustomerToOrder(customer);
+        checkout.parkOrder();
+
+        //B -> C Båge 3 & 6
+        checkout.scanEAN(917563847583L);
+        checkout.scanEAN(9485736253926L);
+        checkout.scanEAN(928374658273L);
+        checkout.scanEAN(8573928374659L);
+        checkout.scanEAN(8573928374659L);
+        checkout.scanEAN(8573928374659L);
+        checkout.scanEAN(917563927583L);
+        checkout.scanEAN(917563849363L);
+
+        // C -> D -> E -> B Båge 7 & 8 & 10
+        Money customerMoney = new Money();
+        customerMoney = customerMoney.add(50000);
+        String receipt1 = checkout.payWithCash(customerMoney);
+
+        // B -> A Båge 2
+        checkout.logoutEmployee();
+
+        // A -> B Båge 1
+        Employee employee2 = (checkout.fakeEmployeeDatabase.getEmployee("Daniella"));
+        checkout.loginEmployee(employee2);
+
+        // B -> C Båge 5
+        checkout.unparkOrder("Olof");
+
+        // C -> E -> B Båge 9 & 10
+        String receipt2 = checkout.payWithCard();
+
+        // B -> A Båge 2
+        checkout.logoutEmployee();
+
+        int balance = checkout.getMoney().checkAmount();
+        Assertions.assertEquals(1896000, balance); //Money in checkout is correct
+        Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
     }
 }
 
