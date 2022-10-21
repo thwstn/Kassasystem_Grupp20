@@ -220,7 +220,7 @@ public class OrderTest {
     }
 
     @Test
-    void PrintReceiptFormatsCorrectly(){
+    void GetReceiptFormatsCorrectly(){
         fillOrderWIthRealData();
         Assertions.assertEquals("""
                 \t\t\tBillys
@@ -243,7 +243,7 @@ public class OrderTest {
     }
 
     @Test
-    void RemovingOrderLineToOrderThatIsPaidThrowsException(){
+    void RemovingOrderLineFromOrderThatIsPaidThrowsException(){
         order.addOrderLineToList(orderLine1);
         order.debitOrder();
         Assertions.assertThrows(IllegalStateException.class, () -> order.removeOrderLineFromList(orderLine1));

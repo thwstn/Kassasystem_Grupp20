@@ -17,6 +17,7 @@ public class Checkout {
     public UUID getID() {
         return ID;
     }
+
     public CheckOutSession getCheckOutSession() {
         return checkOutSession;
     }
@@ -33,14 +34,17 @@ public class Checkout {
         Employee employee = checkOutSession.getEmployee();
         order = new Order(employee);
     }
+
     public void removeOrder() {
         order = null;
     }
+
     public void loginEmployee(Employee employee) {
         if (checkOutSession == null) {
             checkOutSession = new CheckOutSession(employee);
         } else throw new IllegalStateException("You cant login! Someone else is already logged in!");
     }
+
     public void logoutEmployee() {
         if (checkOutSession != null) {
             checkOutSession.addEndDateToSession();
@@ -48,6 +52,7 @@ public class Checkout {
             checkOutSession = null;
         } else throw new IllegalStateException("Nobody is logged in!");
     }
+
     public void changeEmployee(Employee employee) {
         checkOutSession.addEndDateToSession();
         checkOutSessionDatabase.addCheckOutSession(checkOutSession);
@@ -62,7 +67,7 @@ public class Checkout {
             return;
         }
         OrderLine orderLine = new OrderLine(product.getName(), product.getPriceIncVat(), 1);
-        if(order == null) {
+        if (order == null) {
             addNewEmptyOrder();
             order.addOrderLineToList(orderLine);
         } else {
@@ -81,18 +86,21 @@ public class Checkout {
     }
 
     public void payWithCash(Money moneyFromCustomer) {
+        if (moneyFromCustomer.checkAmount() < order.getTotalAmount() * 100) {
+            throw new IllegalArgumentException("You have not paid enough money");
+        }
 
         double moneyToGet = moneyFromCustomer.checkAmount() - Math.round(order.getTotalAmount()) * 100;
         money = money.add(moneyFromCustomer);
-        if(money.giveChange(moneyToGet) == null){
+        if (money.giveChange(moneyToGet) == null) {
             money = money.remove(moneyFromCustomer);
-            return;
+            throw new IllegalStateException("Not enough change in checkout");
         }
+
         money = money.remove(money.giveChange(moneyToGet));
         order.debitOrder();
         orderDatabase.addOrder(order);
         order = null;
-
     }
 }
 

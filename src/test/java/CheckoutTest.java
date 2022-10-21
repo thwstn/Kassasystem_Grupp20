@@ -144,14 +144,14 @@ public class CheckoutTest {
         checkout.scanEAN(9684736485769L);
         checkout.scanEAN(9684736485769L);
         checkout.scanEAN(961063847583L);
-        
+
         Money moneyFromCustomer = new Money();
         moneyFromCustomer = moneyFromCustomer.add(100000);
         moneyFromCustomer = moneyFromCustomer.add(50000);
         moneyFromCustomer = moneyFromCustomer.add(100);
-        
+
         checkout.payWithCash(moneyFromCustomer);
-        
+
         boolean correctMoney = true;
         if (checkout.getMoney().checkDenominationAmount(100000) != 11) {
             correctMoney = false;
@@ -175,45 +175,46 @@ public class CheckoutTest {
             correctMoney = false;
         }
 
-        assertTrue(correctMoney);
+    //PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney
+    @Test
+    void PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney(){
+        Checkout c = new Checkout();
+        c.loginEmployee(new Employee("Lisa", 30000));
+        TreeMap<Integer,Integer> moneyMap = new TreeMap<>();
+        moneyMap.put(50000,10);
+        Money newMoney = new Money(moneyMap);
+        c.addMoney(newMoney);
+        c.scanEAN(917263847583L);
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        map.put(1000,1);
+        Assertions.assertThrows(IllegalStateException.class, () -> c.payWithCash((new Money(map))));
     }
 
-    /*@Test
-    void payWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney() {
-        //Create checkout
-        Checkout checkout =  new Checkout();
+    @Test
+    void PayWithCashAndNotEnoughMoneyThrowsException() {
+        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.addMoney(money);
+        checkout.scanEAN(917563848693L);
+        Money moneyPayment = new Money();
+        moneyPayment.add(500);
 
-        //customer 1
-        checkout.scanEAN(8573928374659L);
-        checkout.scanEAN(8573928374659L);
-        Money moneyFromCustomer1 = new Money();
-        moneyFromCustomer1.add(2000);
-        checkout.payWithCash(moneyFromCustomer1);
+        assertThrows(IllegalArgumentException.class, () ->
+                checkout.payWithCash(moneyPayment));
+    }
 
-        //customer 2
-        checkout.scanEAN(8573928374659L);
-        checkout.scanEAN(8573928374659L);
-        Money moneyFromCustomer2 =  new Money();
-        moneyFromCustomer2.add(2000);
-        checkout.payWithCash(moneyFromCustomer2);
+    @Test
+    void customerPaysCashWithZeroMoney() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.addMoney(money);
+        checkout.scanEAN(917563848693L);
 
-        //customer 3 and change should not be able to be given
-        checkout.scanEAN(8573928374659L);
-        checkout.scanEAN(8573928374659L);
-        Money moneyFromCustomer3 = new Money();
-        moneyFromCustomer3.add(2000);
-        checkout.payWithCash(moneyFromCustomer3);
-    }*/
-
-    //PayWithCashAndNotEnoughMoneyThrowsException
-
-
-
-
-
+        assertThrows(IllegalArgumentException.class, () ->
+                checkout.payWithCash(new Money()));
+    }
 }
 
 /*public class CheckoutTest {
