@@ -86,11 +86,11 @@ public class Checkout {
     }
 
     public void payWithCash(Money moneyFromCustomer) {
-        if (moneyFromCustomer.checkAmount() < order.getTotalAmount() * 100) {
+        if (moneyFromCustomer.getBalance() < order.getTotalAmount() * 100) {
             throw new IllegalArgumentException("You have not paid enough money");
         }
 
-        double moneyToGet = moneyFromCustomer.checkAmount() - Math.round(order.getTotalAmount()) * 100;
+        double moneyToGet = moneyFromCustomer.getBalance() - Math.round(order.getTotalAmount()) * 100;
         money = money.add(moneyFromCustomer);
         if (money.giveChange(moneyToGet) == null) {
             money = money.remove(moneyFromCustomer);

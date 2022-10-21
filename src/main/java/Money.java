@@ -11,6 +11,9 @@ public class Money {
     }
 
     public Money(TreeMap<Integer, Integer> denominations) {
+        if (denominations == null) {
+            throw new IllegalArgumentException("Cannot create money with null");
+        }
         for (int denomination : denominations.keySet()) {
             if (denominations.get(denomination) < 0) {
                 throw new IllegalArgumentException("Cannot have negative balance of any denomination");
@@ -25,6 +28,17 @@ public class Money {
             }
         }
         this.denominationAmounts = denominations;
+    }
+
+    private void helpMe(TreeMap<Integer, Integer> asd) {
+        for (int denomination : asd.keySet()) {
+            if (asd.get(denomination) < 0) {
+                throw new IllegalArgumentException("Cannot have negative balance of any denomination");
+            }
+            if (!DENOMINATION_LIST.contains(denomination)) {
+                throw new IllegalArgumentException("Not a valid denomination");
+            }
+        }
     }
 
     private TreeMap<Integer, Integer> createEmptyMoneyMap() {
@@ -54,11 +68,11 @@ public class Money {
         return createNewFilledMoneyMap((denominationAmounts));
     }
 
-    public int checkDenominationAmount(int denomination) {
+    public int getSpecificDenominationAmounts(int denomination) {
         return denominationAmounts.get(denomination);
     }
 
-    public int checkAmount() {
+    public int getBalance() {
         int balance = 0;
         for (int denomination : denominationAmounts.keySet()) {
             int tempBalance = denominationAmounts.get(denomination) * denomination;
@@ -102,7 +116,7 @@ public class Money {
     }
 
     public Money remove(Money incomingMoney) {
-        if (incomingMoney.checkAmount() > this.checkAmount()) {
+        if (incomingMoney.getBalance() > this.getBalance()) {
             throw new IllegalArgumentException("Not enough money in balance");
         }
         TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
@@ -141,13 +155,15 @@ public class Money {
         StringBuilder sb = new StringBuilder();
         for (int denomination : DENOMINATION_LIST) {
             if (denomination >= 2000) {
-                sb.append(denomination / 100).append("(sedlar): ").append(checkDenominationAmount(denomination)).append("\n");
+                sb.append(denomination / 100).append("(sedlar): ").append
+                        (getSpecificDenominationAmounts(denomination)).append("\n");
             }
             if (denomination <= 1000) {
-                sb.append(denomination / 100).append("(mynt): ").append(checkDenominationAmount(denomination)).append("\n");
+                sb.append(denomination / 100).append("(mynt): ").append
+                        (getSpecificDenominationAmounts(denomination)).append("\n");
             }
         }
-        sb.append("Totalt: ").append(checkAmount() / 100).append("kr");
+        sb.append("Totalt: ").append(getBalance() / 100).append("kr");
         return sb.toString();
     }
 }

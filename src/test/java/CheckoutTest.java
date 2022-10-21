@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.web.servlet.server.Session;
 
-import javax.swing.*;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,7 +41,7 @@ public class CheckoutTest {
     @Test
     void moneyIsEmptyByDefault() {
         Checkout checkout = new Checkout();
-        assertEquals(0, checkout.getMoney().checkAmount(), "Money balance should be zero by defualt");
+        assertEquals(0, checkout.getMoney().getBalance(), "Money balance should be zero by defualt");
     }
 
     @Test
@@ -128,7 +126,7 @@ public class CheckoutTest {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.addMoney(money);
-        assertEquals(10, checkout.getMoney().checkDenominationAmount(100000), "Money is not aded to checkout");
+        assertEquals(10, checkout.getMoney().getSpecificDenominationAmounts(100000), "Money is not aded to checkout");
     }
 
     @Test
@@ -142,7 +140,7 @@ public class CheckoutTest {
         Money moneyFromCustomer = new Money();
         moneyFromCustomer = moneyFromCustomer.add(50000);
         checkout.payWithCash(moneyFromCustomer);
-        assertEquals(1888000 + 5700, checkout.getMoney().checkAmount());
+        assertEquals(1888000 + 5700, checkout.getMoney().getBalance());
     }
 
     //PaywithCashGivesCorrectDenominationsInChange

@@ -61,7 +61,7 @@ public class MoneyTest {
         newMoneySetup.put(100, 1);
 
         Money createMoneyWithMoneyTest = new Money(newMoneySetup);
-        assertEquals(188800, createMoneyWithMoneyTest.checkAmount());
+        assertEquals(188800, createMoneyWithMoneyTest.getBalance());
     }
 
     @ParameterizedTest(name = "{index} The map contains {0}, a valid denomination")
@@ -85,20 +85,20 @@ public class MoneyTest {
 
     @Test
     void checkAmountOfMoney() {
-        assertEquals(1888000, moneyWithBalanceNonZero.checkAmount());
+        assertEquals(1888000, moneyWithBalanceNonZero.getBalance());
     }
 
     @Test
     void addOneUnitOfMoney() {
         Money newMoney = moneyWithBalanceZero.add(1000);
-        assertEquals(1000, newMoney.checkAmount());
+        assertEquals(1000, newMoney.getBalance());
     }
 
     @Test
     void addMoneyToMoney() {
         Money newMoney = moneyWithBalanceZero.add(1000);
         Money moreNewMoney = moneyWithBalanceNonZero.add(newMoney);
-        assertEquals(1888000 + 1000, moreNewMoney.checkAmount());
+        assertEquals(1888000 + 1000, moreNewMoney.getBalance());
     }
 
     @Test
@@ -110,7 +110,7 @@ public class MoneyTest {
     @Test
     void removeOneUnitOfMoney() {
         Money newMoney = moneyWithBalanceNonZero.remove(1000);
-        assertEquals(1888000 - 1000, newMoney.checkAmount());
+        assertEquals(1888000 - 1000, newMoney.getBalance());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class MoneyTest {
     @Test
     void removeMoneyFromMoney() {
         Money newMoney = moneyWithBalanceNonZero.remove(moneyWithBalanceNonZero);
-        assertEquals(0, newMoney.checkAmount());
+        assertEquals(0, newMoney.getBalance());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class MoneyTest {
     void addMoneyTwice() {
         Money newMoney = moneyWithBalanceZero.add(1000);
         Money moreNewMoney = newMoney.add(10000);
-        assertEquals(11000, moreNewMoney.checkAmount());
+        assertEquals(11000, moreNewMoney.getBalance());
     }
 
     @Test
@@ -144,12 +144,12 @@ public class MoneyTest {
         Money moreNewMoney = newMoney.add(10000);
         Money evenMoreNewMoney = moreNewMoney.add(newMoney);
         Money singleAddMoney = evenMoreNewMoney.add(10000);
-        assertEquals(40000, singleAddMoney.checkAmount());
+        assertEquals(40000, singleAddMoney.getBalance());
     }
 
     @Test
     void checkSpecificDenomination() {
-        assertEquals(10, moneyWithBalanceNonZero.checkDenominationAmount(100));
+        assertEquals(10, moneyWithBalanceNonZero.getSpecificDenominationAmounts(100));
     }
 
     @Test
@@ -172,7 +172,13 @@ public class MoneyTest {
         TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
         newMoneyMap.put(100, 1);
         Money newMoney = new Money(newMoneyMap);
-        assertEquals(0, newMoney.checkDenominationAmount(200));
+        assertEquals(0, newMoney.getSpecificDenominationAmounts(200));
+    }
+
+    @Test
+    void constructorDoesNotAcceptNull() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new Money(null));
     }
 
     @Test
