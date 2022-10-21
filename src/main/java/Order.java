@@ -5,7 +5,7 @@ public class Order {
     private List<OrderLine> orderLines = new ArrayList<>();
     private static final Customer NOT_REGISTERED_CUSTOMER = new Customer("Kund", 0);
     private final UUID orderID;
-    private final Employee employee;
+    private  Employee employee;
     private final Date date;
     private Customer customer;
     private double totalAmount;
@@ -50,6 +50,14 @@ public class Order {
 
     public Date getDate (){
         return this.date;
+    }
+
+    public Employee getEmployee(){
+        return this.employee;
+    }
+
+    public void setEmployee(Employee employee){
+        this.employee = employee;
     }
 
     public Customer getCustomer(){
@@ -129,8 +137,10 @@ public class Order {
     }
 
 
-    public void debitOrder() {
+    public String finalizeOrder() {
         orderIsPaid = true;
+            return this.getReceipt();
+
     }
 
     //TODO En debit metod som avslutar köpet, metoden skickar ut data dit den ska lagras och t.ex. drar pengar från kassan.

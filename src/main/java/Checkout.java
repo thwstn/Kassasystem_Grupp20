@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.UUID;
 
 public class Checkout {
@@ -10,6 +11,7 @@ public class Checkout {
     protected FakeCheckOutSessionDatabase checkOutSessionDatabase = new FakeCheckOutSessionDatabase();
     protected FakeProductDatabase productDatabase = new FakeProductDatabase();
     protected FakeOrderDatabase orderDatabase = new FakeOrderDatabase();
+    protected FakeEmployeeDatabase fakeEmployeeDatabase = new FakeEmployeeDatabase();
 
 
     public Checkout() {
@@ -81,17 +83,21 @@ public class Checkout {
         }
     }
 
-    public void payWithCard() {
-        order.debitOrder();
+    public String payWithCard() {
+        if (!this.order.getEmployee().equals(this.checkOutSession.getEmployee())){
+            order.setEmployee(this.checkOutSession.getEmployee());
+        }
+        String receipt = order.finalizeOrder();
         orderDatabase.addOrder(order);
         order = null;
+        return receipt;
     }
 
     public void addMoney(Money money) {
         this.money = this.money.add(money);
     }
 
-    public void payWithCash(Money moneyFromCustomer) {
+    public String payWithCash(Money moneyFromCustomer) {
         if (moneyFromCustomer.checkAmount() < order.getTotalAmount() * 100) {
             throw new IllegalArgumentException("You have not paid enough money");
         }
@@ -104,9 +110,13 @@ public class Checkout {
         }
 
         money = money.remove(money.giveChange(moneyToGet));
-        order.debitOrder();
+        if (!this.order.getEmployee().equals(this.checkOutSession.getEmployee())){
+            order.setEmployee(this.checkOutSession.getEmployee());
+        }
+        String receipt = order.finalizeOrder();
         orderDatabase.addOrder(order);
         order = null;
+        return receipt;
     }
 
     public void parkOrder() {
@@ -115,13 +125,24 @@ public class Checkout {
 
     }
 
-    public Order getParkedOrder(String name) {
+    public Order getParkedOrder(String customerName) {
         for (Order o : parkedOrders) {
-            if(o.getCustomer().getName().equals(name)){
+            if(o.getCustomer().getName().equals(customerName)){
                 return o;
             }
         }
         return null;
+    }
+
+    public void unparkOrder(String customerName) {
+        Iterator<Order> iterator = parkedOrders.iterator();
+        while(iterator.hasNext()){
+            Order o = iterator.next();
+            if(o.getCustomer().getName().equals(customerName)){
+                this.order = o;
+                iterator.remove();
+            }
+        }
     }
 }
 

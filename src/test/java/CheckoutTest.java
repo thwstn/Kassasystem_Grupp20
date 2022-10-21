@@ -9,7 +9,6 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-
 public class CheckoutTest {
 
     private Money money;
@@ -29,26 +28,31 @@ public class CheckoutTest {
         denominations.put(100, 10);
         money = new Money(denominations);
     }
+
     @Test
     void getIDReturnsUUID() {
         Checkout checkout = new Checkout();
         assertEquals(true, checkout.getID() instanceof UUID, "Wrong type for ID");
     }
+
     @Test
     void checkOutSessionIsNullByDefault() {
         Checkout checkout = new Checkout();
         assertEquals(null, checkout.getCheckOutSession(), "CheckOutSession should be null");
     }
+
     @Test
     void moneyIsEmptyByDefault() {
         Checkout checkout = new Checkout();
         assertEquals(0, checkout.getMoney().checkAmount(), "Money balance should be zero by defualt");
     }
+
     @Test
     void checkOutHasNoCurrentOrder() {
         Checkout checkout = new Checkout();
         assertEquals(null, checkout.getOrder());
     }
+
     @Test
     void logInEmployeeAndCreateASession() {
         Checkout checkout = new Checkout();
@@ -56,6 +60,7 @@ public class CheckoutTest {
         checkout.loginEmployee(employee);
         assertTrue(checkout.getCheckOutSession() != null, "Session should not be null");
     }
+
     @Test
     void logOutEmployeeAndEndSession() {
         Checkout checkout = new Checkout();
@@ -64,6 +69,7 @@ public class CheckoutTest {
         checkout.logoutEmployee();
         assertTrue(checkout.getCheckOutSession() == null);
     }
+
     @Test
     void changeEmployeeAndStartANewSession() {
         Checkout checkout = new Checkout();
@@ -73,6 +79,7 @@ public class CheckoutTest {
         checkout.changeEmployee(employee2);
         assertEquals("Harald", checkout.getCheckOutSession().getEmployee().getName(), "Employee not changed, or never set at all");
     }
+
     @Test
     void createEmptyOrderWhileLoggedIn() {
         Checkout checkout = new Checkout();
@@ -82,6 +89,7 @@ public class CheckoutTest {
         //checkout.addNewEmptyOrder();
         assertTrue(checkout.getOrder() != null);
     }
+
     //createEmptyOrderWhileLoggedOut
     @Test
     void removeOrder() {
@@ -93,6 +101,7 @@ public class CheckoutTest {
         checkout.removeOrder();
         assertEquals(null, checkout.getOrder(), "Order exist but i should not");
     }
+
     @Test
     void scanEANWithNoActiveOrderCreatesNewOrder() {
         Checkout checkout = new Checkout();
@@ -101,6 +110,7 @@ public class CheckoutTest {
         checkout.scanEAN(917563847583L);
         assertTrue(checkout.getOrder() != null);
     }
+
     @Test
     void payWithCardUpdatesOrderDatabase() {
         Checkout checkout = new Checkout();
@@ -121,6 +131,7 @@ public class CheckoutTest {
         checkout.addMoney(money);
         assertEquals(10, checkout.getMoney().checkDenominationAmount(100000), "Money is not aded to checkout");
     }
+
     @Test
     void payWithCashUpdatesMoney() {
         Checkout checkout = new Checkout();
@@ -175,19 +186,20 @@ public class CheckoutTest {
         } else if (checkout.getMoney().checkDenominationAmount(100) != 11) {
             correctMoney = false;
         }
+        assertTrue(correctMoney, "not good");
     }
 
     @Test
-    void PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney (){
+    void PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney() {
         Checkout c = new Checkout();
         c.loginEmployee(new Employee("Lisa", 30000));
-        TreeMap<Integer,Integer> moneyMap = new TreeMap<>();
-        moneyMap.put(50000,10);
+        TreeMap<Integer, Integer> moneyMap = new TreeMap<>();
+        moneyMap.put(50000, 10);
         Money newMoney = new Money(moneyMap);
         c.addMoney(newMoney);
         c.scanEAN(917263847583L);
         TreeMap<Integer, Integer> map = new TreeMap<>();
-        map.put(1000,1);
+        map.put(1000, 1);
         Assertions.assertThrows(IllegalStateException.class, () -> c.payWithCash((new Money(map))));
     }
 
@@ -218,7 +230,7 @@ public class CheckoutTest {
     }
 
     @Test
-    void ParkingOrderCorrectlyPlacesItInParkingList(){
+    void ParkingOrderCorrectlyPlacesItInParkingList() {
         Checkout c = new Checkout();
         c.loginEmployee(new Employee("Lisa", 30000));
         c.scanEAN(917563848693L);
@@ -232,7 +244,79 @@ public class CheckoutTest {
     }
 
     @Test
-    void UnparkingOrderCorrectlyPlacesTheParkedOrderAsTheActiveOrder(){
+    void UnparkingOrderCorrectlyPlacesTheParkedOrderAsTheActiveOrder() {
+        Checkout c = new Checkout();
+        c.loginEmployee(new Employee("Lisa", 30000));
+        c.scanEAN(917563848693L);
+        Customer customer = new Customer("Pelle", 12);
+        c.addCustomerToOrder(customer);
+        c.scanEAN(917563848693L);
+        c.scanEAN(917563849363L);
+        Order tempOrder = c.getOrder();
+        c.parkOrder();
+        c.unparkOrder("Pelle");
+        Assertions.assertEquals(tempOrder, c.getOrder());
+        Assertions.assertNull(c.getParkedOrder("Pelle"));
+    }
+
+    @Test
+    void TestingTwoPurchasesGoesThrough(){
+        Checkout checkout = new Checkout();
+        Customer customer = new Customer("Olof", 97);
+        checkout.addMoney(money);
+        Employee employee = checkout.fakeEmployeeDatabase.getEmployee("Anna");
+
+        //A -> B Båge 1
+        checkout.loginEmployee(employee);
+
+        //B -> C Båge 3
+        checkout.scanEAN(961063847583L);
+
+        //C -> C Båge 6
+        checkout.scanEAN(917563840003L);
+
+        //C -> B Båge 4
+        checkout.addCustomerToOrder(customer);
+        checkout.parkOrder();
+
+        //B -> C Båge 3 & 6
+        checkout.scanEAN(917563847583L);
+        checkout.scanEAN(9485736253926L);
+        checkout.scanEAN(928374658273L);
+        checkout.scanEAN(8573928374659L);
+        checkout.scanEAN(8573928374659L);
+        checkout.scanEAN(8573928374659L);
+        checkout.scanEAN(917563927583L);
+        checkout.scanEAN(917563849363L);
+
+        // C -> D -> E -> B Båge 7 & 8 & 10
+        Money customerMoney = new Money();
+        customerMoney = customerMoney.add(50000);
+        String receipt1 = checkout.payWithCash(customerMoney);
+
+        // B -> A Båge 2
+        checkout.logoutEmployee();
+
+        // A -> B Båge 1
+        Employee employee2 = (checkout.fakeEmployeeDatabase.getEmployee("Daniella"));
+        checkout.loginEmployee(employee2);
+
+        // B -> C Båge 5
+        checkout.unparkOrder("Olof");
+
+        // C -> E -> B Båge 9 & 10
+        String receipt2 = checkout.payWithCard();
+
+        // B -> A Båge 2
+        checkout.logoutEmployee();
+
+        int balance = checkout.getMoney().checkAmount();
+        Assertions.assertEquals(1896000, balance); //Money in checkout is correct
+        Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
+        System.out.println(receipt1);
+        System.out.println(receipt2);
+
+
 
     }
 }
