@@ -135,8 +135,78 @@ public class CheckoutTest {
     }
 
     //PaywithCashGivesCorrectDenominationsInChange
+    @Test
+    void payWithCashGivesCorrectDenominationsInChange() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.addMoney(money);
+        checkout.scanEAN(9684736485769L);
+        checkout.scanEAN(9684736485769L);
+        checkout.scanEAN(961063847583L);
+        
+        Money moneyFromCustomer = new Money();
+        moneyFromCustomer = moneyFromCustomer.add(100000);
+        moneyFromCustomer = moneyFromCustomer.add(50000);
+        moneyFromCustomer = moneyFromCustomer.add(100);
+        
+        checkout.payWithCash(moneyFromCustomer);
+        
+        boolean correctMoney = true;
+        if (checkout.getMoney().checkDenominationAmount(100000) != 11) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(50000) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(20000) != 8) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(10000) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(5000) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(2000) != 8) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(1000) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(500) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(200) != 10) {
+            correctMoney = false;
+        } else if (checkout.getMoney().checkDenominationAmount(100) != 11) {
+            correctMoney = false;
+        }
 
-    //PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney
+        assertTrue(correctMoney);
+    }
+
+    /*@Test
+    void payWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney() {
+        //Create checkout
+        Checkout checkout =  new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.addMoney(money);
+
+        //customer 1
+        checkout.scanEAN(8573928374659L);
+        checkout.scanEAN(8573928374659L);
+        Money moneyFromCustomer1 = new Money();
+        moneyFromCustomer1.add(2000);
+        checkout.payWithCash(moneyFromCustomer1);
+
+        //customer 2
+        checkout.scanEAN(8573928374659L);
+        checkout.scanEAN(8573928374659L);
+        Money moneyFromCustomer2 =  new Money();
+        moneyFromCustomer2.add(2000);
+        checkout.payWithCash(moneyFromCustomer2);
+
+        //customer 3 and change should not be able to be given
+        checkout.scanEAN(8573928374659L);
+        checkout.scanEAN(8573928374659L);
+        Money moneyFromCustomer3 = new Money();
+        moneyFromCustomer3.add(2000);
+        checkout.payWithCash(moneyFromCustomer3);
+    }*/
 
     //PayWithCashAndNotEnoughMoneyThrowsException
 
