@@ -8,7 +8,6 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-
 public class CheckoutTest {
 
     private Money money;
@@ -28,26 +27,31 @@ public class CheckoutTest {
         denominations.put(100, 10);
         money = new Money(denominations);
     }
+
     @Test
     void getIDReturnsUUID() {
         Checkout checkout = new Checkout();
         assertEquals(true, checkout.getID() instanceof UUID, "Wrong type for ID");
     }
+
     @Test
     void checkOutSessionIsNullByDefault() {
         Checkout checkout = new Checkout();
         assertEquals(null, checkout.getCheckOutSession(), "CheckOutSession should be null");
     }
+
     @Test
     void moneyIsEmptyByDefault() {
         Checkout checkout = new Checkout();
         assertEquals(0, checkout.getMoney().checkAmount(), "Money balance should be zero by defualt");
     }
+
     @Test
     void checkOutHasNoCurrentOrder() {
         Checkout checkout = new Checkout();
         assertEquals(null, checkout.getOrder());
     }
+
     @Test
     void logInEmployeeAndCreateASession() {
         Checkout checkout = new Checkout();
@@ -55,6 +59,7 @@ public class CheckoutTest {
         checkout.loginEmployee(employee);
         assertTrue(checkout.getCheckOutSession() != null, "Session should not be null");
     }
+
     @Test
     void logOutEmployeeAndEndSession() {
         Checkout checkout = new Checkout();
@@ -63,6 +68,7 @@ public class CheckoutTest {
         checkout.logoutEmployee();
         assertTrue(checkout.getCheckOutSession() == null);
     }
+
     @Test
     void changeEmployeeAndStartANewSession() {
         Checkout checkout = new Checkout();
@@ -72,6 +78,7 @@ public class CheckoutTest {
         checkout.changeEmployee(employee2);
         assertEquals("Harald", checkout.getCheckOutSession().getEmployee().getName(), "Employee not changed, or never set at all");
     }
+
     @Test
     void createEmptyOrderWhileLoggedIn() {
         Checkout checkout = new Checkout();
@@ -81,6 +88,7 @@ public class CheckoutTest {
         //checkout.addNewEmptyOrder();
         assertTrue(checkout.getOrder() != null);
     }
+
     //createEmptyOrderWhileLoggedOut
     @Test
     void removeOrder() {
@@ -92,6 +100,7 @@ public class CheckoutTest {
         checkout.removeOrder();
         assertEquals(null, checkout.getOrder(), "Order exist but i should not");
     }
+
     @Test
     void scanEANWithNoActiveOrderCreatesNewOrder() {
         Checkout checkout = new Checkout();
@@ -100,6 +109,7 @@ public class CheckoutTest {
         checkout.scanEAN(917563847583L);
         assertTrue(checkout.getOrder() != null);
     }
+
     @Test
     void payWithCardUpdatesOrderDatabase() {
         Checkout checkout = new Checkout();
@@ -120,6 +130,7 @@ public class CheckoutTest {
         checkout.addMoney(money);
         assertEquals(10, checkout.getMoney().checkDenominationAmount(100000), "Money is not aded to checkout");
     }
+
     @Test
     void payWithCashUpdatesMoney() {
         Checkout checkout = new Checkout();
@@ -138,12 +149,31 @@ public class CheckoutTest {
 
     //PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney
 
-    //PayWithCashAndNotEnoughMoneyThrowsException
+    @Test
+    void PayWithCashAndNotEnoughMoneyThrowsException() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.addMoney(money);
+        checkout.scanEAN(917563848693L);
+        Money moneyPayment = new Money();
+        moneyPayment.add(500);
 
+        assertThrows(IllegalArgumentException.class, () ->
+                checkout.payWithCash(moneyPayment));
+    }
 
+    @Test
+    void customerPaysCashWithZeroMoney() {
+        Checkout checkout = new Checkout();
+        Employee employee = new Employee("Lisa", 30000);
+        checkout.loginEmployee(employee);
+        checkout.addMoney(money);
+        checkout.scanEAN(917563848693L);
 
-
-
+        assertThrows(IllegalArgumentException.class, () ->
+                checkout.payWithCash(new Money()));
+    }
 }
 
 /*public class CheckoutTest {

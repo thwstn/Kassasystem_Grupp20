@@ -120,16 +120,17 @@ public class Money {
         TreeMap<Integer, Integer> moneyLeft = new TreeMap<>(denominationAmounts);
         double remainingChangeToGet = changeToGet;
         for (int key : moneyLeft.descendingKeySet()) {
-            while(remainingChangeToGet >= key){
-                if(moneyLeft.get(key) > 0){
-                    moneyLeft.put(key,moneyLeft.get(key) - 1);
+            while (remainingChangeToGet >= key) {
+                if (moneyLeft.get(key) > 0) {
+                    moneyLeft.put(key, moneyLeft.get(key) - 1);
                     newMoneyToReturn = newMoneyToReturn.add(key);
                     remainingChangeToGet -= key;
+                } else {
+                    break;
                 }
-                else {break;}
             }
         }
-        if(remainingChangeToGet > 0){
+        if (remainingChangeToGet > 0) {
             return null;
         }
         return newMoneyToReturn;
