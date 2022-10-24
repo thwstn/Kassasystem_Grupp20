@@ -8,7 +8,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mockito;
 
-public class StatisticsTest {
+public class StatisticsTest extends FakeCheckOutSessionDatabase {
 
     FakeEmployeeDatabase fakeEmployeeDatabase;
     Statistics statistics;

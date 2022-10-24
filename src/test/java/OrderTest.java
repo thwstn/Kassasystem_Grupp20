@@ -257,6 +257,27 @@ public class OrderTest {
 
     }
 
+    @Test
+    void FinalizingTwoOrderWithSameParametersCorrectlyUpdatesDatabase(){
+        Checkout checkout = new Checkout();
+        Employee anna = checkout.fakeEmployeeDatabase.getEmployee("Anna");
+        Customer jacob = checkout.fakeCustomerDatabase.getCustomer("Jacob");
+        checkout.loginEmployee(anna);
+
+        checkout.scanEAN(917563849363L);
+        checkout.scanEAN(925463847583L);
+        checkout.scanEAN(917563848693L);
+        checkout.addCustomerToOrder(jacob);
+        checkout.payWithCard();
+
+        checkout.scanEAN(917563849363L);
+        checkout.scanEAN(925463847583L);
+        checkout.scanEAN(917563848693L);
+        checkout.addCustomerToOrder(jacob);
+        checkout.payWithCard();
+        Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size());
+    }
+
 
     private void fillOrderWIthRealData(){ //Metod skriven efter jag prövat på mockning. OrderLine är nu implementerad
         order.addOrderLineToList(new OrderLine("Gurka", 5.0, 2));

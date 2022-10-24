@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Statistics {
+public class Statistics extends FakeEmployeeDatabase {
 
     FakeEmployeeDatabase fakeEmployeeDatabase;
     FakeOrderDatabase fakeOrderDatabase;
@@ -134,11 +134,10 @@ public class Statistics {
             int quantity = combinedOrder.getOrderLineAtIndex(i).getQuantity();
             topFive.put(p.getName(), quantity);
         }
-        Map<String, Integer> top = topFive.entrySet()
+        return topFive.entrySet()
                 .stream()
                 .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(
                         Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-              return top;
     }
 
     public Map.Entry<Customer, Integer> getCustomerWithMostOrders() {

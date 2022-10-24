@@ -12,6 +12,7 @@ public class Checkout {
     protected FakeProductDatabase productDatabase = new FakeProductDatabase();
     protected FakeOrderDatabase orderDatabase = new FakeOrderDatabase();
     protected FakeEmployeeDatabase fakeEmployeeDatabase = new FakeEmployeeDatabase();
+    protected FakeCustomerDatabase fakeCustomerDatabase = new FakeCustomerDatabase();
 
 
     public Checkout() {

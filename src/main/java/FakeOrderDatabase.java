@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class FakeOrderDatabase implements OrderDatabaseIO{
-    ArrayList<Order> orderData = new ArrayList<>();
+    private final ArrayList<Order> orderData = new ArrayList<>();
 
     private static final Employee ANNA = new Employee("Anna", 28000);
     private static final Employee CALLE = new Employee("Calle", 35000);
