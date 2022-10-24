@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Statistics extends FakeEmployeeDatabase {
+public class Statistics{
 
     FakeEmployeeDatabase fakeEmployeeDatabase;
     FakeOrderDatabase fakeOrderDatabase;

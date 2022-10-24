@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Order extends Checkout {
+public class Order {
 
     private List<OrderLine> orderLines = new ArrayList<>();
     private static final Customer NOT_REGISTERED_CUSTOMER = new Customer("Kund", 0);

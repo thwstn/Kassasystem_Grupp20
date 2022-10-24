@@ -1,5 +1,5 @@
 
-public class OrderLine extends Order {
+public class OrderLine{
 
     private final String name;
     private final double price;
