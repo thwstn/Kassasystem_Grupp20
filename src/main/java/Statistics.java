@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Statistics{
+public class Statistics {
 
     private final EmployeeDatabase employeeDatabase;
     private final OrderDatabaseIO orderDatabase;
@@ -59,52 +59,91 @@ public class Statistics{
 
     //den som scannar flest produkter per arbetad timme
 
-
-    public LinkedHashMap<String, Double> getEmployeesSortedBySpeed(ArrayList<CheckOutSession> checkOutSessions) {
-        TreeMap<String, Integer> employeeNoOfProducts = new TreeMap<>();
-        for (Employee employee : employeeDatabase.get()) {
-            int quantity = 0;
-            for (Order order : employee.getOrders()) {
-                for(OrderLine orderLine : order.getOrderLineList()) {
-                    quantity = quantity + orderLine.getQuantity();
-                }
-            }
-            employeeNoOfProducts.put(employee.getName(), quantity);
+    public LinkedHashMap<String, Integer> getEmployeesBySpeed() {
+        // Antal produkter per employee
+    HashMap<String, Integer> soldProducts = new HashMap<>();
+    for (Order order : orderDatabase.getAllOrders()) {
+        Employee employee = order.getEmployee();
+        int amountOfProducts = 0;
+        for (OrderLine orderLine : order.getOrderLineList()) {
+            amountOfProducts = amountOfProducts + orderLine.getQuantity();
         }
-//        TreeMap<String, Integer> employeeTotalSessionTime = new TreeMap<>();
-//        for (Employee employee : fakeEmployeeDatabase.get()) {
-//            int totalTime = 0;
-//            for (CheckOutSession checkOutSession : employee.getCheckOutSessions()) {
-//                totalTime = totalTime + checkOutSession.getSessionLenghtInSeconds();
-//            }
-//            employeeTotalSessionTime.put(employee.getName(), totalTime);
-//        }
-        TreeMap<String, Integer> employeeTotalSessionTime = new TreeMap<>();
-        for (CheckOutSession checkOutSession : checkOutSessions) {
-            String name = checkOutSession.getEmployee().getName();
-            int totalTime = checkOutSession.getSessionLenghtInSeconds();
-            employeeTotalSessionTime.put(name, totalTime);
+        if (soldProducts.get(employee.getName()) == null) {
+            soldProducts.put(employee.getName(), amountOfProducts);
+        } else {
+            soldProducts.put(employee.getName(), soldProducts.get(employee.getName()) + amountOfProducts);
         }
 
-
-        TreeMap<String, Double> employeesWithSpeed = new TreeMap<>();
-        for (Employee employee : employeeDatabase.get()) {
-            int products = employeeNoOfProducts.get(employee.getName());
-            int time = employeeTotalSessionTime.get(employee.getName());
-            double speed = (double) products / time;
-            employeesWithSpeed.put(employee.getName(), speed);
-        }
-        LinkedHashMap<String, Double> employeesWithSpeedSorted = new LinkedHashMap<>();
-        employeesWithSpeed.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue())
-                .forEachOrdered(x -> employeesWithSpeedSorted.put(x.getKey(), x.getValue()));
-        //Hämta alla employees
-        //För varje employee, hämta antal ordrar och antal sessions
-        //Räkna ut hur många varor de gör per session
-        //Returnera lista ordnad efter mest effektiv...
-        return employeesWithSpeedSorted;
     }
+        // Antal arbetad tid per employee
+    HashMap<String, Integer> workedSeconds = new HashMap<>();
+    for (Employee employee : employeeDatabase.get()) {
+        int totalTime = 0;
+        for (CheckOutSession checkOutSession : checkOutSessionDatabase.getCheckOutSessionFromDatabaseWithEmployee(employee)) {
+            totalTime = totalTime + checkOutSession.getSessionLenghtInSeconds();
+        }
+        workedSeconds.put(employee.getName(), totalTime);
+    }
+        // Någon slags koefficient som ett resultat av dessa
+    HashMap<String, Integer> employeesSoldProductsPerSecond = new HashMap<>();
+    for (Employee employee : employeeDatabase.get()) {
+        int products = soldProducts.get(employee.getName());
+        int time = workedSeconds.get(employee.getName());
+        int speed = time / products;
+        employeesSoldProductsPerSecond.put(employee.getName(), speed);
+        }
+
+        // Returnera en map sorterad på speed
+    LinkedHashMap<String, Integer> employeesWithSpeedSorted = new LinkedHashMap<>();
+    employeesSoldProductsPerSecond.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEachOrdered(x -> employeesWithSpeedSorted.put(x.getKey(), x.getValue()));
+    return employeesWithSpeedSorted;
+    }
+
+//    public LinkedHashMap<String, Double> getEmployeesSortedBySpeed(ArrayList<CheckOutSession> checkOutSessions) {
+//        TreeMap<String, Integer> employeeNoOfProducts = new TreeMap<>();
+//        for (Employee employee : employeeDatabase.get()) {
+//            int quantity = 0;
+//            for (Order order : employee.getOrders()) {
+//                for(OrderLine orderLine : order.getOrderLineList()) {
+//                    quantity = quantity + orderLine.getQuantity();
+//                }
+//            }
+//            employeeNoOfProducts.put(employee.getName(), quantity);
+//        }
+////        TreeMap<String, Integer> employeeTotalSessionTime = new TreeMap<>();
+////        for (Employee employee : fakeEmployeeDatabase.get()) {
+////            int totalTime = 0;
+////            for (CheckOutSession checkOutSession : employee.getCheckOutSessions()) {
+////                totalTime = totalTime + checkOutSession.getSessionLenghtInSeconds();
+////            }
+////            employeeTotalSessionTime.put(employee.getName(), totalTime);
+////        }
+//        TreeMap<String, Integer> employeeTotalSessionTime = new TreeMap<>();
+//        for (CheckOutSession checkOutSession : checkOutSessions) {
+//            String name = checkOutSession.getEmployee().getName();
+//            int totalTime = checkOutSession.getSessionLenghtInSeconds();
+//            employeeTotalSessionTime.put(name, totalTime);
+//        }
+//
+//
+//        TreeMap<String, Double> employeesWithSpeed = new TreeMap<>();
+//        for (Employee employee : employeeDatabase.get()) {
+//            int products = employeeNoOfProducts.get(employee.getName());
+//            int time = employeeTotalSessionTime.get(employee.getName());
+//            double speed = (double) products / time;
+//            employeesWithSpeed.put(employee.getName(), speed);
+//        }
+//        LinkedHashMap<String, Double> employeesWithSpeedSorted = new LinkedHashMap<>();
+//        employeesWithSpeed.entrySet()
+//                .stream()
+//                .sorted(Map.Entry.comparingByValue())
+//                .forEachOrdered(x -> employeesWithSpeedSorted.put(x.getKey(), x.getValue()));
+//        //Hämta alla employees
+//        //För varje employee, hämta antal ordrar och antal sessions
+//        //Räkna ut hur många varor de gör per session
+//        //Returnera lista ordnad efter mest effektiv...
+//        return employeesWithSpeedSorted;
+//    }
 
 
     public int getAverageCheckOutSessionLength(Employee employee, CheckOutSessionDatabase fos) {

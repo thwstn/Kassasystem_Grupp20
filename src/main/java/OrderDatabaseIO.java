@@ -15,6 +15,5 @@ public interface OrderDatabaseIO {
 
     void removeOrder(Order order);
 
-
     Collection<Order> getAllOrders();
 }
