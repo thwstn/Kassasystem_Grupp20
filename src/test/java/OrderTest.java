@@ -99,6 +99,12 @@ public class OrderTest {
     }
 
     @Test
+    void getOrderLinesThatIsntInListReturnsNull(){
+        order.addOrderLineToList(orderLine1);
+        Assertions.assertNull(order.getOrderLine("Pannkaka"));
+    }
+
+    @Test
     void CreatingNewOrderWithoutCustomerSetsCustomerToDefault(){
         Order order1 = new Order(new Employee("Johan", 25000), orderLine1, orderLine2);
         Customer defaultCustomer = order1.getCustomer();

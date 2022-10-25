@@ -4,15 +4,14 @@ public class Order {
 
     private List<OrderLine> orderLines = new ArrayList<>();
     private static final Customer NOT_REGISTERED_CUSTOMER = new Customer("Kund", 0);
-    private final UUID orderID;
-    private  Employee employee;
+    private Employee employee;
     private final Date date;
     private Customer customer;
     private double totalAmount;
     private boolean orderIsPaid;
-    public Order(Employee employee, OrderLine ... orderLine) {
+
+    public Order(Employee employee, OrderLine... orderLine) {
         orderLines.addAll(Arrays.asList(orderLine));
-        this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = NOT_REGISTERED_CUSTOMER;
@@ -20,13 +19,13 @@ public class Order {
             this.totalAmount += o.getTotalAmount();
         }
     }
-    public Order(Employee employee,Customer customer, OrderLine ... orderLine) {
+
+    public Order(Employee employee, Customer customer, OrderLine... orderLine) {
         orderLines.addAll(Arrays.asList(orderLine));
-        this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = customer;
-        for (OrderLine o : orderLines ) {
+        for (OrderLine o : orderLines) {
             this.totalAmount += o.getTotalAmount();
         }
     }
@@ -36,61 +35,61 @@ public class Order {
     }
 
     public OrderLine getOrderLine(String orderLine) {
-        for (OrderLine o: orderLines) {
-            if (o.getName().equalsIgnoreCase(orderLine)){
+        for (OrderLine o : orderLines) {
+            if (o.getName().equalsIgnoreCase(orderLine)) {
                 return o;
             }
         }
         return null; //Returns null if specified orderLine is not in list
     }
 
-    public double getTotalAmount(){
+    public double getTotalAmount() {
         return this.totalAmount;
     }
 
-    public Date getDate (){
+    public Date getDate() {
         return this.date;
     }
 
-    public Employee getEmployee(){
+    public Employee getEmployee() {
         return this.employee;
     }
 
-    public void setEmployee(Employee employee){
+    public void setEmployee(Employee employee) {
         this.employee = employee;
     }
 
-    public Customer getCustomer(){
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer){
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
-    public Collection<OrderLine> getOrderLineList(){
+    public Collection<OrderLine> getOrderLineList() {
         return Collections.unmodifiableList(orderLines);
     }
 
-    public boolean isOrderPaid(){
+    public boolean isOrderPaid() {
         return orderIsPaid;
     }
 
 
-    public void addOrderLineToList(OrderLine orderLine){
-        if(this.orderIsPaid){
+    public void addOrderLineToList(OrderLine orderLine) {
+        if (this.orderIsPaid) {
             throw new IllegalStateException("Order is already paid, no more products can be added to order");
         }
-        if(orderLine == null)
+        if (orderLine == null)
             throw new IllegalArgumentException("Orderline can't be null");
-        if(!orderLines.contains(orderLine)) {
+        if (!orderLines.contains(orderLine)) {
             orderLines.add(orderLine);
             this.totalAmount += orderLine.getTotalAmount();
         }
     }
 
     public void removeOrderLineFromList(OrderLine orderLine) {
-        if(this.orderIsPaid){
+        if (this.orderIsPaid) {
             throw new IllegalStateException("Order is already paid, no products can be removed from order");
         }
         if (orderLines.contains(orderLine)) {
@@ -106,12 +105,13 @@ public class Order {
     }
 
     public void sortByAlphabeticalOrderDescending() {
-        orderLines.sort((o1,o2) -> o2.getName().compareTo(o1.getName()));
+        orderLines.sort((o1, o2) -> o2.getName().compareTo(o1.getName()));
     }
 
     public void sortByQuantityHighestToLowest() {
-        orderLines.sort((o1,o2) -> o2.getQuantity() - o1.getQuantity());
+        orderLines.sort((o1, o2) -> o2.getQuantity() - o1.getQuantity());
     }
+
     public void groupAllOrderLinesTogether() {
         ArrayList<OrderLine> newList = new ArrayList<>();
         boolean itemExistsInNewList = false;
@@ -119,15 +119,14 @@ public class Order {
         for (OrderLine o : orderLines) {
             if (newList.size() == 0) {
                 newList.add(o);
-            }
-            else {
+            } else {
                 for (OrderLine ol : newList) {
                     if (ol.getName().equals(o.getName())) {
                         ol.setQuantity(ol.getQuantity() + o.getQuantity());
                         itemExistsInNewList = true;
                     }
                 }
-                if(!itemExistsInNewList){
+                if (!itemExistsInNewList) {
                     newList.add(o);
                 }
             }
@@ -139,13 +138,12 @@ public class Order {
 
     public String finalizeOrder() {
         orderIsPaid = true;
-            return this.getReceipt();
+        return this.getReceipt();
 
     }
 
-    //TODO En debit metod som avslutar köpet, metoden skickar ut data dit den ska lagras och t.ex. drar pengar från kassan.
 
-    public String getReceipt(){
+    public String getReceipt() {
         this.groupAllOrderLinesTogether();
         StringBuilder sb = new StringBuilder();
         sb.append("\t\t\tBillys\n").append
@@ -159,17 +157,16 @@ public class Order {
                 ("\nTack för att du handlade hos oss ").append(this.customer.getName()).append("!").append
                 ("\n").append
                 (this.date.toString());
-       return sb.toString();
+        return sb.toString();
     }
-        @Override
-        public String toString () {
-            StringBuilder sb = new StringBuilder();
-            for (OrderLine o : orderLines) {
-                sb.append(o.toString()).append("\n");
-            }
-            return sb.toString();
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (OrderLine o : orderLines) {
+            sb.append(o.toString()).append("\n");
         }
-
-
+        return sb.toString();
+    }
 
 }

@@ -7,17 +7,18 @@ import java.util.stream.Stream;
 
 public class Statistics{
 
-    FakeEmployeeDatabase fakeEmployeeDatabase;
-    FakeOrderDatabase fakeOrderDatabase;
-    FakeProductDatabase fakeProductDatabase;
-    public FakeCheckOutSessionDatabase fakeCheckOutSessionDatabase;
+    private final EmployeeDatabase employeeDatabase;
+    private final OrderDatabaseIO orderDatabase;
+    private final ProductDatabase productDatabase;
+    private final CheckOutSessionDatabase checkOutSessionDatabase;
 
 
-    public Statistics() {
-        fakeEmployeeDatabase = new FakeEmployeeDatabase();
-        fakeOrderDatabase = new FakeOrderDatabase();
-        fakeProductDatabase = new FakeProductDatabase();
-        fakeCheckOutSessionDatabase = new FakeCheckOutSessionDatabase();
+    public Statistics(EmployeeDatabase employeeDatabase, OrderDatabaseIO orderDatabase, ProductDatabase productDatabase,
+                      CheckOutSessionDatabase checkOutSessionDatabase) {
+        this.employeeDatabase = employeeDatabase;
+        this.orderDatabase = orderDatabase;
+        this.productDatabase = productDatabase;
+        this.checkOutSessionDatabase = checkOutSessionDatabase;
 
     }
 
@@ -118,7 +119,7 @@ public class Statistics{
     }
 
     public Map<String, Integer> getTopFiveSoldProductsEver(){
-        Collection<Order> allOrders = fakeOrderDatabase.getAllOrders();
+        Collection<Order> allOrders = orderDatabase.getAllOrders();
         TreeMap<String, Integer> topFive = new TreeMap<>(Collections.reverseOrder());
         Order combinedOrder = new Order(new Employee("NA", 0));
         for (Order o : allOrders) {
@@ -130,7 +131,7 @@ public class Statistics{
         combinedOrder.groupAllOrderLinesTogether();
         combinedOrder.sortByQuantityHighestToLowest();
         for(int i = 0; i < 5; i++){
-            Product p = fakeProductDatabase.getProductFromDatabase(combinedOrder.getOrderLineAtIndex(i).getName());
+            Product p = productDatabase.getProductFromDatabase(combinedOrder.getOrderLineAtIndex(i).getName());
             int quantity = combinedOrder.getOrderLineAtIndex(i).getQuantity();
             topFive.put(p.getName(), quantity);
         }
@@ -142,7 +143,7 @@ public class Statistics{
 
     public Map.Entry<Customer, Integer> getCustomerWithMostOrders() {
         TreeMap<Customer, Integer> allCustomers = new TreeMap<>();
-        Collection<Order> allOrders = fakeOrderDatabase.getAllOrders();
+        Collection<Order> allOrders = orderDatabase.getAllOrders();
         for (Order o : allOrders) {
 
             if(allCustomers.containsKey(o.getCustomer())){
