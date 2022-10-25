@@ -10,9 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CheckoutTest {
 
     private Money money;
+    private Checkout checkout;
+
+    private final FakeOrderDatabase fakeOrderDatabase = new FakeOrderDatabase();
+    private final FakeEmployeeDatabase fakeEmployeeDatabase = new FakeEmployeeDatabase();
+    private final FakeCustomerDatabase fakeCustomerDatabase = new FakeCustomerDatabase();
+    private final FakeProductDatabase fakeProductDatabase = new FakeProductDatabase();
+    private final FakeCheckOutSessionDatabase fakeCheckOutSessionDatabase = new FakeCheckOutSessionDatabase();
+
 
     @BeforeEach
     void init() {
+        checkout = new Checkout(fakeCheckOutSessionDatabase, fakeProductDatabase, fakeOrderDatabase, fakeEmployeeDatabase, fakeCustomerDatabase);
         TreeMap<Integer, Integer> denominations = new TreeMap<>();
         denominations.put(100000, 10);
         denominations.put(50000, 10);
@@ -29,31 +38,26 @@ public class CheckoutTest {
 
     @Test
     void getIDReturnsUUID() {
-        Checkout checkout = new Checkout();
         assertEquals(true, checkout.getID() instanceof UUID, "Wrong type for ID");
     }
 
     @Test
     void checkOutSessionIsNullByDefault() {
-        Checkout checkout = new Checkout();
         assertEquals(null, checkout.getCheckOutSession(), "CheckOutSession should be null");
     }
 
     @Test
     void moneyIsEmptyByDefault() {
-        Checkout checkout = new Checkout();
         assertEquals(0, checkout.getMoney().getBalance(), "Money balance should be zero by defualt");
     }
 
     @Test
     void checkOutHasNoCurrentOrder() {
-        Checkout checkout = new Checkout();
         assertEquals(null, checkout.getOrder());
     }
 
     @Test
     void logInEmployeeAndCreateASession() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         assertTrue(checkout.getCheckOutSession() != null, "Session should not be null");
@@ -61,7 +65,6 @@ public class CheckoutTest {
 
     @Test
     void logOutEmployeeAndEndSession() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.logoutEmployee();
@@ -70,7 +73,6 @@ public class CheckoutTest {
 
     @Test
     void changeEmployeeAndStartANewSession() {
-        Checkout checkout = new Checkout();
         Employee employee1 = new Employee("Lisa", 30000);
         Employee employee2 = new Employee("Harald", 29000);
         checkout.loginEmployee(employee1);
@@ -80,7 +82,6 @@ public class CheckoutTest {
 
     @Test
     void createEmptyOrderWhileLoggedIn() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
@@ -91,7 +92,6 @@ public class CheckoutTest {
     //createEmptyOrderWhileLoggedOut
     @Test
     void removeOrder() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
@@ -102,7 +102,6 @@ public class CheckoutTest {
 
     @Test
     void scanEANWithNoActiveOrderCreatesNewOrder() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
@@ -111,7 +110,6 @@ public class CheckoutTest {
 
     @Test
     void payWithCardUpdatesOrderDatabase() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
@@ -123,7 +121,6 @@ public class CheckoutTest {
 
     @Test
     void addMoneyAddsMoney() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.addMoney(money);
@@ -132,7 +129,6 @@ public class CheckoutTest {
 
     @Test
     void payWithCashUpdatesMoney() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.addMoney(money);
@@ -147,7 +143,6 @@ public class CheckoutTest {
     //PaywithCashGivesCorrectDenominationsInChange
     @Test
     void payWithCashGivesCorrectDenominationsInChange() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.addMoney(money);
@@ -189,21 +184,20 @@ public class CheckoutTest {
 
     @Test
     void PayWithCashAndChangeRequiredNotAvailableCancelsPurchaseAndReturnsMoney() {
-        Checkout c = new Checkout();
-        c.loginEmployee(new Employee("Lisa", 30000));
+
+        checkout.loginEmployee(new Employee("Lisa", 30000));
         TreeMap<Integer, Integer> moneyMap = new TreeMap<>();
         moneyMap.put(50000, 10);
         Money newMoney = new Money(moneyMap);
-        c.addMoney(newMoney);
-        c.scanEAN(917263847583L);
+        checkout.addMoney(newMoney);
+        checkout.scanEAN(917263847583L);
         TreeMap<Integer, Integer> map = new TreeMap<>();
         map.put(1000, 1);
-        Assertions.assertThrows(IllegalStateException.class, () -> c.payWithCash((new Money(map))));
+        Assertions.assertThrows(IllegalStateException.class, () -> checkout.payWithCash((new Money(map))));
     }
 
     @Test
     void PayWithCashAndNotEnoughMoneyThrowsException() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.addMoney(money);
@@ -217,7 +211,6 @@ public class CheckoutTest {
 
     @Test
     void customerPaysCashWithZeroMoney() {
-        Checkout checkout = new Checkout();
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.addMoney(money);
@@ -229,40 +222,37 @@ public class CheckoutTest {
 
     @Test
     void ParkingOrderCorrectlyPlacesItInParkingList() {
-        Checkout c = new Checkout();
-        c.loginEmployee(new Employee("Lisa", 30000));
-        c.scanEAN(917563848693L);
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        checkout.scanEAN(917563848693L);
         Customer customer = new Customer("Pelle", 12);
-        c.addCustomerToOrder(customer);
-        c.scanEAN(917563848693L);
-        c.scanEAN(917563849363L);
-        Order tempOrder = c.getOrder();
-        c.parkOrder();
-        Assertions.assertEquals(tempOrder, c.getParkedOrder("Pelle"));
+        checkout.addCustomerToOrder(customer);
+        checkout.scanEAN(917563848693L);
+        checkout.scanEAN(917563849363L);
+        Order tempOrder = checkout.getOrder();
+        checkout.parkOrder();
+        Assertions.assertEquals(tempOrder, checkout.getParkedOrder("Pelle"));
     }
 
     @Test
     void UnparkingOrderCorrectlyPlacesTheParkedOrderAsTheActiveOrder() {
-        Checkout c = new Checkout();
-        c.loginEmployee(new Employee("Lisa", 30000));
-        c.scanEAN(917563848693L);
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        checkout.scanEAN(917563848693L);
         Customer customer = new Customer("Pelle", 12);
-        c.addCustomerToOrder(customer);
-        c.scanEAN(917563848693L);
-        c.scanEAN(917563849363L);
-        Order tempOrder = c.getOrder();
-        c.parkOrder();
-        c.unparkOrder("Pelle");
-        Assertions.assertEquals(tempOrder, c.getOrder());
-        Assertions.assertNull(c.getParkedOrder("Pelle"));
+        checkout.addCustomerToOrder(customer);
+        checkout.scanEAN(917563848693L);
+        checkout.scanEAN(917563849363L);
+        Order tempOrder = checkout.getOrder();
+        checkout.parkOrder();
+        checkout.unparkOrder("Pelle");
+        Assertions.assertEquals(tempOrder, checkout.getOrder());
+        Assertions.assertNull(checkout.getParkedOrder("Pelle"));
     }
 
     @Test
     void TestingTwoPurchasesGoesThrough(){
-        Checkout checkout = new Checkout();
         Customer customer = new Customer("Olof", 97);
         checkout.addMoney(money);
-        Employee employee = checkout.fakeEmployeeDatabase.getEmployee("Anna");
+        Employee employee = fakeEmployeeDatabase.getEmployee("Anna");
 
         //A -> B Båge 1
         checkout.loginEmployee(employee);
@@ -296,7 +286,7 @@ public class CheckoutTest {
         checkout.logoutEmployee();
 
         // A -> B Båge 1
-        Employee employee2 = (checkout.fakeEmployeeDatabase.getEmployee("Daniella"));
+        Employee employee2 = (fakeEmployeeDatabase.getEmployee("Daniella"));
         checkout.loginEmployee(employee2);
 
         // B -> C Båge 5

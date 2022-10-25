@@ -22,10 +22,10 @@ public class Statistics{
 
     }
 
-    public int getAverageSalary() {
+   public int getAverageSalary() {
         int totalSalary = 0;
         int counter = 0;
-        for (Employee e : fakeEmployeeDatabase.get()) {
+        for (Employee e : employeeDatabase.get()) {
             totalSalary = totalSalary + e.getSalary();
             counter++;
         }
@@ -36,7 +36,7 @@ public class Statistics{
 
     public Product getCustomerMostSold(Customer customer) {
         Order tempOrder = new Order(new Employee("Theo", 12));
-        List<Order> customerOrders = fakeOrderDatabase.getAllOrdersByCustomer(customer);
+        List<Order> customerOrders = orderDatabase.getAllOrdersByCustomer(customer);
         for (Order o : customerOrders) {
             Collection<OrderLine> ol = o.getOrderLineList();
             for (OrderLine orderLine : ol) {
@@ -52,17 +52,17 @@ public class Statistics{
                 product = orderLine.getName();
             }
         }
-        return fakeProductDatabase.getProductFromDatabase(product);
+        return productDatabase.getProductFromDatabase(product);
     }
 
     //kundens mest köpta vara
 
     //den som scannar flest produkter per arbetad timme
 
-    /*
+
     public LinkedHashMap<String, Double> getEmployeesSortedBySpeed(ArrayList<CheckOutSession> checkOutSessions) {
         TreeMap<String, Integer> employeeNoOfProducts = new TreeMap<>();
-        for (Employee employee : fakeEmployeeDatabase.get()) {
+        for (Employee employee : employeeDatabase.get()) {
             int quantity = 0;
             for (Order order : employee.getOrders()) {
                 for(OrderLine orderLine : order.getOrderLineList()) {
@@ -88,7 +88,7 @@ public class Statistics{
 
 
         TreeMap<String, Double> employeesWithSpeed = new TreeMap<>();
-        for (Employee employee : fakeEmployeeDatabase.get()) {
+        for (Employee employee : employeeDatabase.get()) {
             int products = employeeNoOfProducts.get(employee.getName());
             int time = employeeTotalSessionTime.get(employee.getName());
             double speed = (double) products / time;
@@ -105,9 +105,9 @@ public class Statistics{
         //Returnera lista ordnad efter mest effektiv...
         return employeesWithSpeedSorted;
     }
-    */
 
-    public int getAverageCheckOutSessionLength(Employee employee, FakeCheckOutSessionDatabase fos) {
+
+    public int getAverageCheckOutSessionLength(Employee employee, CheckOutSessionDatabase fos) {
         ArrayList<CheckOutSession> checkOutSessions = fos.getCheckOutSessionFromDatabaseWithEmployee(employee);
         int totalSeconds = 0;
         int counter = 0;

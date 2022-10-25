@@ -27,11 +27,11 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
     @BeforeEach
         void init() {
         fakeEmployeeDatabase = new FakeEmployeeDatabase();
-        statistics = new Statistics();
         fakeCustomerDatabase = new FakeCustomerDatabase();
         fakeProductDatabase = new FakeProductDatabase();
         fakeOrderDatabase = new FakeOrderDatabase();
         fakeCheckOutSessionDatabase = Mockito.mock(FakeCheckOutSessionDatabase.class);
+        statistics = new Statistics(fakeEmployeeDatabase,fakeOrderDatabase,fakeProductDatabase,fakeCheckOutSessionDatabase);
 
         checkOutSession1 = Mockito.mock(CheckOutSession.class);
         checkOutSession2 = Mockito.mock(CheckOutSession.class);
