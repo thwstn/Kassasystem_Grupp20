@@ -59,7 +59,7 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
 
     @Test
     void getAverageSalaryReturnsCorrectNumber() {
-        assertEquals(40_000, statistics.getAverageSalary());
+        assertEquals(30_000, statistics.getAverageSalary());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
     @Test
     void getEmployeeAverageCheckOutSessionLengthTest() {
         //ArrayList<CheckOutSession> ls = fakeCheckOutSessionDatabase.getCheckOutSessionFromDatabaseWithEmployee(fakeEmployeeDatabase.getEmployee("Anna"));
-        assertEquals(16800, statistics.getAverageCheckOutSessionLength(employee1, fakeCheckOutSessionDatabase));
+        assertEquals(3600, statistics.getAverageCheckOutSessionLength(employee1, fakeCheckOutSessionDatabase));
     }
 
    @Test
