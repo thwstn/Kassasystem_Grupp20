@@ -2,16 +2,16 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Employee {
-    private String name;
+    private final String name;
     private int monthly_salary;
     private final UUID employeeId;
-    private LocalDate employmentStartDate;
+    private final LocalDate employmentStartDate;
 
     public Employee(String name, int monthly_salary) {
         this.name = name;
         this.monthly_salary = monthly_salary;
         this.employeeId = UUID.randomUUID();
-        employmentStartDate = LocalDate.now();
+        this.employmentStartDate = LocalDate.now();
     }
 
     public String getName(){

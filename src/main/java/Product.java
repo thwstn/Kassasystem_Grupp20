@@ -1,11 +1,9 @@
-import java.util.Objects;
-
 public class Product implements DiscountInterface{
 
-    private String name;
-    private double price;
-    private ProductGroup productGroup;
-    private EAN ean;
+    final private String name;
+    final private double price;
+    final private ProductGroup productGroup;
+    final private EAN ean;
     private int amount;
 
     public Product(String name, double price, ProductGroup productGroup, EAN ean) {

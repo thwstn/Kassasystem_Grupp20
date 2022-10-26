@@ -63,12 +63,11 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
     }
 
     @Test
-    void getCustomerMostSold() {
+    void getCustomerMostBoughtProductReturnsCorrectProduct() {
         fakeOrderDatabase.fillDatabase();
-        Product pasta = fakeProductDatabase.getProductFromDatabase("Butter");
-        System.out.println(pasta);
-        Product p = statistics.getCustomerMostSold(fakeCustomerDatabase.getCustomer("Jacob"));
-        assertEquals(pasta, p);
+        Product butter = fakeProductDatabase.getProductFromDatabase("Butter");
+        Product mostSold = statistics.getCustomerMostBoughtProduct(fakeCustomerDatabase.getCustomer("Jacob"));
+        assertEquals(butter, mostSold);
     }
 
     @Test

@@ -85,7 +85,7 @@ public class ProductTest {
                 " price: " + milk.getPriceIncVat() +
                 ", productGroup: " + milk.getProductGroup() +
                 ", ean: " + milk.getEan() +
-                ", amount: " + String.valueOf(milk.getAmount()) +
+                ", amount: " + milk.getAmount() +
                 '}', milk.toString());
     }
 

@@ -4,11 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
+import java.util.regex.Pattern;
 
 public class EmployeeTest {
 
     Employee employee;
     Employee employeeForManyYears;
+    final String uuidString = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
 
     @BeforeEach
     void init() {
@@ -45,7 +47,7 @@ public class EmployeeTest {
     }
 
     @Test
-    void giveSalaryIncreaseForTwentyYearsOfServiceGivesTwentPercentIncrease() {
+    void giveSalaryIncreaseForTwentyYearsOfServiceGivesTwentyPercentIncrease() {
         ReflectionTestUtils.setField(employeeForManyYears, "employmentStartDate", LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()).minusYears(20));
         employeeForManyYears.giveSalaryIncreaseBasedOnAmountOfYearsEmployed();
         assertEquals(36_000, employeeForManyYears.getSalary());
@@ -76,6 +78,11 @@ public class EmployeeTest {
     void giveNoSalaryIncreaseToLessThanOneYearService() {
         employeeForManyYears.giveSalaryIncreaseBasedOnAmountOfYearsEmployed();
         assertEquals(30_000, employeeForManyYears.getSalary());
+    }
+
+    @Test
+    void randomUUIDIsInProperFormat() {
+        assertTrue(Pattern.compile(uuidString).matcher(employee.getEmployeeID().toString()).matches());
     }
 
 }
