@@ -23,6 +23,7 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
     Employee employee1;
     Employee employee2;
     Employee employee3;
+    Checkout checkout;
 
     @BeforeEach
         void init() {
@@ -38,7 +39,7 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
         fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession2);
         fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession3);
         statistics = new Statistics(fakeEmployeeDatabase,fakeOrderDatabase,fakeProductDatabase,fakeCheckOutSessionDatabase);
-
+        checkout = new Checkout(fakeCheckOutSessionDatabase,fakeProductDatabase,fakeOrderDatabase,fakeEmployeeDatabase,fakeCustomerDatabase);
         employee1 = fakeEmployeeDatabase.getEmployee("Anna");
         employee2 = fakeEmployeeDatabase.getEmployee("Calle");
         employee3 = fakeEmployeeDatabase.getEmployee("Daniella");
@@ -90,21 +91,20 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
 
     /*@Test
     void PullingTopFiveProductsEverSoldWorksAfterAddingNewOrder(){
-        Checkout c = new Checkout();
-        c.loginEmployee(fakeEmployeeDatabase.getEmployee("Calle"));
+        checkout.loginEmployee(fakeEmployeeDatabase.getEmployee("Calle"));
         for (int i = 0; i < 20; i++){
-            c.scanEAN(917563849363L);
-            c.scanEAN(925463847583L);
-            c.scanEAN(917563848693L);
-            c.scanEAN(917563849363L);
-            c.scanEAN(928374658273L);
-            c.scanEAN(917569267583L);
-            c.scanEAN(917263847583L);
+            checkout.scanEAN(917563849363L);
+            checkout.scanEAN(925463847583L);
+            checkout.scanEAN(917563848693L);
+            checkout.scanEAN(917563849363L);
+            checkout.scanEAN(928374658273L);
+            checkout.scanEAN(917569267583L);
+            checkout.scanEAN(917263847583L);
         }
-        Order o = c.getOrder();
-        statistics.fakeOrderDatabase.addOrder(c.getOrder()); //Får hårdkoda detta eftersom det är olika instanser av databasen som Checkout och Statistics jobbar mot
+        Order o = checkout.getOrder();
+        fakeOrderDatabase.addOrder(checkout.getOrder()); //Får hårdkoda detta eftersom det är olika instanser av databasen som Checkout och Statistics jobbar mot
         assertEquals("{Minced Meat=235, Tomato=72, Chickpeas=48, Pasta=47, Butter=47}", statistics.getTopFiveSoldProductsEver().toString());
-        statistics.fakeOrderDatabase.removeOrder(o);
+        fakeOrderDatabase.removeOrder(o);
     }*/
 
     @Test
@@ -115,11 +115,11 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
     void GetCustomerWhoShoppedMostReturnsCorrectAfterAddingOrder(){
         Order o1 = new Order(fakeEmployeeDatabase.getEmployee("Calle"), fakeCustomerDatabase.getCustomer("Johan"), new OrderLine("Chickpeas", 8.0, 10));
         Order o2 = new Order(fakeEmployeeDatabase.getEmployee("Daniella"), fakeCustomerDatabase.getCustomer("Johan"), new OrderLine("Cucumber", 5.0, 10));
-        statistics.fakeOrderDatabase.addOrder(o2);
-        statistics.fakeOrderDatabase.addOrder(o1);
+        fakeOrderDatabase.addOrder(o2);
+        fakeOrderDatabase.addOrder(o1);
         assertEquals("Johan", statistics.getCustomerWithMostOrders().getKey().getName());
-        statistics.fakeOrderDatabase.removeOrder(o1);
-        statistics.fakeOrderDatabase.removeOrder(o2);
+        fakeOrderDatabase.removeOrder(o1);
+        fakeOrderDatabase.removeOrder(o2);
     }*/
 
 }
