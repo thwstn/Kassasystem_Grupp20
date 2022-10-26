@@ -6,20 +6,20 @@ import org.mockito.Mockito;
 
 public class StatisticsTest extends FakeCheckOutSessionDatabase {
 
-    FakeEmployeeDatabase fakeEmployeeDatabase;
-    Statistics statistics;
-    FakeOrderDatabase fakeOrderDatabase;
-    FakeCustomerDatabase fakeCustomerDatabase;
-    FakeProductDatabase fakeProductDatabase;
-    FakeCheckOutSessionDatabase fakeCheckOutSessionDatabase;
-    CheckOutSession checkOutSession1;
-    CheckOutSession checkOutSession2;
-    CheckOutSession checkOutSession3;
-    CheckOutSession checkOutSession4;
-    CheckOutSession checkOutSession5;
-    Employee employee1;
-    Employee employee2;
-    Employee employee3;
+    private FakeEmployeeDatabase fakeEmployeeDatabase;
+    private Statistics statistics;
+    private FakeOrderDatabase fakeOrderDatabase;
+    private FakeCustomerDatabase fakeCustomerDatabase;
+    private FakeProductDatabase fakeProductDatabase;
+    private FakeCheckOutSessionDatabase fakeCheckOutSessionDatabase;
+    private CheckOutSession checkOutSession1;
+    private CheckOutSession checkOutSession2;
+    private CheckOutSession checkOutSession3;
+    private CheckOutSession checkOutSession4;
+    private CheckOutSession checkOutSession5;
+    private Employee employee1;
+    private Employee employee2;
+    private Employee employee3;
 
     @BeforeEach
     void init() {

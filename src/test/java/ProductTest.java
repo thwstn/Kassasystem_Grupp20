@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductTest {
 
-    ProductGroup productGroupVat6;
-    ProductGroup productGroupVat25;
-    EAN eanCucumber;
-    EAN eanTomato;
-    Product cucumber;
-    Product milk;
+    private ProductGroup productGroupVat6;
+    private ProductGroup productGroupVat25;
+    private EAN eanCucumber;
+    private EAN eanTomato;
+    private Product cucumber;
+    private Product milk;
 
     @BeforeEach
     void init() {

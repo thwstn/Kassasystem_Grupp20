@@ -8,9 +8,8 @@ import java.util.regex.Pattern;
 
 public class EmployeeTest {
 
-    Employee employee;
-    Employee employeeForManyYears;
-    final String uuidString = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
+    private Employee employee;
+    private Employee employeeForManyYears;
 
     @BeforeEach
     void init() {
@@ -82,6 +81,7 @@ public class EmployeeTest {
 
     @Test
     void randomUUIDIsInProperFormat() {
+        String uuidString = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
         assertTrue(Pattern.compile(uuidString).matcher(employee.getEmployeeID().toString()).matches());
     }
 
