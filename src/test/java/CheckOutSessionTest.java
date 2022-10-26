@@ -11,13 +11,13 @@ public class CheckOutSessionTest {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
         Date compareDate = new Date();
         //System.out.println(checkOutSession.getStartDate().getTime() + "\n" + (compareDate.getTime()-5));
-        assertEquals(true, (checkOutSession.getStartDate().getTime()>(compareDate.getTime()-500) && checkOutSession.getStartDate().getTime() < compareDate.getTime()+500));
+        assertTrue((checkOutSession.getStartDate().getTime() > (compareDate.getTime() - 500) && checkOutSession.getStartDate().getTime() < compareDate.getTime() + 500));
     }
     @Test
     void addEndDateToSession() {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
         checkOutSession.addEndDateToSession();
-        assertEquals(true, checkOutSession.getEndDate() != null, "End Date does not exist!");
+        assertTrue(checkOutSession.getEndDate() != null, "End Date does not exist!");
     }
 
     @Test
@@ -27,7 +27,7 @@ public class CheckOutSessionTest {
         assertEquals(employee, checkOutSession.getEmployee(), "Wrong employeeId");
     }
     @Test
-    void getLenghtOfSessionInText() throws InterruptedException {
+    void getLenghtOfSessionInSecondsIsAnIntAndWithin100MsFrom2Seconds() throws InterruptedException {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
         TimeUnit.SECONDS.sleep(2);
         checkOutSession.addEndDateToSession();
@@ -36,7 +36,7 @@ public class CheckOutSessionTest {
         //assertEquals(5, checkOutSession.getEndDate().getTime() - checkOutSession.getStartDate().getTime(), "Should be 5 seconds!");
     }
     @Test
-    void getLenghtOfSessionInSecondsIsAnIntAndLongerThanMinus1() {
+    void getLenghtOfSessionInText() {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
         checkOutSession.addEndDateToSession();
         assertTrue(checkOutSession.getSessionLenghtInString().contains("Session lenght in seconds: "), "String is wrong or session is longer than 59 seconds.");

@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -9,7 +8,7 @@ public class Customer implements Comparable<Customer> {
     //private ArrayList<Order> orders;
 
     public Customer(String name, int age) {
-        this.customerID = customerID;
+        //this.customerID = customerID;
         this.name = name;
         this.age = age;
         this.customerID = UUID.randomUUID();

@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Null;
 
 import java.util.*;
 
@@ -39,12 +38,12 @@ public class CheckoutTest {
 
     @Test
     void getIDReturnsUUID() {
-        assertEquals(true, checkout.getID() instanceof UUID, "Wrong type for ID");
+        assertNotNull(checkout.getID(), "Wrong type for ID");
     }
 
     @Test
     void checkOutSessionIsNullByDefault() {
-        assertEquals(null, checkout.getCheckOutSession(), "CheckOutSession should be null");
+        assertNull(checkout.getCheckOutSession(), "CheckOutSession should be null");
     }
 
     @Test
@@ -54,22 +53,22 @@ public class CheckoutTest {
 
     @Test
     void checkOutHasNoCurrentOrder() {
-        assertEquals(null, checkout.getOrder());
+        assertNull(checkout.getOrder());
     }
 
     @Test
     void logInEmployeeAndCreateASession() {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
-        assertTrue(checkout.getCheckOutSession() != null, "Session should not be null");
+        assertNotNull(checkout.getCheckOutSession(), "Session should not be null");
     }
 
     @Test
-    void logOutEmployeeAndEndSession() {
+    void logOutEmployeeAndEndSessionAndMakesSessionNull() {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.logoutEmployee();
-        assertTrue(checkout.getCheckOutSession() == null);
+        assertNull(checkout.getCheckOutSession());
     }
 
     @Test
@@ -82,12 +81,12 @@ public class CheckoutTest {
     }
 
     @Test
-    void createEmptyOrderWhileLoggedIn() {
+    void addsOrderToCheckoutWhileScanningEAN() {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
         //checkout.addNewEmptyOrder();
-        assertTrue(checkout.getOrder() != null);
+        assertNotNull(checkout.getOrder());
     }
 
     //createEmptyOrderWhileLoggedOut
@@ -98,7 +97,7 @@ public class CheckoutTest {
         checkout.scanEAN(917563847583L);
         //checkout.addNewEmptyOrder();
         checkout.removeOrder();
-        assertEquals(null, checkout.getOrder(), "Order exist but i should not");
+        assertNull(checkout.getOrder(), "Order exist but i should not");
     }
 
     @Test
@@ -249,7 +248,6 @@ public class CheckoutTest {
         checkout.addCustomerToOrder(customer);
         checkout.scanEAN(917563848693L);
         checkout.scanEAN(917563849363L);
-        Order tempOrder = checkout.getOrder();
         checkout.parkOrder();
         assertNull(checkout.getParkedOrder("Karl"));
     }
@@ -385,7 +383,7 @@ public class CheckoutTest {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.scanEAN(8573928374659L);
-        assertTrue(checkout.getOrder() != null);
+        assertNotNull(checkout.getOrder());
     }
 
     @Test //test 9
