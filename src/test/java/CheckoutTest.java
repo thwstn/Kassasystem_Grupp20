@@ -323,10 +323,22 @@ public class CheckoutTest {
         assertThrows(IllegalArgumentException.class, ()-> checkout.scanEAN(91754784758311L));
     }
 
-    @Test //test 4
+    @Test //test 5
     void notALongTest() {
         checkout.loginEmployee(new Employee("Lisa", 30000));
-        assertThrows(NullPointerException.class, ()-> checkout.scanEAN(Long.parseLong("NOT_A_LONG")));
+        assertThrows(NumberFormatException.class, ()-> checkout.scanEAN(Long.parseLong("NOT_A_LONG")));
+    }
+
+    @Test //test 6
+    void eanIsNegative() {
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        assertThrows(IllegalArgumentException.class, ()-> checkout.scanEAN(-917547847583L));
+    }
+
+    @Test //test 7
+    void dataBaseDoNotContainProduct() {
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        assertThrows(NullPointerException.class, ()-> checkout.scanEAN(117547847583L));
     }
 
     @Test //test 8
@@ -335,5 +347,14 @@ public class CheckoutTest {
         checkout.loginEmployee(employee);
         checkout.scanEAN(8573928374659L);
         assertTrue(checkout.getOrder() != null);
+    }
+
+    @Test //test 9
+    void orderIsNotNullAndAddsProduct() {
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        checkout.scanEAN(917563847583L);
+        checkout.scanEAN(961063847583L);
+        //Collection<OrderLine> orderLineCollection = checkout.getOrder().getOrderLineList();
+        assertEquals("1", checkout.getOrder().toString());
     }
 }
