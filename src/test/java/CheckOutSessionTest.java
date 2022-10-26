@@ -39,6 +39,6 @@ public class CheckOutSessionTest {
     void getLenghtOfSessionInSecondsIsAnIntAndLongerThanMinus1() {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
         checkOutSession.addEndDateToSession();
-        assertTrue(checkOutSession.getSessionLenghtInString().contains("Session lenght: 0 hours, 0 minutes, "), "String is wrong or session is longer than 59 seconds.");
+        assertTrue(checkOutSession.getSessionLenghtInString().contains("Session lenght in seconds: "), "String is wrong or session is longer than 59 seconds.");
     }
 }
