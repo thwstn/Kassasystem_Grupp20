@@ -32,7 +32,7 @@ class ProductGroupTest {
     }
 
     @Test
-    void getProductGroupFromDatabaseTest() {
+    void checkDatabaseSizeTest() {
         for (Product pGroup : productDatabase.productData) {
             System.out.println(pGroup.getProductGroup());
             assertEquals(15,productDatabase.productData.size());
@@ -43,6 +43,38 @@ class ProductGroupTest {
         ProductGroup vegetables = new ProductGroup("Fruit&Vegetables", VAT.VATCategories.VAT25);
         assertEquals(0.25,vegetables.getVAT().getPercent());
         System.out.println(vegetables.getVAT().getPercent());
+    }
+    //lägg till en ny produkt, ändra namn, ändra saldo, sätt en discount,
+    @Test
+    void addNewProduct_ChangeNameOfProductGroup_ChangeVAT_ChangeSaldo_applyDiscount(){
+        ProductGroup baking = new ProductGroup("Dairy", VAT.VATCategories.VAT6);
+        Product flour = new Product("Flour",14.0,baking,new EAN(123456789111L));
+        flour.setAmount(10);
+        flour.getProductGroup().changeCategoryName("Dry");
+        flour.getProductGroup().getVAT().setVatCategory(VAT.VATCategories.VAT25);
+
+        for (int i = 0; i < 3; i++) {
+            if (flour.getAmount() >= 10) {
+                PercentProductDiscount tenPercentDiscount = new PercentProductDiscount(flour, 10);
+                Double priceOfFlour = tenPercentDiscount.getPriceIncVat();
+                flour.decreaseAmount(2);
+                assertEquals(15.75,priceOfFlour);
+            }
+            else if(flour.getAmount() >=6 && flour.getAmount() <=8){
+                PercentProductDiscount fifteenPercentDiscount = new PercentProductDiscount(flour,15);
+                Double priceOfFlour = fifteenPercentDiscount.getPriceIncVat();
+                flour.decreaseAmount(2);
+                assertEquals(14.875,priceOfFlour);
+            }
+            else if(flour.getAmount() < 6){
+                PercentProductDiscount twentyPercentDiscount = new PercentProductDiscount(flour,20);
+                Double priceOfFlour = twentyPercentDiscount.getPriceIncVat();
+                flour.decreaseAmount(2);
+                assertEquals(14,priceOfFlour);
+            }
+
+        }
+        //en foorloop med 4 steg som tar bort från amount för att testa de olika metoderna?
     }
 }
     /*@Test
