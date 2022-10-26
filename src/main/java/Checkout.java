@@ -1,3 +1,5 @@
+import javax.management.InstanceNotFoundException;
+import java.rmi.NoSuchObjectException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
@@ -79,8 +81,7 @@ public class Checkout {
         EAN eanToCheck = new EAN(ean);
         Product product = productDatabase.getProductFromDatabase(eanToCheck);
         if (product == null) {
-            //hantera att EAN inte finns
-            return;
+            throw new NullPointerException("Product was null");
         }
         OrderLine orderLine = new OrderLine(product.getName(), product.getPriceIncVat(), 1);
         if (order == null) {

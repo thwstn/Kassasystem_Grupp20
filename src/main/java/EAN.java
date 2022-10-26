@@ -9,6 +9,8 @@ public class EAN {
             throw new IllegalArgumentException("The EAN code is too short!");
         } else if (String.valueOf(eanCode).length() > 13) {
             throw new IllegalArgumentException("The EAN code is too long!");
+        } else if (eanCode < 0 ) {
+            throw new IllegalArgumentException("The EAN code is negative!");
         }
         this.eanCode = eanCode;
     }
