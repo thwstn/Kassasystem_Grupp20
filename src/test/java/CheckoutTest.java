@@ -242,6 +242,19 @@ public class CheckoutTest {
     }
 
     @Test
+    void customerNameNotFoundAmongParkedOrdersReturnsNull() {
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        checkout.scanEAN(917563848693L);
+        Customer customer = new Customer("Pelle", 12);
+        checkout.addCustomerToOrder(customer);
+        checkout.scanEAN(917563848693L);
+        checkout.scanEAN(917563849363L);
+        Order tempOrder = checkout.getOrder();
+        checkout.parkOrder();
+        assertNull(checkout.getParkedOrder("Karl"));
+    }
+
+    @Test
     void TestingTwoPurchasesGoesThrough(){
         Customer customer = new Customer("Olof", 97);
         checkout.addMoney(money);
@@ -294,6 +307,32 @@ public class CheckoutTest {
         int balance = checkout.getMoney().getBalance();
         Assertions.assertEquals(1896000, balance); //Money in checkout is correct
         Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
+    }
+
+    @Test
+    void logInSessionNotNullThrowsException() {
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        assertThrows(IllegalStateException.class, ()-> checkout.loginEmployee(new Employee("Anna", 25000)));
+    }
+
+    @Test
+    void logoutEmployeeWhenNooneIsLoggedInThrowsException() {
+        assertThrows(IllegalStateException.class, ()->checkout.logoutEmployee());
+    }
+
+    @Test
+    void orderEmployeeAndSessionEmployeeIsNotSameWhenPayingWithCashSetsOrderEmployeeToSessionEmployee() {
+        Employee employee1 = new Employee("Lisa Andersson", 30000);
+        Employee employee2 = new Employee("Anna Svensson", 25000);
+        Money customerMoney = new Money();
+        customerMoney = customerMoney.add(10000);
+        checkout.loginEmployee(employee1);
+        checkout.addMoney(money);
+        checkout.scanEAN(917547847583L);
+        checkout.logoutEmployee();
+        checkout.loginEmployee(employee2);
+        String receipt = checkout.payWithCash(customerMoney);
+        assertTrue(receipt.contains(checkout.getCheckOutSession().getEmployee().getName()));
     }
 
     @Test //test 1
