@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public interface EmployeeDatabase {
 
     void fillDatabase();
@@ -5,4 +7,6 @@ public interface EmployeeDatabase {
     void add();
 
     Employee getEmployee(String name);
+
+    ArrayList<Employee> get();
 }

@@ -1,5 +1,5 @@
 
-public class OrderLine {
+public class OrderLine{
 
     private final String name;
     private final double price;

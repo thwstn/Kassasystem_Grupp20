@@ -1,15 +1,13 @@
-import net.bytebuddy.pool.TypePool;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Collection;
-import java.util.UUID;
 
 
 public class OrderTest {
-
+    private Checkout checkout;
     private Order order;
     private OrderLine orderLine1;
     private OrderLine orderLine2;
@@ -17,9 +15,17 @@ public class OrderTest {
     private OrderLine orderLine4;
     private OrderLine orderLine5;
     private OrderLine orderLine6;
+
+    private final FakeOrderDatabase fakeOrderDatabase = new FakeOrderDatabase();
+    private final FakeEmployeeDatabase fakeEmployeeDatabase = new FakeEmployeeDatabase();
+    private final FakeCustomerDatabase fakeCustomerDatabase = new FakeCustomerDatabase();
+    private final FakeProductDatabase fakeProductDatabase = new FakeProductDatabase();
+    private final FakeCheckOutSessionDatabase fakeCheckOutSessionDatabase = new FakeCheckOutSessionDatabase();
+
     @BeforeEach
     void init(){
         order = new Order(new Employee("Håkan", 20000), new Customer("Johan", 23));
+        checkout = new Checkout(fakeCheckOutSessionDatabase,fakeProductDatabase,fakeOrderDatabase,fakeEmployeeDatabase,fakeCustomerDatabase);
         orderLine1 = Mockito.mock(OrderLine.class);
         orderLine2 = Mockito.mock(OrderLine.class);
         orderLine3 = Mockito.mock(OrderLine.class);
@@ -98,6 +104,12 @@ public class OrderTest {
 
         Assertions.assertEquals(s1, s2);
 
+    }
+
+    @Test
+    void getOrderLinesThatIsntInListReturnsNull(){
+        order.addOrderLineToList(orderLine1);
+        Assertions.assertNull(order.getOrderLine("Pannkaka"));
     }
 
     @Test
@@ -255,6 +267,26 @@ public class OrderTest {
         order.finalizeOrder();
         Assertions.assertTrue(order.isOrderPaid());
 
+    }
+
+    @Test
+    void FinalizingTwoOrderWithSameParametersCorrectlyUpdatesDatabase(){
+        Employee anna = fakeEmployeeDatabase.getEmployee("Anna");
+        Customer jacob = fakeCustomerDatabase.getCustomer("Jacob");
+        checkout.loginEmployee(anna);
+
+        checkout.scanEAN(917563849363L);
+        checkout.scanEAN(925463847583L);
+        checkout.scanEAN(917563848693L);
+        checkout.addCustomerToOrder(jacob);
+        checkout.payWithCard();
+
+        checkout.scanEAN(917563849363L);
+        checkout.scanEAN(925463847583L);
+        checkout.scanEAN(917563848693L);
+        checkout.addCustomerToOrder(jacob);
+        checkout.payWithCard();
+        Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size());
     }
 
 

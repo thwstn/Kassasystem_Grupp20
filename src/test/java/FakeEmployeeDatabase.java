@@ -9,7 +9,7 @@ public class FakeEmployeeDatabase implements EmployeeDatabase {
 
     private final Employee E1 = new Employee("Anna", 20_000);
     private final Employee E2 = new Employee("Calle", 40_000);
-    private final Employee E3 = new Employee("Daniella", 50_000);
+    private final Employee E3 = new Employee("Daniella", 30_000);
 
 
     public FakeEmployeeDatabase() {

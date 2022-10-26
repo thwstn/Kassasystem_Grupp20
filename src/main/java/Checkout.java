@@ -8,13 +8,21 @@ public class Checkout {
     private Money money;
     private Order order;
     private final ArrayList<Order> parkedOrders = new ArrayList<>();
-    protected FakeCheckOutSessionDatabase checkOutSessionDatabase = new FakeCheckOutSessionDatabase();
-    protected FakeProductDatabase productDatabase = new FakeProductDatabase();
-    protected FakeOrderDatabase orderDatabase = new FakeOrderDatabase();
-    protected FakeEmployeeDatabase fakeEmployeeDatabase = new FakeEmployeeDatabase();
+    protected CheckOutSessionDatabase checkOutSessionDatabase;
+    protected ProductDatabase productDatabase;
+    protected OrderDatabaseIO orderDatabase;
+    protected EmployeeDatabase employeeDatabase;
+    protected CustomerDataBase customerDatabase;
 
 
-    public Checkout() {
+    public Checkout(CheckOutSessionDatabase checkOutSessionDatabase, ProductDatabase productDatabase,
+                    OrderDatabaseIO orderDatabase, EmployeeDatabase employeeDatabase,
+                    CustomerDataBase customerDataBase) {
+        this.customerDatabase = customerDataBase;
+        this.checkOutSessionDatabase = checkOutSessionDatabase;
+        this.productDatabase = productDatabase;
+        this.orderDatabase = orderDatabase;
+        this.employeeDatabase = employeeDatabase;
         ID = UUID.randomUUID();
         money = new Money();
     }

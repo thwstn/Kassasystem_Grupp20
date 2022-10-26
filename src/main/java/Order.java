@@ -1,10 +1,9 @@
 import java.util.*;
 
-public class Order implements DiscountInterface {
+public class Order {
 
     private List<OrderLine> orderLines = new ArrayList<>();
     private static final Customer NOT_REGISTERED_CUSTOMER = new Customer("Kund", 0);
-    private final UUID orderID;
     private Employee employee;
     private final Date date;
     private Customer customer;
@@ -13,7 +12,6 @@ public class Order implements DiscountInterface {
 
     public Order(Employee employee, OrderLine... orderLine) {
         orderLines.addAll(Arrays.asList(orderLine));
-        this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = NOT_REGISTERED_CUSTOMER;
@@ -24,7 +22,6 @@ public class Order implements DiscountInterface {
 
     public Order(Employee employee, Customer customer, OrderLine... orderLine) {
         orderLines.addAll(Arrays.asList(orderLine));
-        this.orderID = UUID.randomUUID();
         this.employee = employee;
         this.date = new Date();
         this.customer = customer;
@@ -48,10 +45,6 @@ public class Order implements DiscountInterface {
 
     public double getTotalAmount() {
         return this.totalAmount;
-    }
-
-    public double getPriceIncVat() {
-        return totalAmount;
     }
 
     public Date getDate() {
@@ -149,7 +142,6 @@ public class Order implements DiscountInterface {
 
     }
 
-    //TODO En debit metod som avslutar köpet, metoden skickar ut data dit den ska lagras och t.ex. drar pengar från kassan.
 
     public String getReceipt() {
         this.groupAllOrderLinesTogether();
@@ -169,11 +161,6 @@ public class Order implements DiscountInterface {
     }
 
     @Override
-    public String getDescription() {
-        return this.toString();
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (OrderLine o : orderLines) {
@@ -181,6 +168,5 @@ public class Order implements DiscountInterface {
         }
         return sb.toString();
     }
-
 
 }
