@@ -18,7 +18,6 @@ class ProductGroupTest {
     void changeNameTestFail() {
         ProductGroup vegetables = new ProductGroup("Dry", VAT.VATCategories.VAT25);
         Assertions.assertThrows(IllegalArgumentException.class, () -> vegetables.changeCategoryName("Berries"));
-        System.out.println(vegetables.getProductGroupName());
     }
 
     @Test
@@ -34,9 +33,9 @@ class ProductGroupTest {
     @Test
     void getProductGroupFromDatabaseTest() {
         for (Product pGroup : productDatabase.productData) {
-            System.out.println(pGroup.getProductGroup());
+            System.out.println(pGroup.getProductGroup().getProductGroupName());
             assertEquals(15,productDatabase.productData.size());
-        }
+        } //gör så att den bara printar Grupperna en gång
     }
     @Test
     void getVATTestAndPercentage(){
