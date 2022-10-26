@@ -25,8 +25,6 @@ public class Statistics {
         return totalSalary / counter;
     }
 
-    //totalSalary
-
     public Product getCustomerMostBoughtProduct(Customer customer) {
         Order tempOrder = new Order(new Employee("Theo", 12_000));
         List<Order> customerOrders = orderDatabase.getAllOrdersByCustomer(customer);
