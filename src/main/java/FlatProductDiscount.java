@@ -1,5 +1,5 @@
 //no negative
-public class FlatProductDiscount extends Discount {
+public class FlatProductDiscount extends DiscountDecorator {
 
     private final double discount;
 

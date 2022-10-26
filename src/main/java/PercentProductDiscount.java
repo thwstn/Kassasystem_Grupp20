@@ -1,5 +1,5 @@
 //no negative, not above 100
-public class PercentProductDiscount extends Discount{
+public class PercentProductDiscount extends DiscountDecorator {
 
     private final double discount;
 

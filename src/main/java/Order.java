@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Order {
+public class Order implements DiscountInterface{
 
     private List<OrderLine> orderLines = new ArrayList<>();
     private static final Customer NOT_REGISTERED_CUSTOMER = new Customer("Kund", 0);
@@ -158,6 +158,17 @@ public class Order {
                 ("\n").append
                 (this.date.toString());
         return sb.toString();
+    }
+
+    //Discount methods
+    @Override
+    public double getPriceIncVat() {
+        return totalAmount;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.toString();
     }
 
     @Override

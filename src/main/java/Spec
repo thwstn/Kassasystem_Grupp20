@@ -136,10 +136,10 @@ this.percentage = percentage;
     }
 }Lägg till så att den kollar att procenten är 6,12 eller 25. // Niklas 
 
-Class Discount{
+Class DiscountDecorator{
 int discountPercentage;
 Arraylist[Products] arraylist;
-Discount(int discountPercentage, ArrayList[Products] arrayList){
+DiscountDecorator(int discountPercentage, ArrayList[Products] arrayList){
 this.discountpercentage = discountpercentage;
 this.arraylist = arraylist;
     }

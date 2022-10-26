@@ -30,16 +30,6 @@ public class Money {
         this.denominationAmounts = denominations;
     }
 
-    private void helpMe(TreeMap<Integer, Integer> asd) {
-        for (int denomination : asd.keySet()) {
-            if (asd.get(denomination) < 0) {
-                throw new IllegalArgumentException("Cannot have negative balance of any denomination");
-            }
-            if (!DENOMINATION_LIST.contains(denomination)) {
-                throw new IllegalArgumentException("Not a valid denomination");
-            }
-        }
-    }
 
     private TreeMap<Integer, Integer> createEmptyMoneyMap() {
         TreeMap<Integer, Integer> denominations = new TreeMap<>();

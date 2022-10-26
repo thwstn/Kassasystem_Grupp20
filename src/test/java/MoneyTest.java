@@ -16,6 +16,7 @@ public class MoneyTest {
     private static final List<Integer> DENOMINATION_LIST = List.of(
             100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
     private static final int INVALID_DENOMINATION = 1;
+    private static final int NON_ZERO_MONEY_BALANCE_AMOUNT = 1888000;
     private Money moneyWithBalanceZero;
     private Money moneyWithBalanceNonZero;
 
@@ -85,7 +86,7 @@ public class MoneyTest {
 
     @Test
     void checkAmountOfMoney() {
-        assertEquals(1888000, moneyWithBalanceNonZero.getBalance());
+        assertEquals(NON_ZERO_MONEY_BALANCE_AMOUNT, moneyWithBalanceNonZero.getBalance());
     }
 
     @Test
@@ -98,7 +99,7 @@ public class MoneyTest {
     void addMoneyToMoney() {
         Money newMoney = moneyWithBalanceZero.add(1000);
         Money moreNewMoney = moneyWithBalanceNonZero.add(newMoney);
-        assertEquals(1888000 + 1000, moreNewMoney.getBalance());
+        assertEquals(NON_ZERO_MONEY_BALANCE_AMOUNT + 1000, moreNewMoney.getBalance());
     }
 
     @Test
@@ -110,7 +111,7 @@ public class MoneyTest {
     @Test
     void removeOneUnitOfMoney() {
         Money newMoney = moneyWithBalanceNonZero.remove(1000);
-        assertEquals(1888000 - 1000, newMoney.getBalance());
+        assertEquals(NON_ZERO_MONEY_BALANCE_AMOUNT - 1000, newMoney.getBalance());
     }
 
     @Test

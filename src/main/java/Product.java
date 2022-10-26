@@ -76,6 +76,11 @@ public class Product implements DiscountInterface{
     }
 
     @Override
+    public String getDescription() {
+        return name;
+    }
+
+    @Override
     public String toString() {
         return "Products{" +
                 "name: " + name + ',' +
