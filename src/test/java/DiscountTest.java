@@ -9,11 +9,7 @@ public class DiscountTest {
     private PercentProductDiscount tenPercentDiscountOnTomato;
     private FlatProductDiscount oneHundredSEKDiscountOnTomato;
     private FlatProductDiscount tenSEKDiscountOnBread;
-    private final Order readyMadeOrder = new Order(new Employee("Tom", 43000),
-            new OrderLine("Potatis", 10, 1),
-            new OrderLine("Potatis", 10, 1),
-            new OrderLine("Potatis", 10, 1),
-            new OrderLine("Potatis", 10, 1));
+    private Order readyMadeOrder;
 
     @BeforeEach
     void init() {
@@ -23,6 +19,11 @@ public class DiscountTest {
                 new EAN(917563849363L)), 100);
         tenSEKDiscountOnBread = new FlatProductDiscount(PRODUCT_DB.getProductFromDatabase(
                 new EAN(925463847583L)), 10);
+        readyMadeOrder = new Order(new Employee("Tom", 43000));
+        readyMadeOrder.addOrderLineToList(new OrderLine("Potatis", 10, 1));
+        readyMadeOrder.addOrderLineToList(new OrderLine("Potatis", 10, 1));
+        readyMadeOrder.addOrderLineToList(new OrderLine("Potatis", 10, 1));
+        readyMadeOrder.addOrderLineToList(new OrderLine("Potatis", 10, 1));
     }
 
     @Test
@@ -87,6 +88,6 @@ public class DiscountTest {
                 1);
         readyMadeOrder.addOrderLineToList(ol);
         PercentProductDiscount tenPercentDiscountOnOrder = new PercentProductDiscount(readyMadeOrder, 10);
-        assertEquals(78.6375,tenPercentDiscountOnOrder.getPriceIncVat());
+        assertEquals(78.6375, tenPercentDiscountOnOrder.getPriceIncVat());
     }
 }

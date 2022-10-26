@@ -71,6 +71,13 @@ public class Money {
         return balance;
     }
 
+    /**
+     * Returns a new Money object with the same values as the current one plus
+     * one of the denomination in the parameter.
+     *
+     * @param denomination Has to be an int from the list of valid denominations.
+     * @return New, updated money object
+     */
     public Money add(int denomination) {
         if (!DENOMINATION_LIST.contains(denomination)) {
             throw new IllegalArgumentException("Not a valid denomination");
@@ -81,6 +88,12 @@ public class Money {
         return new Money(newMoneyMap);
     }
 
+    /**
+     * Adds two Money objects together and returns a fresh one.
+     *
+     * @param incomingMoney Money object to be added to existing object.
+     * @return New Money object, has to be instantiated to use.
+     */
     public Money add(Money incomingMoney) {
         TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
 
