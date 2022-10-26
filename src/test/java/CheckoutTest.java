@@ -355,6 +355,6 @@ public class CheckoutTest {
         checkout.scanEAN(917563847583L);
         checkout.scanEAN(961063847583L);
         //Collection<OrderLine> orderLineCollection = checkout.getOrder().getOrderLineList();
-        assertEquals("1", checkout.getOrder().toString());
+        assertEquals("Cucumber: 11.25 x1 11.25:-\n" + "Entrecote: 448.75 x1 448.75:-\n", checkout.getOrder().toString());
     }
 }
