@@ -1,43 +1,54 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.mockito.Mockito.mock;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductTest {
 
-    ProductGroup vegetablesMock;
-    ProductGroup vegetables;
+    ProductGroup productGroupVat6;
+    ProductGroup productGroupVat25;
     EAN eanCucumber;
+    EAN eanTomato;
     Product cucumber;
+    Product milk;
 
     @BeforeEach
     void init() {
-        vegetablesMock = mock(ProductGroup.class);
-        vegetables = new ProductGroup("Fruit&Vegetables",(VAT.VATCategories.VAT6));
+        productGroupVat6 = new ProductGroup("Fruit&Vegetables",(VAT.VATCategories.VAT6));
+        productGroupVat25 = new ProductGroup("Dairy", VAT.VATCategories.VAT25);
         eanCucumber = mock(EAN.class);
-        cucumber = new Product("Cucumber",11.0,vegetables, eanCucumber, 100);
+        cucumber = new Product("Cucumber",11.0, productGroupVat6, eanCucumber, 100);
+        eanTomato = mock(EAN.class);
+        milk = new Product("Mjölk", 33.90, productGroupVat25, eanTomato);
     }
 
     @Test
-    void ctr_setsArgumentsAsCorrectDataFields() {
-        assertEquals("Cucumber", cucumber.getName());
-        assertEquals(11.66, cucumber.getPriceIncVat());//menade du vat 6?
-        assertEquals(vegetables, cucumber.getProductGroup());
-        assertEquals(eanCucumber, cucumber.getEan());
-        assertEquals(100, cucumber.getAmount());
+    void setAmountSetsCorrectAmountWhenAmountIsZero() {
+        milk.setAmount(21);
+        assertEquals(21, milk.getAmount());
     }
 
     @Test
-    void setAmountSetsCorrectAmount() {
+    void setAmountSetsCorrectAmountWhenAmountIsNotZero() {
         cucumber.setAmount(21);
         assertEquals(21, cucumber.getAmount());
     }
 
     @Test
-    void getPriceReturnsPriceIncVat25() {//Menade du vat 6?
+    void getPriceReturnsPriceIncVat() {
         assertEquals(11.66, cucumber.getPriceIncVat());
+    }
+
+    @Test
+    void increaseAmountWithCurrentAmountNotZeroIncreasesCorrectAmount() {
+        cucumber.increaseAmount(55);
+        assertEquals(155, cucumber.getAmount());
+    }
+
+    @Test
+    void increaseAmountWithCurrentAmountZeroIncreasesCorrectAmount() {
+        milk.increaseAmount(33);
+        assertEquals(33, milk.getAmount());
     }
 
     @Test
@@ -52,10 +63,30 @@ public class ProductTest {
         assertEquals(-1, cucumber.getAmount());
     }
 
+    @Test
+    void getNameReturnsName() {
+        assertEquals("Mjölk", milk.getName());
+    }
 
+    @Test
+    void getDescriptionReturnsDescription() {
+        assertEquals("Mjölk", milk.getDescription());
+    }
 
+    @Test
+    void getEanReturnsEan() {
+        assertEquals(eanCucumber, cucumber.getEan());
+    }
 
-
-
+    @Test
+    void toStringReturnsCorrectValues() {
+        assertEquals("Products{" +
+                "name: " + milk.getName() + ',' +
+                " price: " + milk.getPriceIncVat() +
+                ", productGroup: " + milk.getProductGroup() +
+                ", ean: " + milk.getEan() +
+                ", amount: " + String.valueOf(milk.getAmount()) +
+                '}', milk.toString());
+    }
 
 }
