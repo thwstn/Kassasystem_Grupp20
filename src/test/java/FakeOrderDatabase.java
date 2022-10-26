@@ -64,6 +64,9 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
         fillDatabase();
     }
 
+    public FakeOrderDatabase(int i) {
+    }
+
     @Override
     public List<Order> getAllOrdersByCustomer(Customer customer) {
         ArrayList<Order> newList = new ArrayList<>();

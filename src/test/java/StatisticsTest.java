@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.mockito.Mockito;
 
 public class StatisticsTest extends FakeCheckOutSessionDatabase {
@@ -25,29 +26,29 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
     Employee employee3;
 
     @BeforeEach
-        void init() {
+    void init() {
         fakeEmployeeDatabase = new FakeEmployeeDatabase();
         fakeCustomerDatabase = new FakeCustomerDatabase();
         fakeProductDatabase = new FakeProductDatabase();
         fakeOrderDatabase = new FakeOrderDatabase();
         fakeCheckOutSessionDatabase = new FakeCheckOutSessionDatabase();
-        checkOutSession1 = Mockito.mock(CheckOutSession.class);
-        checkOutSession2 = Mockito.mock(CheckOutSession.class);
-        checkOutSession3 = Mockito.mock(CheckOutSession.class);
-        fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession1);
-        fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession2);
-        fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession3);
-        statistics = new Statistics(fakeEmployeeDatabase,fakeOrderDatabase,fakeProductDatabase,fakeCheckOutSessionDatabase);
+//        checkOutSession1 = Mockito.mock(CheckOutSession.class);
+//        checkOutSession2 = Mockito.mock(CheckOutSession.class);
+//        checkOutSession3 = Mockito.mock(CheckOutSession.class);
+//        fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession1);
+//        fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession2);
+//        fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession3);
+        statistics = new Statistics(fakeEmployeeDatabase, fakeOrderDatabase, fakeProductDatabase, fakeCheckOutSessionDatabase);
 
-        employee1 = fakeEmployeeDatabase.getEmployee("Anna");
-        employee2 = fakeEmployeeDatabase.getEmployee("Calle");
-        employee3 = fakeEmployeeDatabase.getEmployee("Daniella");
-        Mockito.when(checkOutSession1.getSessionLenghtInSeconds()).thenReturn(3600);
-        Mockito.when(checkOutSession1.getEmployee()).thenReturn(employee1);
-        Mockito.when(checkOutSession2.getSessionLenghtInSeconds()).thenReturn(3600);
-        Mockito.when(checkOutSession2.getEmployee()).thenReturn(employee2);
-        Mockito.when(checkOutSession3.getSessionLenghtInSeconds()).thenReturn(3600);
-        Mockito.when(checkOutSession3.getEmployee()).thenReturn(employee3);
+//        employee1 = fakeEmployeeDatabase.getEmployee("Anna");
+//        employee2 = fakeEmployeeDatabase.getEmployee("Calle");
+//        employee3 = fakeEmployeeDatabase.getEmployee("Daniella");
+//        Mockito.when(checkOutSession1.getSessionLenghtInSeconds()).thenReturn(3600);
+//        Mockito.when(checkOutSession1.getEmployee()).thenReturn(employee1);
+//        Mockito.when(checkOutSession2.getSessionLenghtInSeconds()).thenReturn(3600);
+//        Mockito.when(checkOutSession2.getEmployee()).thenReturn(employee2);
+//        Mockito.when(checkOutSession3.getSessionLenghtInSeconds()).thenReturn(3600);
+//        Mockito.when(checkOutSession3.getEmployee()).thenReturn(employee3);
 
 
         //Mockito.when(fakeCheckOutSessionDatabase.getCheckOutSessionFromDatabaseWithEmployee(employee1)).thenReturn(checkOutSessionsA);
@@ -73,17 +74,48 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
     @Test
     void getEmployeeAverageCheckOutSessionLengthTest() {
         //ArrayList<CheckOutSession> ls = fakeCheckOutSessionDatabase.getCheckOutSessionFromDatabaseWithEmployee(fakeEmployeeDatabase.getEmployee("Anna"));
-        assertEquals(3600, statistics.getAverageCheckOutSessionLength(employee1, fakeCheckOutSessionDatabase));
-    }
-
-   @Test
-    void getEmployeesSortedBySpeedTest() {
-        Map<String, Integer> employeesBySpeed = statistics.getEmployeesBySpeed();
-        assertEquals("{Daniella=13, Anna=42, Calle=63}", employeesBySpeed.toString());
+        assertEquals(1000, statistics.getAverageCheckOutSessionLength(employee1, fakeCheckOutSessionDatabase));
     }
 
     @Test
-    void PullingTopFiveProductsEverSoldReturnsCorrectResult(){
+    void getEmployeesSortedBySpeedTest() {
+        FakeOrderDatabase fod = new FakeOrderDatabase(1);
+        checkOutSession1 = Mockito.mock(CheckOutSession.class);
+        checkOutSession2 = Mockito.mock(CheckOutSession.class);
+        checkOutSession3 = Mockito.mock(CheckOutSession.class);
+        fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession1);
+        fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession2);
+        fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession3);
+        employee1 = fakeEmployeeDatabase.getEmployee("Anna");
+        employee2 = fakeEmployeeDatabase.getEmployee("Calle");
+        employee3 = fakeEmployeeDatabase.getEmployee("Daniella");
+        OrderLine orderLine1 = new OrderLine("Bananer", 10, 5);
+        OrderLine orderLine2 = new OrderLine("Tomater", 30, 5);
+        OrderLine orderLine3 = new OrderLine("Russin", 10, 30);
+        OrderLine orderLine4 = new OrderLine("Bröd", 30, 20);
+        OrderLine orderLine5 = new OrderLine("Saft", 10, 50);
+        OrderLine orderLine6 = new OrderLine("Kalaspuffar", 30, 500);
+        Order order1 = new Order(employee1, orderLine1, orderLine2);
+        Order order2 = new Order(employee2, orderLine3, orderLine4, orderLine5);
+        Order order3 = new Order(employee3, orderLine6);
+        fod.addOrder(order1);
+        fod.addOrder(order2);
+        fod.addOrder(order3);
+        Statistics statisticsTest = new Statistics(fakeEmployeeDatabase, fod, fakeProductDatabase, fakeCheckOutSessionDatabase);
+
+        Mockito.when(checkOutSession1.getSessionLenghtInSeconds()).thenReturn(1000);
+        Mockito.when(checkOutSession1.getEmployee()).thenReturn(employee1);
+        Mockito.when(checkOutSession2.getSessionLenghtInSeconds()).thenReturn(1000);
+        Mockito.when(checkOutSession2.getEmployee()).thenReturn(employee2);
+        Mockito.when(checkOutSession3.getSessionLenghtInSeconds()).thenReturn(1000);
+        Mockito.when(checkOutSession3.getEmployee()).thenReturn(employee3);
+
+        Map<String, Integer> employeesBySpeed = statisticsTest.getEmployeesBySpeed();
+        assertEquals("{Daniella=2, Calle=10, Anna=100}", employeesBySpeed.toString());
+    }
+
+    @Test
+    void PullingTopFiveProductsEverSoldReturnsCorrectResult() {
         Map<String, Integer> topFive = statistics.getTopFiveSoldProductsEver();
         assertEquals("{Minced Meat=215, Pasta=47, Butter=47, Tomato=32, Chickpeas=28}", topFive.toString());
     }
@@ -108,7 +140,7 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
     }*/
 
     @Test
-    void GetCustomerWhoShoppedMostReturnsCorrectCustomer(){
+    void GetCustomerWhoShoppedMostReturnsCorrectCustomer() {
         assertEquals("Theo", statistics.getCustomerWithMostOrders().getKey().getName());
     }
     /*@Test
