@@ -6,17 +6,12 @@ import org.mockito.Mockito;
 
 public class StatisticsTest extends FakeCheckOutSessionDatabase {
 
-    private FakeEmployeeDatabase fakeEmployeeDatabase;
     private Statistics statistics;
+    private FakeEmployeeDatabase fakeEmployeeDatabase;
     private FakeOrderDatabase fakeOrderDatabase;
     private FakeCustomerDatabase fakeCustomerDatabase;
     private FakeProductDatabase fakeProductDatabase;
     private FakeCheckOutSessionDatabase fakeCheckOutSessionDatabase;
-    private CheckOutSession checkOutSession1;
-    private CheckOutSession checkOutSession2;
-    private CheckOutSession checkOutSession3;
-    private CheckOutSession checkOutSession4;
-    private CheckOutSession checkOutSession5;
     private Employee employee1;
     private Employee employee2;
     private Employee employee3;
@@ -29,11 +24,11 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
         fakeOrderDatabase = new FakeOrderDatabase();
         fakeCheckOutSessionDatabase = new FakeCheckOutSessionDatabase();
 
-        checkOutSession1 = Mockito.mock(CheckOutSession.class);
-        checkOutSession2 = Mockito.mock(CheckOutSession.class);
-        checkOutSession3 = Mockito.mock(CheckOutSession.class);
-        checkOutSession4 = Mockito.mock(CheckOutSession.class);
-        checkOutSession5 = Mockito.mock(CheckOutSession.class);
+        CheckOutSession checkOutSession1 = Mockito.mock(CheckOutSession.class);
+        CheckOutSession checkOutSession2 = Mockito.mock(CheckOutSession.class);
+        CheckOutSession checkOutSession3 = Mockito.mock(CheckOutSession.class);
+        CheckOutSession checkOutSession4 = Mockito.mock(CheckOutSession.class);
+        CheckOutSession checkOutSession5 = Mockito.mock(CheckOutSession.class);
         fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession1);
         fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession2);
         fakeCheckOutSessionDatabase.addCheckOutSession(checkOutSession3);
