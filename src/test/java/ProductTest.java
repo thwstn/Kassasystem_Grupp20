@@ -5,20 +5,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductTest {
 
-    private ProductGroup productGroupVat6;
-    private ProductGroup productGroupVat25;
     private EAN eanCucumber;
-    private EAN eanTomato;
     private Product cucumber;
     private Product milk;
 
     @BeforeEach
     void init() {
-        productGroupVat6 = new ProductGroup("Fruit&Vegetables",(VAT.VATCategories.VAT6));
-        productGroupVat25 = new ProductGroup("Dairy", VAT.VATCategories.VAT25);
+        ProductGroup productGroupVat6 = new ProductGroup("Fruit&Vegetables",(VAT.VATCategories.VAT6));
+        ProductGroup productGroupVat25 = new ProductGroup("Dairy", VAT.VATCategories.VAT25);
         eanCucumber = mock(EAN.class);
         cucumber = new Product("Cucumber",11.0, productGroupVat6, eanCucumber, 100);
-        eanTomato = mock(EAN.class);
+        EAN eanTomato = mock(EAN.class);
         milk = new Product("Mjölk", 33.90, productGroupVat25, eanTomato);
     }
 
