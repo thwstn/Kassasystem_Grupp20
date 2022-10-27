@@ -76,7 +76,7 @@ public class Money {
      * one of the denomination in the parameter.
      *
      * @param denomination Has to be an int from the list of valid denominations.
-     * @return New, updated money object
+     * @return New Money object, has to be instantiated to use further.
      */
     public Money add(int denomination) {
         if (!DENOMINATION_LIST.contains(denomination)) {
@@ -92,7 +92,7 @@ public class Money {
      * Adds two Money objects together and returns a fresh one.
      *
      * @param incomingMoney Money object to be added to existing object.
-     * @return New Money object, has to be instantiated to use.
+     * @return New Money object, has to be instantiated to use further.
      */
     public Money add(Money incomingMoney) {
         TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();

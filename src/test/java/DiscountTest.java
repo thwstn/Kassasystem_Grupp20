@@ -6,18 +6,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DiscountTest {
 
     private static final FakeProductDatabase PRODUCT_DB = new FakeProductDatabase();
-    private PercentProductDiscount tenPercentDiscountOnTomato;
-    private FlatProductDiscount oneHundredSEKDiscountOnTomato;
-    private FlatProductDiscount tenSEKDiscountOnBread;
+    private PercentDiscount tenPercentDiscountOnTomato;
+    private FlatDiscount oneHundredSEKDiscountOnTomato;
+    private FlatDiscount tenSEKDiscountOnBread;
     private Order readyMadeOrder;
 
     @BeforeEach
     void init() {
-        tenPercentDiscountOnTomato = new PercentProductDiscount(PRODUCT_DB.getProductFromDatabase(
+        tenPercentDiscountOnTomato = new PercentDiscount(PRODUCT_DB.getProductFromDatabase(
                 new EAN(917563849363L)), 10);
-        oneHundredSEKDiscountOnTomato = new FlatProductDiscount(PRODUCT_DB.getProductFromDatabase(
+        oneHundredSEKDiscountOnTomato = new FlatDiscount(PRODUCT_DB.getProductFromDatabase(
                 new EAN(917563849363L)), 100);
-        tenSEKDiscountOnBread = new FlatProductDiscount(PRODUCT_DB.getProductFromDatabase(
+        tenSEKDiscountOnBread = new FlatDiscount(PRODUCT_DB.getProductFromDatabase(
                 new EAN(925463847583L)), 10);
         readyMadeOrder = new Order(new Employee("Tom", 43000));
         readyMadeOrder.addOrderLineToList(new OrderLine("Potatis", 10, 1));
@@ -33,7 +33,7 @@ public class DiscountTest {
 
     @Test
     void discountCorrectlyAppliedTwice() {
-        PercentProductDiscount secondTomatoDiscount = new PercentProductDiscount(
+        PercentDiscount secondTomatoDiscount = new PercentDiscount(
                 tenPercentDiscountOnTomato, 10);
         assertEquals(9.1125, secondTomatoDiscount.getPriceIncVat());
     }
@@ -50,20 +50,20 @@ public class DiscountTest {
 
     @Test
     void differentDiscountTypesCorrectlyApplyToPrice() {
-        PercentProductDiscount tenPercent = new PercentProductDiscount(
+        PercentDiscount tenPercent = new PercentDiscount(
                 tenSEKDiscountOnBread, 10);
         assertEquals(42.6375, tenPercent.getPriceIncVat());
     }
 
     @Test
     void flatDiscountOnOrderCorrectlyAppliedToCost() {
-        FlatProductDiscount tenSEK = new FlatProductDiscount(readyMadeOrder, 10);
+        FlatDiscount tenSEK = new FlatDiscount(readyMadeOrder, 10);
         assertEquals(30, tenSEK.getPriceIncVat());
     }
 
     @Test
     void getDescReturnsNameOfCorrectProduct() {
-        PercentProductDiscount tenPercentOnBread = new PercentProductDiscount(tenSEKDiscountOnBread, 10);
+        PercentDiscount tenPercentOnBread = new PercentDiscount(tenSEKDiscountOnBread, 10);
         assertEquals("Bread", tenPercentOnBread.getDescription());
     }
 
@@ -84,10 +84,10 @@ public class DiscountTest {
 
     @Test
     void addDiscountedOrderLineAndDiscountOrder() {
-        OrderLine ol = new OrderLine(tenSEKDiscountOnBread.getDescription(), tenSEKDiscountOnBread.getPriceIncVat(),
-                1);
+        OrderLine ol = new OrderLine(tenSEKDiscountOnBread.getDescription(),
+                tenSEKDiscountOnBread.getPriceIncVat(), 1);
         readyMadeOrder.addOrderLineToList(ol);
-        PercentProductDiscount tenPercentDiscountOnOrder = new PercentProductDiscount(readyMadeOrder, 10);
+        PercentDiscount tenPercentDiscountOnOrder = new PercentDiscount(readyMadeOrder, 10);
         assertEquals(78.6375, tenPercentDiscountOnOrder.getPriceIncVat());
     }
 }

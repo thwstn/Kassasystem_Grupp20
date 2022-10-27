@@ -130,7 +130,6 @@ public class Checkout {
     public void parkOrder() {
         parkedOrders.add(this.order);
         this.order = null;
-
     }
 
     public Order getParkedOrder(String customerName) {

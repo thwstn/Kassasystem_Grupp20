@@ -140,11 +140,11 @@ public class MoneyTest {
     }
 
     @Test
-    void addMoneyInMultipleWays() {
+    void addMoneyInMultipleWaysReturnsCorrectBalance() {
         Money newMoney = moneyWithBalanceZero.add(10000);
-        Money moreNewMoney = newMoney.add(10000);
-        Money evenMoreNewMoney = moreNewMoney.add(newMoney);
-        Money singleAddMoney = evenMoreNewMoney.add(10000);
+        Money singleAddNewMoney = newMoney.add(10000);
+        Money newMoneyAddedWithMoney = singleAddNewMoney.add(newMoney);
+        Money singleAddMoney = newMoneyAddedWithMoney.add(10000);
         assertEquals(40000, singleAddMoney.getBalance());
     }
 

@@ -1,9 +1,9 @@
 //no negative
-public class FlatProductDiscount extends DiscountDecorator {
+public class FlatDiscount extends DiscountDecorator {
 
     private final double discount;
 
-    public FlatProductDiscount(DiscountInterface product, double discount) {
+    public FlatDiscount(DiscountInterface product, double discount) {
         super(product);
         this.discount = discount;
     }

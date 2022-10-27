@@ -1,9 +1,9 @@
 //no negative, not above 100
-public class PercentProductDiscount extends DiscountDecorator {
+public class PercentDiscount extends DiscountDecorator {
 
     private final double discount;
 
-    public PercentProductDiscount(DiscountInterface product, double discount) {
+    public PercentDiscount(DiscountInterface product, double discount) {
         super(product);
         this.discount = discount;
     }
