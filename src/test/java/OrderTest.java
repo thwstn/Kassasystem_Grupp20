@@ -25,7 +25,7 @@ public class OrderTest {
     @BeforeEach
     void init(){
         order = new Order(new Employee("Håkan", 20000), new Customer("Johan", 23));
-        checkout = new Checkout(fakeCheckOutSessionDatabase,fakeProductDatabase,fakeOrderDatabase,fakeEmployeeDatabase,fakeCustomerDatabase);
+        checkout = new Checkout(fakeCheckOutSessionDatabase,fakeProductDatabase,fakeOrderDatabase);
         orderLine1 = Mockito.mock(OrderLine.class);
         orderLine2 = Mockito.mock(OrderLine.class);
         orderLine3 = Mockito.mock(OrderLine.class);

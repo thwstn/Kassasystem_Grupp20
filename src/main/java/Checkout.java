@@ -16,8 +16,7 @@ public class Checkout {
 
 
     public Checkout(CheckOutSessionDatabase checkOutSessionDatabase, ProductDatabase productDatabase,
-                    OrderDatabaseIO orderDatabase, EmployeeDatabase employeeDatabase,
-                    CustomerDataBase customerDataBase) {
+                    OrderDatabaseIO orderDatabase) {
         //this.customerDatabase = customerDataBase;
         this.checkOutSessionDatabase = checkOutSessionDatabase;
         this.productDatabase = productDatabase;

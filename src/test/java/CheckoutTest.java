@@ -21,7 +21,7 @@ public class CheckoutTest {
 
     @BeforeEach
     void init() {
-        checkout = new Checkout(fakeCheckOutSessionDatabase, fakeProductDatabase, fakeOrderDatabase, fakeEmployeeDatabase, fakeCustomerDatabase);
+        checkout = new Checkout(fakeCheckOutSessionDatabase, fakeProductDatabase, fakeOrderDatabase);
         TreeMap<Integer, Integer> denominations = new TreeMap<>();
         denominations.put(100000, 10);
         denominations.put(50000, 10);
@@ -336,7 +336,7 @@ public class CheckoutTest {
     @Test //test 1
     void databaseIsNullTest() {
         ProductDatabase nullDatabase = null;
-        Checkout checkout2 = new Checkout(fakeCheckOutSessionDatabase,nullDatabase,fakeOrderDatabase, fakeEmployeeDatabase, fakeCustomerDatabase);
+        Checkout checkout2 = new Checkout(fakeCheckOutSessionDatabase,nullDatabase,fakeOrderDatabase);
         checkout2.loginEmployee(new Employee("Lisa", 30000));
         assertThrows(NullPointerException.class, ()-> checkout2.scanEAN(917547847583L));
     }
