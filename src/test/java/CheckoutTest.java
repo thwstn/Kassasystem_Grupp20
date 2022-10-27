@@ -14,7 +14,6 @@ public class CheckoutTest {
 
     private final FakeOrderDatabase fakeOrderDatabase = new FakeOrderDatabase();
     private final FakeEmployeeDatabase fakeEmployeeDatabase = new FakeEmployeeDatabase();
-    private final FakeCustomerDatabase fakeCustomerDatabase = new FakeCustomerDatabase();
     private final FakeProductDatabase fakeProductDatabase = new FakeProductDatabase();
     private final FakeCheckOutSessionDatabase fakeCheckOutSessionDatabase = new FakeCheckOutSessionDatabase();
 
@@ -48,7 +47,7 @@ public class CheckoutTest {
 
     @Test
     void moneyIsEmptyByDefault() {
-        assertEquals(0, checkout.getMoney().getBalance(), "Money balance should be zero by defualt");
+        assertEquals(0, checkout.getMoney().getBalance(), "Money balance should be zero by default");
     }
 
     @Test
@@ -115,7 +114,7 @@ public class CheckoutTest {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.addMoney(money);
-        assertEquals(10, checkout.getMoney().getSpecificDenominationAmounts(100000), "Money is not aded to checkout");
+        assertEquals(10, checkout.getMoney().getSpecificDenominationAmounts(100000), "Money is not added to checkout");
     }
 
     @Test
@@ -131,7 +130,6 @@ public class CheckoutTest {
         assertEquals(1888000 + 5700, checkout.getMoney().getBalance());
     }
 
-    //PaywithCashGivesCorrectDenominationsInChange
     @Test
     void payWithCashGivesCorrectDenominationsInChange() {
         Employee employee = new Employee("Lisa", 30000);
@@ -258,20 +256,20 @@ public class CheckoutTest {
         checkout.addMoney(money);
         Employee employee = fakeEmployeeDatabase.getEmployee("Anna");
 
-        //A -> B Båge 1
+        //A -> B Edge 1
         checkout.loginEmployee(employee);
 
-        //B -> C Båge 3
+        //B -> C Edge 3
         checkout.scanEAN(961063847583L);
 
-        //C -> C Båge 6
+        //C -> C Edge 6
         checkout.scanEAN(917563840003L);
 
-        //C -> B Båge 4
+        //C -> B Edge 4
         checkout.addCustomerToOrder(customer);
         checkout.parkOrder();
 
-        //B -> C Båge 3 & 6
+        //B -> C Edge 3 & 6
         checkout.scanEAN(917563847583L);
         checkout.scanEAN(9485736253926L);
         checkout.scanEAN(928374658273L);
@@ -281,30 +279,30 @@ public class CheckoutTest {
         checkout.scanEAN(917563927583L);
         checkout.scanEAN(917563849363L);
 
-        // C -> D -> E -> B Båge 7 & 8 & 10
+        // C -> D -> E -> B Edge 7 & 8 & 10
         Money customerMoney = new Money();
         customerMoney = customerMoney.add(50000);
-        String receipt1 = checkout.payWithCash(customerMoney);
+        checkout.payWithCash(customerMoney);
 
-        // B -> A Båge 2
+        // B -> A Edge 2
         checkout.logoutEmployee();
 
-        // A -> B Båge 1
+        // A -> B Edge 1
         Employee employee2 = (fakeEmployeeDatabase.getEmployee("Daniella"));
         checkout.loginEmployee(employee2);
 
-        // B -> C Båge 5
+        // B -> C Edge 5
         checkout.unparkOrder("Olof");
 
-        // C -> E -> B Båge 9 & 10
-        String receipt2 = checkout.payWithCard();
+        // C -> E -> B Edge 9 & 10
+        checkout.payWithCard();
 
-        // B -> A Båge 2
+        // B -> A Edge 2
         checkout.logoutEmployee();
 
         int balance = checkout.getMoney().getBalance();
-        Assertions.assertEquals(1896000, balance); //Money in checkout is correct
-        Assertions.assertEquals(9, fakeOrderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
+        Assertions.assertEquals(1896000, balance);
+        Assertions.assertEquals(9, fakeOrderDatabase.getAllOrders().size());
     }
 
     @Test
@@ -314,14 +312,14 @@ public class CheckoutTest {
     }
 
     @Test
-    void logoutEmployeeWhenNooneIsLoggedInThrowsException() {
+    void logoutEmployeeWhenNoOneIsLoggedInThrowsException() {
         assertThrows(IllegalStateException.class, ()->checkout.logoutEmployee());
     }
 
     @Test
     void orderEmployeeAndSessionEmployeeIsNotSameWhenPayingWithCashSetsOrderEmployeeToSessionEmployee() {
-        Employee employee1 = new Employee("Lisa Andersson", 30000);
-        Employee employee2 = new Employee("Anna Svensson", 25000);
+        Employee employee1 = new Employee("Lisa Anderson", 30000);
+        Employee employee2 = new Employee("Anna Stevenson", 25000);
         Money customerMoney = new Money();
         customerMoney = customerMoney.add(10000);
         checkout.loginEmployee(employee1);
@@ -335,8 +333,7 @@ public class CheckoutTest {
 
     @Test //test 1
     void databaseIsNullTest() {
-        ProductDatabase nullDatabase = null;
-        Checkout checkout2 = new Checkout(fakeCheckOutSessionDatabase,nullDatabase,fakeOrderDatabase);
+        Checkout checkout2 = new Checkout(fakeCheckOutSessionDatabase,null,fakeOrderDatabase);
         checkout2.loginEmployee(new Employee("Lisa", 30000));
         assertThrows(NullPointerException.class, ()-> checkout2.scanEAN(917547847583L));
     }
@@ -392,6 +389,9 @@ public class CheckoutTest {
         checkout.scanEAN(917563847583L);
         checkout.scanEAN(961063847583L);
         //Collection<OrderLine> orderLineCollection = checkout.getOrder().getOrderLineList();
-        assertEquals("Cucumber: 11.25 x1 11.25:-\n" + "Entrecote: 448.75 x1 448.75:-\n", checkout.getOrder().toString());
+        assertEquals("""
+                Cucumber: 11.25 x1 11.25:-
+                Entrecote: 448.75 x1 448.75:-
+                """, checkout.getOrder().toString());
     }
 }

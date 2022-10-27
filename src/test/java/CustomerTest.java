@@ -1,20 +1,16 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 public class CustomerTest {
-    private UUID custumerID;
     @Test
     void customerIDTest() {
         Customer customer = createNewCustomer();
-        assertEquals(true, customer.getCustomerID() instanceof UUID, "Wrong ID set for customer!");
+        assertNotNull(customer.getCustomerID(), "Wrong ID set for customer!");
     }
     @Test
     void customerNameTest() {
         Customer customer = createNewCustomer();
-        assertEquals("Anders Andersson", customer.getName(), "Wrong name!");
+        assertEquals("Anders Anderson", customer.getName(), "Wrong name!");
     }
     @Test
     void customerAgeTest() {
@@ -27,8 +23,8 @@ public class CustomerTest {
     @Test
     void changeNameTest() {
         Customer customer = createNewCustomer();
-        customer.changeName("Sven Svensson");
-        assertEquals("Sven Svensson", customer.getName(), "Wrong name when changed");
+        customer.changeName("Sven Stevenson");
+        assertEquals("Sven Stevenson", customer.getName(), "Wrong name when changed");
     }
 
     @Test
@@ -49,23 +45,10 @@ public class CustomerTest {
     void compareToReturnPositiveIntForLisaCompareToAnna() {
         Customer customer = new Customer("Lisa", 30000);
         Customer customer1 = new Customer("Anna", 25000);
-        assertTrue(customer.compareTo(customer1)>1);
+        assertTrue(customer.compareTo(customer1) > 0);
     }
 
-    /*@Test
-    void addNewOrderToCustomer() {
-        Customer customer = createNewCustomer();
-        Order order = new Order(UUID.randomUUID(), new Employee());
-        Order order1 = new Order(UUID.randomUUID(), new Employee());
-        Order order2 = new Order(UUID.randomUUID(), new Employee());
-        customer.addOrder(order);
-        customer.addOrder(order1);
-        customer.addOrder(order2);
-        assertEquals(3,customer.getOrders().size(), "Wrong number of orders!");
-    }*/
-
     private Customer createNewCustomer() {
-        custumerID = UUID.randomUUID();
-        return new Customer("Anders Andersson", 52);
+        return new Customer("Anders Anderson", 52);
     }
 }
