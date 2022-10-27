@@ -31,6 +31,27 @@ public class CustomerTest {
         assertEquals("Sven Svensson", customer.getName(), "Wrong name when changed");
     }
 
+    @Test
+    void equalNameEqualsEqualObject() {
+        Customer customer = new Customer("Lisa", 27);
+        Customer customer1 = new Customer("Lisa", 90);
+        assertEquals(customer1, customer, "Object is not equal");
+    }
+
+    @Test
+    void equalNameEqualsSameHashcode() {
+        Customer customer = new Customer("Lisa", 30000);
+        Customer customer1 = new Customer("Lisa", 250000);
+        assertEquals(customer1.hashCode(), customer.hashCode(), "Not same hashcode");
+    }
+
+    @Test
+    void compareToReturnPositiveIntForLisaCompareToAnna() {
+        Customer customer = new Customer("Lisa", 30000);
+        Customer customer1 = new Customer("Anna", 25000);
+        assertTrue(customer.compareTo(customer1)>1);
+    }
+
     /*@Test
     void addNewOrderToCustomer() {
         Customer customer = createNewCustomer();

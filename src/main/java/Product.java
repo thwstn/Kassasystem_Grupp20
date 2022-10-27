@@ -1,26 +1,9 @@
-
-/*
-- Product (Theo)
-    - Namn
-    - GrundPris (ex vat)
-    - Produktkategori (som klass) Grönsak
-    - EAN
-    - toString
-    - Konstruktorn lägger till produkten i en ProductCategory
-    - Sätt rabatt (som productCategory kan nå)
-    - get price = price + vat
-    - rabatt = price - grönsak.getrabatt
- */
-
-import java.io.InvalidObjectException;
-import java.util.Objects;
-
 public class Product implements DiscountInterface{
 
-    private String name;
-    private double price;
-    private ProductGroup productGroup;
-    private EAN ean;
+    final private String name;
+    final private double price;
+    final private ProductGroup productGroup;
+    final private EAN ean;
     private int amount;
 
     public Product(String name, double price, ProductGroup productGroup, EAN ean) {
@@ -63,16 +46,12 @@ public class Product implements DiscountInterface{
         this.amount = amount;
     }
 
-    public void decreaseAmount(int amountToDecrease) {
-        this.amount = amount - amountToDecrease;
+    public void increaseAmount(int amountToIncrease) {
+        this.amount = amount + amountToIncrease;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return name.equals(product.name);
+    public void decreaseAmount(int amountToDecrease) {
+        this.amount = amount - amountToDecrease;
     }
 
     @Override
@@ -84,16 +63,11 @@ public class Product implements DiscountInterface{
     public String toString() {
         return "Products{" +
                 "name: " + name + ',' +
-                " price: " + price +
+                " price: " + getPriceIncVat() +
                 ", productGroup: " + productGroup +
                 ", ean: " + ean +
                 ", amount: " + amount +
                 '}';
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
     }
 
 }

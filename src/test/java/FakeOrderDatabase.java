@@ -61,11 +61,11 @@ public class FakeOrderDatabase implements OrderDatabaseIO{
     new OrderLine("Butter", 45.0, 2));
 
     public FakeOrderDatabase(){
-        fillDatabase();
+        //fillDatabase();
     }
 
-    public FakeOrderDatabase(int i) {
-    }
+//    public FakeOrderDatabase(int i) {
+//    }
 
     @Override
     public List<Order> getAllOrdersByCustomer(Customer customer) {

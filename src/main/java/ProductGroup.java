@@ -19,6 +19,17 @@ public class ProductGroup {
     public String getProductGroupName() {
         return productGroupName;
     }
+    public VAT getVAT() {
+        return vat;
+    }
+    public void changeCategoryName(String newProductGroupName){
+        if(PRODUCT_GROUPS.contains(newProductGroupName)){
+            this.productGroupName = newProductGroupName;
+        }else {
+            throw new IllegalArgumentException("Not a valid product group!");
+        }
+
+    }
     /*
     public Product getProductByName(String name) {
         for (String s : PRODUCT_GROUPS) {
@@ -94,21 +105,11 @@ public class ProductGroup {
     //degreaseSaldo
     //removeProductEAN
     //removeProductName
-    public VAT getVAT() {
-        return vat;
-    }
+
     /*
     public void addProduct(Product product){
         productList.add(product)
     }*/
-    public void changeCategoryName(String newProductGroupName){
-        if(PRODUCT_GROUPS.contains(newProductGroupName)){
-            this.productGroupName = newProductGroupName;
-        }else {
-            throw new IllegalArgumentException("Not a valid product group!");
-        }
-
-    }
     //strukturera upp koden
     //Sortera listan, hitta en vara i listan genom bokstav eller pris
 }

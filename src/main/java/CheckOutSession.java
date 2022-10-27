@@ -28,19 +28,9 @@ public class CheckOutSession {
     }
     public String getSessionLenghtInString() {
         long sessionLenghtInSeconds = endDate.getTime() - startDate.getTime();
-        int hours = 0;
-        int minutes = 0;
         int seconds = 0;
-        while (sessionLenghtInSeconds >= 3600) {
-            sessionLenghtInSeconds -= 3600;
-            hours++;
-        }
-        while (sessionLenghtInSeconds >= 60) {
-            sessionLenghtInSeconds -= 60;
-            minutes++;
-        }
         seconds = (int) sessionLenghtInSeconds;
-        String returnString = "Session lenght: " + hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
+        String returnString = "Session lenght in seconds: " + seconds;
         return returnString;
     }
     public int  getSessionLenghtInSeconds() {

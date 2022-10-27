@@ -1,10 +1,5 @@
-
-import com.sun.source.tree.Tree;
-
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 public class Statistics {
 
     private final EmployeeDatabase employeeDatabase;
@@ -12,14 +7,12 @@ public class Statistics {
     private final ProductDatabase productDatabase;
     private final CheckOutSessionDatabase checkOutSessionDatabase;
 
-
     public Statistics(EmployeeDatabase employeeDatabase, OrderDatabaseIO orderDatabase, ProductDatabase productDatabase,
                       CheckOutSessionDatabase checkOutSessionDatabase) {
         this.employeeDatabase = employeeDatabase;
         this.orderDatabase = orderDatabase;
         this.productDatabase = productDatabase;
         this.checkOutSessionDatabase = checkOutSessionDatabase;
-
     }
 
    public int getAverageSalary() {
@@ -32,19 +25,17 @@ public class Statistics {
         return totalSalary / counter;
     }
 
-    //totalSalary
-
-    public Product getCustomerMostSold(Customer customer) {
-        Order tempOrder = new Order(new Employee("Theo", 12));
+    public Product getCustomerMostBoughtProduct(Customer customer) {
+        Order tempOrder = new Order(new Employee("Theo", 12_000));
         List<Order> customerOrders = orderDatabase.getAllOrdersByCustomer(customer);
-        for (Order o : customerOrders) {
-            Collection<OrderLine> ol = o.getOrderLineList();
+        for (Order order : customerOrders) {
+            Collection<OrderLine> ol = order.getOrderLineList();
             for (OrderLine orderLine : ol) {
                 tempOrder.addOrderLineToList(new OrderLine(orderLine.getName(), orderLine.getPrice(), orderLine.getQuantity()));
             }
         }
         tempOrder.groupAllOrderLinesTogether();
-        String product = null;
+        String product = "";
         int highestAmount = 0;
         for (OrderLine orderLine : tempOrder.getOrderLineList()) {
             if (orderLine.getQuantity() > highestAmount) {
@@ -55,9 +46,6 @@ public class Statistics {
         return productDatabase.getProductFromDatabase(product);
     }
 
-    //kundens mest köpta vara
-
-    //den som scannar flest produkter per arbetad timme
 
     public LinkedHashMap<String, Integer> getEmployeesBySpeed() {
         // Antal produkter per employee
@@ -84,7 +72,7 @@ public class Statistics {
         }
         workedSeconds.put(employee.getName(), totalTime);
     }
-        // Någon slags koefficient som ett resultat av dessa
+        // Ett värde som ett resultat av tid delat på produkter
     HashMap<String, Integer> employeesSoldProductsPerSecond = new HashMap<>();
     for (Employee employee : employeeDatabase.get()) {
         int products = soldProducts.get(employee.getName());
@@ -98,52 +86,6 @@ public class Statistics {
     employeesSoldProductsPerSecond.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEachOrdered(x -> employeesWithSpeedSorted.put(x.getKey(), x.getValue()));
     return employeesWithSpeedSorted;
     }
-
-//    public LinkedHashMap<String, Double> getEmployeesSortedBySpeed(ArrayList<CheckOutSession> checkOutSessions) {
-//        TreeMap<String, Integer> employeeNoOfProducts = new TreeMap<>();
-//        for (Employee employee : employeeDatabase.get()) {
-//            int quantity = 0;
-//            for (Order order : employee.getOrders()) {
-//                for(OrderLine orderLine : order.getOrderLineList()) {
-//                    quantity = quantity + orderLine.getQuantity();
-//                }
-//            }
-//            employeeNoOfProducts.put(employee.getName(), quantity);
-//        }
-////        TreeMap<String, Integer> employeeTotalSessionTime = new TreeMap<>();
-////        for (Employee employee : fakeEmployeeDatabase.get()) {
-////            int totalTime = 0;
-////            for (CheckOutSession checkOutSession : employee.getCheckOutSessions()) {
-////                totalTime = totalTime + checkOutSession.getSessionLenghtInSeconds();
-////            }
-////            employeeTotalSessionTime.put(employee.getName(), totalTime);
-////        }
-//        TreeMap<String, Integer> employeeTotalSessionTime = new TreeMap<>();
-//        for (CheckOutSession checkOutSession : checkOutSessions) {
-//            String name = checkOutSession.getEmployee().getName();
-//            int totalTime = checkOutSession.getSessionLenghtInSeconds();
-//            employeeTotalSessionTime.put(name, totalTime);
-//        }
-//
-//
-//        TreeMap<String, Double> employeesWithSpeed = new TreeMap<>();
-//        for (Employee employee : employeeDatabase.get()) {
-//            int products = employeeNoOfProducts.get(employee.getName());
-//            int time = employeeTotalSessionTime.get(employee.getName());
-//            double speed = (double) products / time;
-//            employeesWithSpeed.put(employee.getName(), speed);
-//        }
-//        LinkedHashMap<String, Double> employeesWithSpeedSorted = new LinkedHashMap<>();
-//        employeesWithSpeed.entrySet()
-//                .stream()
-//                .sorted(Map.Entry.comparingByValue())
-//                .forEachOrdered(x -> employeesWithSpeedSorted.put(x.getKey(), x.getValue()));
-//        //Hämta alla employees
-//        //För varje employee, hämta antal ordrar och antal sessions
-//        //Räkna ut hur många varor de gör per session
-//        //Returnera lista ordnad efter mest effektiv...
-//        return employeesWithSpeedSorted;
-//    }
 
 
     public int getAverageCheckOutSessionLength(Employee employee, CheckOutSessionDatabase fos) {
@@ -176,8 +118,7 @@ public class Statistics {
         }
         return topFive.entrySet()
                 .stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(
-                        Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+                .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 
     public Map.Entry<Customer, Integer> getCustomerWithMostOrders() {

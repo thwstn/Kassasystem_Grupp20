@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Null;
 
 import java.util.*;
 
@@ -39,12 +38,12 @@ public class CheckoutTest {
 
     @Test
     void getIDReturnsUUID() {
-        assertEquals(true, checkout.getID() instanceof UUID, "Wrong type for ID");
+        assertNotNull(checkout.getID(), "Wrong type for ID");
     }
 
     @Test
     void checkOutSessionIsNullByDefault() {
-        assertEquals(null, checkout.getCheckOutSession(), "CheckOutSession should be null");
+        assertNull(checkout.getCheckOutSession(), "CheckOutSession should be null");
     }
 
     @Test
@@ -54,22 +53,22 @@ public class CheckoutTest {
 
     @Test
     void checkOutHasNoCurrentOrder() {
-        assertEquals(null, checkout.getOrder());
+        assertNull(checkout.getOrder());
     }
 
     @Test
     void logInEmployeeAndCreateASession() {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
-        assertTrue(checkout.getCheckOutSession() != null, "Session should not be null");
+        assertNotNull(checkout.getCheckOutSession(), "Session should not be null");
     }
 
     @Test
-    void logOutEmployeeAndEndSession() {
+    void logOutEmployeeAndEndSessionAndMakesSessionNull() {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.logoutEmployee();
-        assertTrue(checkout.getCheckOutSession() == null);
+        assertNull(checkout.getCheckOutSession());
     }
 
     @Test
@@ -82,12 +81,12 @@ public class CheckoutTest {
     }
 
     @Test
-    void createEmptyOrderWhileLoggedIn() {
+    void addsOrderToCheckoutWhileScanningEAN() {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
         //checkout.addNewEmptyOrder();
-        assertTrue(checkout.getOrder() != null);
+        assertNotNull(checkout.getOrder());
     }
 
     //createEmptyOrderWhileLoggedOut
@@ -98,7 +97,7 @@ public class CheckoutTest {
         checkout.scanEAN(917563847583L);
         //checkout.addNewEmptyOrder();
         checkout.removeOrder();
-        assertEquals(null, checkout.getOrder(), "Order exist but i should not");
+        assertNull(checkout.getOrder(), "Order exist but i should not");
     }
 
     @Test
@@ -242,6 +241,18 @@ public class CheckoutTest {
     }
 
     @Test
+    void customerNameNotFoundAmongParkedOrdersReturnsNull() {
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        checkout.scanEAN(917563848693L);
+        Customer customer = new Customer("Pelle", 12);
+        checkout.addCustomerToOrder(customer);
+        checkout.scanEAN(917563848693L);
+        checkout.scanEAN(917563849363L);
+        checkout.parkOrder();
+        assertNull(checkout.getParkedOrder("Karl"));
+    }
+
+    @Test
     void TestingTwoPurchasesGoesThrough(){
         Customer customer = new Customer("Olof", 97);
         checkout.addMoney(money);
@@ -296,6 +307,32 @@ public class CheckoutTest {
         Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
     }
 
+    @Test
+    void logInSessionNotNullThrowsException() {
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        assertThrows(IllegalStateException.class, ()-> checkout.loginEmployee(new Employee("Anna", 25000)));
+    }
+
+    @Test
+    void logoutEmployeeWhenNooneIsLoggedInThrowsException() {
+        assertThrows(IllegalStateException.class, ()->checkout.logoutEmployee());
+    }
+
+    @Test
+    void orderEmployeeAndSessionEmployeeIsNotSameWhenPayingWithCashSetsOrderEmployeeToSessionEmployee() {
+        Employee employee1 = new Employee("Lisa Andersson", 30000);
+        Employee employee2 = new Employee("Anna Svensson", 25000);
+        Money customerMoney = new Money();
+        customerMoney = customerMoney.add(10000);
+        checkout.loginEmployee(employee1);
+        checkout.addMoney(money);
+        checkout.scanEAN(917547847583L);
+        checkout.logoutEmployee();
+        checkout.loginEmployee(employee2);
+        String receipt = checkout.payWithCash(customerMoney);
+        assertTrue(receipt.contains(checkout.getCheckOutSession().getEmployee().getName()));
+    }
+
     @Test //test 1
     void databaseIsNullTest() {
         ProductDatabase nullDatabase = null;
@@ -323,10 +360,22 @@ public class CheckoutTest {
         assertThrows(IllegalArgumentException.class, ()-> checkout.scanEAN(91754784758311L));
     }
 
-    @Test //test 4
+    @Test //test 5
     void notALongTest() {
         checkout.loginEmployee(new Employee("Lisa", 30000));
-        assertThrows(NullPointerException.class, ()-> checkout.scanEAN(Long.parseLong("NOT_A_LONG")));
+        assertThrows(NumberFormatException.class, ()-> checkout.scanEAN(Long.parseLong("NOT_A_LONG")));
+    }
+
+    @Test //test 6
+    void eanIsNegative() {
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        assertThrows(IllegalArgumentException.class, ()-> checkout.scanEAN(-917547847583L));
+    }
+
+    @Test //test 7
+    void dataBaseDoNotContainProduct() {
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        assertThrows(NullPointerException.class, ()-> checkout.scanEAN(117547847583L));
     }
 
     @Test //test 8
@@ -334,6 +383,15 @@ public class CheckoutTest {
         Employee employee = new Employee("Lisa", 30000);
         checkout.loginEmployee(employee);
         checkout.scanEAN(8573928374659L);
-        assertTrue(checkout.getOrder() != null);
+        assertNotNull(checkout.getOrder());
+    }
+
+    @Test //test 9
+    void orderIsNotNullAndAddsProduct() {
+        checkout.loginEmployee(new Employee("Lisa", 30000));
+        checkout.scanEAN(917563847583L);
+        checkout.scanEAN(961063847583L);
+        //Collection<OrderLine> orderLineCollection = checkout.getOrder().getOrderLineList();
+        assertEquals("Cucumber: 11.25 x1 11.25:-\n" + "Entrecote: 448.75 x1 448.75:-\n", checkout.getOrder().toString());
     }
 }

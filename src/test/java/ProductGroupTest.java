@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductGroupTest {
@@ -8,9 +11,7 @@ class ProductGroupTest {
     @Test
     void changeNameNewProductGroupTest() {
         ProductGroup vegetables = new ProductGroup("Fruit&Vegetables", VAT.VATCategories.VAT12);
-        System.out.println(vegetables);
         vegetables.changeCategoryName("Dry");
-        System.out.println(vegetables);
         assertEquals("Dry", vegetables.getProductGroupName());
     }
 
@@ -18,7 +19,6 @@ class ProductGroupTest {
     void changeNameTestFail() {
         ProductGroup vegetables = new ProductGroup("Dry", VAT.VATCategories.VAT25);
         Assertions.assertThrows(IllegalArgumentException.class, () -> vegetables.changeCategoryName("Berries"));
-        System.out.println(vegetables.getProductGroupName());
     }
 
     @Test
@@ -32,17 +32,50 @@ class ProductGroupTest {
     }
 
     @Test
-    void getProductGroupFromDatabaseTest() {
+    void checkDatabaseSizeTest() {
+        ArrayList<ProductGroup> listOfProductGroups = new ArrayList<>();
         for (Product pGroup : productDatabase.productData) {
-            System.out.println(pGroup.getProductGroup());
-            assertEquals(15,productDatabase.productData.size());
+            if(!listOfProductGroups.contains(pGroup.getProductGroup())){
+                listOfProductGroups.add(pGroup.getProductGroup());
+            }
         }
+            assertEquals(4,listOfProductGroups.size());
+         //gör så att den bara printar Grupperna en gång
     }
     @Test
     void getVATTestAndPercentage(){
         ProductGroup vegetables = new ProductGroup("Fruit&Vegetables", VAT.VATCategories.VAT25);
         assertEquals(0.25,vegetables.getVAT().getPercent());
-        System.out.println(vegetables.getVAT().getPercent());
+    }
+    @Test
+    void addNewProduct_ChangeNameOfProductGroup_ChangeVAT_ChangeSaldo_applyDiscount(){
+        ProductGroup baking = new ProductGroup("Dairy", VAT.VATCategories.VAT6);
+        Product flour = new Product("Flour",14.0,baking,new EAN(123456789111L));
+        flour.setAmount(10);
+        flour.getProductGroup().changeCategoryName("Dry");
+        flour.getProductGroup().getVAT().setVatCategory(VAT.VATCategories.VAT25);
+
+        for (int i = 0; i < 3; i++) {
+            if (flour.getAmount() >= 10) {
+                PercentProductDiscount tenPercentDiscount = new PercentProductDiscount(flour, 10);
+                Double priceOfFlour = tenPercentDiscount.getPriceIncVat();
+                flour.decreaseAmount(2);
+                assertEquals(15.75,priceOfFlour);
+            }
+            else if(flour.getAmount() >6 && flour.getAmount() <=8){
+                PercentProductDiscount fifteenPercentDiscount = new PercentProductDiscount(flour,15);
+                Double priceOfFlour = fifteenPercentDiscount.getPriceIncVat();
+                flour.decreaseAmount(2);
+                assertEquals(14.875,priceOfFlour);
+            }
+            else if(flour.getAmount() <= 6){
+                PercentProductDiscount twentyPercentDiscount = new PercentProductDiscount(flour,20);
+                Double priceOfFlour = twentyPercentDiscount.getPriceIncVat();
+                flour.decreaseAmount(2);
+                assertEquals(14.0,priceOfFlour);
+            }
+
+        }
     }
 }
     /*@Test
