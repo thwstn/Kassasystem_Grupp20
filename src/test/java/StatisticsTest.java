@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 public class StatisticsTest extends FakeCheckOutSessionDatabase {
 
     private Statistics statistics;
+    private FakeEmployeeDatabase fakeEmployeeDatabase;
     private FakeOrderDatabase fakeOrderDatabase;
     private FakeCustomerDatabase fakeCustomerDatabase;
     private FakeProductDatabase fakeProductDatabase;
@@ -17,7 +18,7 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
 
     @BeforeEach
     void init() {
-        FakeEmployeeDatabase fakeEmployeeDatabase = new FakeEmployeeDatabase();
+        fakeEmployeeDatabase = new FakeEmployeeDatabase();
         fakeCustomerDatabase = new FakeCustomerDatabase();
         fakeProductDatabase = new FakeProductDatabase();
         fakeOrderDatabase = new FakeOrderDatabase();
