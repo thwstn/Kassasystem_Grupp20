@@ -23,19 +23,11 @@ public class MoneyTest {
     @BeforeEach
     void init() {
         this.moneyWithBalanceZero = new Money();
-
-        TreeMap<Integer, Integer> nonZeroMoney = new TreeMap<>();
-        nonZeroMoney.put(100000, 10);
-        nonZeroMoney.put(50000, 10);
-        nonZeroMoney.put(20000, 10);
-        nonZeroMoney.put(10000, 10);
-        nonZeroMoney.put(5000, 10);
-        nonZeroMoney.put(2000, 10);
-        nonZeroMoney.put(1000, 10);
-        nonZeroMoney.put(500, 10);
-        nonZeroMoney.put(200, 10);
-        nonZeroMoney.put(100, 10);
-        this.moneyWithBalanceNonZero = new Money(nonZeroMoney);
+        TreeMap<Integer, Integer> denominations = new TreeMap<>();
+        for (int denomination : DENOMINATIONS) {
+            denominations.put(denomination, 10);
+        }
+        this.moneyWithBalanceNonZero = new Money(denominations);
     }
 
     @Test

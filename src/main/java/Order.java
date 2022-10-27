@@ -145,19 +145,17 @@ public class Order implements DiscountInterface{
 
     public String getReceipt() {
         this.groupAllOrderLinesTogether();
-        StringBuilder sb = new StringBuilder();
-        sb.append("\t\t\tBillys\n").append
-                ("\tHandla smart, Bunkra hårt").append
-                ("\n").append
-                (this).append
-                ("\n").append
-                ("Totalt:\t").append(this.getTotalAmount()).append(":-").append
-                ("\n").append
-                ("Du betjänades av: ").append(this.employee.getName()).append
-                ("\nTack för att du handlade hos oss ").append(this.customer.getName()).append("!").append
-                ("\n").append
-                (this.date.toString());
-        return sb.toString();
+        return "\t\t\tBillys\n" +
+                "\tHandla smart, Bunkra hårt" +
+                "\n" +
+                this +
+                "\n" +
+                "Totalt:\t" + this.getTotalAmount() + ":-" +
+                "\n" +
+                "Du betjänades av: " + this.employee.getName() +
+                "\nTack för att du handlade hos oss " + this.customer.getName() + "!" +
+                "\n" +
+                this.date.toString();
     }
 
 

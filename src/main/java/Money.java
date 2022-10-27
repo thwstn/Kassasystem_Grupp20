@@ -3,8 +3,11 @@ import java.util.*;
 public class Money {
 
     private final TreeMap<Integer, Integer> denominationAmounts;
-    private static final List<Integer> DENOMINATION_LIST = List.of(
-            100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100);
+    private static final List<Integer> DENOMINATIONS = List.of(
+            1000_00, 500_00, 200_00, 100_00, 50_00, 20_00, 10_00, 5_00, 2_00, 1_00);
+    private static final int LOWEST_BILL_VALUE = 20_00;
+    private static final int HIGHEST_COIN_VALUE = 10_00;
+    private static final int DECIMAL_TO_INTEGER_DIVISOR = 100;
 
     public Money() {
         this.denominationAmounts = new TreeMap<>(createEmptyMoneyMap());
@@ -18,38 +21,31 @@ public class Money {
             if (denominations.get(denomination) < 0) {
                 throw new IllegalArgumentException("Cannot have negative balance of any denomination");
             }
-            if (!DENOMINATION_LIST.contains(denomination)) {
+            if (!DENOMINATIONS.contains(denomination)) {
                 throw new IllegalArgumentException("Not a valid denomination");
             }
         }
-        denominationAmounts = createNewFilledMoneyMap(denominations);
+        denominationAmounts = createCopyOfMoneyMap(denominations);
     }
 
     private TreeMap<Integer, Integer> createEmptyMoneyMap() {
         TreeMap<Integer, Integer> denominations = new TreeMap<>();
-        denominations.put(100000, 0);
-        denominations.put(50000, 0);
-        denominations.put(20000, 0);
-        denominations.put(10000, 0);
-        denominations.put(5000, 0);
-        denominations.put(2000, 0);
-        denominations.put(1000, 0);
-        denominations.put(500, 0);
-        denominations.put(200, 0);
-        denominations.put(100, 0);
+        for (int denomination : DENOMINATIONS) {
+            denominations.put(denomination, 0);
+        }
         return denominations;
     }
 
-    private TreeMap<Integer, Integer> createNewFilledMoneyMap(Map<Integer, Integer> oldMap) {
+    private TreeMap<Integer, Integer> createCopyOfMoneyMap(Map<Integer, Integer> oldMap) {
         TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
-        for (int denomination : DENOMINATION_LIST) {
+        for (int denomination : DENOMINATIONS) {
             newMoneyMap.put(denomination, oldMap.getOrDefault(denomination, 0));
         }
         return newMoneyMap;
     }
 
     public TreeMap<Integer, Integer> getDenominationAmounts() {
-        return createNewFilledMoneyMap((denominationAmounts));
+        return createCopyOfMoneyMap((denominationAmounts));
     }
 
     public int getSpecificDenominationAmounts(int denomination) {
@@ -73,7 +69,7 @@ public class Money {
      * @return New Money object, has to be instantiated to use further.
      */
     public Money add(int denomination) {
-        if (!DENOMINATION_LIST.contains(denomination)) {
+        if (!DENOMINATIONS.contains(denomination)) {
             throw new IllegalArgumentException("Not a valid denomination");
         }
         TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>(this.getDenominationAmounts());
@@ -100,7 +96,7 @@ public class Money {
     }
 
     public Money remove(int denomination) {
-        if (!DENOMINATION_LIST.contains(denomination)) {
+        if (!DENOMINATIONS.contains(denomination)) {
             throw new IllegalArgumentException("Not a valid denomination");
         }
         if ((denominationAmounts.get(denomination) < 1)) {
@@ -150,17 +146,17 @@ public class Money {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int denomination : DENOMINATION_LIST) {
-            if (denomination >= 2000) {
-                sb.append(denomination / 100).append("(sedlar): ").append
+        for (int denomination : DENOMINATIONS) {
+            if (denomination >= LOWEST_BILL_VALUE) {
+                sb.append(denomination / DECIMAL_TO_INTEGER_DIVISOR).append("(sedlar): ").append
                         (getSpecificDenominationAmounts(denomination)).append("\n");
             }
-            if (denomination <= 1000) {
-                sb.append(denomination / 100).append("(mynt): ").append
+            if (denomination <= HIGHEST_COIN_VALUE) {
+                sb.append(denomination / DECIMAL_TO_INTEGER_DIVISOR).append("(mynt): ").append
                         (getSpecificDenominationAmounts(denomination)).append("\n");
             }
         }
-        sb.append("Totalt: ").append(getBalance() / 100).append("kr");
+        sb.append("Totalt: ").append(getBalance() / DECIMAL_TO_INTEGER_DIVISOR).append("kr");
         return sb.toString();
     }
 }
