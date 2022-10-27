@@ -43,11 +43,11 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
         employee2 = fakeEmployeeDatabase.getEmployee("Calle");
         employee3 = fakeEmployeeDatabase.getEmployee("Daniella");
 
-        Mockito.when(checkOutSession1.getSessionLenghtInSeconds()).thenReturn(1000);
-        Mockito.when(checkOutSession2.getSessionLenghtInSeconds()).thenReturn(1000);
-        Mockito.when(checkOutSession3.getSessionLenghtInSeconds()).thenReturn(1000);
-        Mockito.when(checkOutSession4.getSessionLenghtInSeconds()).thenReturn(2000);
-        Mockito.when(checkOutSession5.getSessionLenghtInSeconds()).thenReturn(4500);
+        Mockito.when(checkOutSession1.getSessionLengthInSeconds()).thenReturn(1000);
+        Mockito.when(checkOutSession2.getSessionLengthInSeconds()).thenReturn(1000);
+        Mockito.when(checkOutSession3.getSessionLengthInSeconds()).thenReturn(1000);
+        Mockito.when(checkOutSession4.getSessionLengthInSeconds()).thenReturn(2000);
+        Mockito.when(checkOutSession5.getSessionLengthInSeconds()).thenReturn(4500);
         Mockito.when(checkOutSession1.getEmployee()).thenReturn(employee1);
         Mockito.when(checkOutSession2.getEmployee()).thenReturn(employee2);
         Mockito.when(checkOutSession3.getEmployee()).thenReturn(employee3);

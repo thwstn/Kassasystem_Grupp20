@@ -25,7 +25,7 @@ public class OrderTest {
     @BeforeEach
     void init(){
         order = new Order(new Employee("Håkan", 20000), new Customer("Johan", 23));
-        checkout = new Checkout(fakeCheckOutSessionDatabase,fakeProductDatabase,fakeOrderDatabase,fakeEmployeeDatabase,fakeCustomerDatabase);
+        checkout = new Checkout(fakeCheckOutSessionDatabase,fakeProductDatabase,fakeOrderDatabase);
         orderLine1 = Mockito.mock(OrderLine.class);
         orderLine2 = Mockito.mock(OrderLine.class);
         orderLine3 = Mockito.mock(OrderLine.class);
@@ -50,7 +50,7 @@ public class OrderTest {
         Mockito.when(orderLine4.getQuantity()).thenReturn(1);
         Mockito.when(orderLine5.getQuantity()).thenReturn(4);
         Mockito.when(orderLine6.getQuantity()).thenReturn(3);
-
+        fakeOrderDatabase.fillDatabase();
     }
 
     @Test
@@ -271,7 +271,6 @@ public class OrderTest {
 
     @Test
     void FinalizingTwoOrderWithSameParametersCorrectlyUpdatesDatabase(){
-        fakeOrderDatabase.fillDatabase();
         Employee anna = fakeEmployeeDatabase.getEmployee("Anna");
         Customer jacob = fakeCustomerDatabase.getCustomer("Jacob");
         checkout.loginEmployee(anna);
@@ -287,7 +286,7 @@ public class OrderTest {
         checkout.scanEAN(917563848693L);
         checkout.addCustomerToOrder(jacob);
         checkout.payWithCard();
-        Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size());
+        Assertions.assertEquals(9, fakeOrderDatabase.getAllOrders().size());
     }
 
 

@@ -8,21 +8,18 @@ public class Checkout {
     private Money money;
     private Order order;
     private final ArrayList<Order> parkedOrders = new ArrayList<>();
-    protected CheckOutSessionDatabase checkOutSessionDatabase;
-    protected ProductDatabase productDatabase;
-    protected OrderDatabaseIO orderDatabase;
-    protected EmployeeDatabase employeeDatabase;
-    protected CustomerDataBase customerDatabase;
+    private final CheckOutSessionDatabase checkOutSessionDatabase;
+    private final ProductDatabase productDatabase;
+    private final OrderDatabaseIO orderDatabase;
 
 
     public Checkout(CheckOutSessionDatabase checkOutSessionDatabase, ProductDatabase productDatabase,
-                    OrderDatabaseIO orderDatabase, EmployeeDatabase employeeDatabase,
-                    CustomerDataBase customerDataBase) {
-        this.customerDatabase = customerDataBase;
+                    OrderDatabaseIO orderDatabase) {
+        //this.customerDatabase = customerDataBase;
         this.checkOutSessionDatabase = checkOutSessionDatabase;
         this.productDatabase = productDatabase;
         this.orderDatabase = orderDatabase;
-        this.employeeDatabase = employeeDatabase;
+        //this.employeeDatabase = employeeDatabase;
         ID = UUID.randomUUID();
         money = new Money();
     }
@@ -151,83 +148,3 @@ public class Checkout {
         }
     }
 }
-
-/*public class Checkout{
-    private UUID id;
-    private CheckOutSession checkOutSession;
-    private Money money;
-    private Order order;
-
-    //private ArrayList<Order> orders;
-    ArrayList<CheckOutSession> checkOutSessionsHistory = new ArrayList<>();
-
-
-    public Checkout(int employeeId, ArrayList<Integer> orderIds, int moneyid) {
-        this.id = UUID.randomUUID();
-        //this.employeeId = employeeId;
-        this.orderIds = orderIds;
-        this.moneyId = moneyid;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-
-    public CheckOutSession getSession() {
-        return checkOutSession;
-    }
-
-    public ArrayList<Integer> getOrderIds() {
-        return orderIds;
-    }
-
-    public int getMoneyId() {
-        return moneyId;
-    }
-
-    public ArrayList<CheckOutSession> getCheckOutSessionsHistory() {
-        return checkOutSessionsHistory;
-    }
-
-    public void loginEmployee(int employeeId) {
-        if (checkOutSession == null) {
-            checkOutSession = new CheckOutSession(employeeId);
-        }
-    }
-
-    public void logoutEmployee() {
-        if (checkOutSession != null) {
-            checkOutSession.addEndDateToSession();
-            //CheckOutSession.getCheckOutSessionsHistory().add(checkOutSession);
-            checkOutSessionsHistory.add(checkOutSession);
-            checkOutSession = null;
-        }
-    }
-
-    public void changeEmployee(int employeeId) {
-        logoutEmployee();
-        loginEmployee(employeeId);
-    }
-
-    public boolean employeeIsLoggedInToCheckout() {
-        return checkOutSession != null;
-    }
-
-    public HashSet<Integer> getUniqueEmployeeIDsFromSessionHistory() {
-        HashSet<Integer> employeeIDs = new HashSet<>();
-        for (CheckOutSession checkOutSession : checkOutSessionsHistory) {
-            employeeIDs.add(checkOutSession.getEmployeeId());
-        }
-        return employeeIDs;
-    }
-    public void createOrder() {
-
-    }
-
-    private void readAllProductsFromDatabase(){ //Jacob fixar
-
-    }
-
-}
-*/
