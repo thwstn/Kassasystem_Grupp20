@@ -2,17 +2,14 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Customer implements Comparable<Customer> {
-    private UUID customerID;
+    private final UUID customerID;
     private String name;
     private int age;
-    //private ArrayList<Order> orders;
 
     public Customer(String name, int age) {
-        //this.customerID = customerID;
         this.name = name;
         this.age = age;
         this.customerID = UUID.randomUUID();
-        //this.orders = new ArrayList<>();
     }
 
     public UUID getCustomerID() {
@@ -27,20 +24,12 @@ public class Customer implements Comparable<Customer> {
         return age;
     }
 
-    //public ArrayList<Order> getOrders() {
-    //    return orders;
-    //}
-
     public void increaseAge() {
         age++;
     }
     public void changeName(String newName) {
         name = newName;
     }
-
-    /*public void addOrder(Order order) {
-        orders.add(order);
-    }*/
 
     @Override
     public boolean equals(Object o) {

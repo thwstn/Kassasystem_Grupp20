@@ -22,14 +22,8 @@ public class Money {
                 throw new IllegalArgumentException("Not a valid denomination");
             }
         }
-        for (int denomination : DENOMINATION_LIST) {
-            if (!denominations.containsKey(denomination)) {
-                denominations.put(denomination, 0);
-            }
-        }
-        this.denominationAmounts = denominations;
+        denominationAmounts = createNewFilledMoneyMap(denominations);
     }
-
 
     private TreeMap<Integer, Integer> createEmptyMoneyMap() {
         TreeMap<Integer, Integer> denominations = new TreeMap<>();
@@ -48,8 +42,8 @@ public class Money {
 
     private TreeMap<Integer, Integer> createNewFilledMoneyMap(Map<Integer, Integer> oldMap) {
         TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
-        for (int denomination : oldMap.keySet()) {
-            newMoneyMap.put(denomination, oldMap.get(denomination));
+        for (int denomination : DENOMINATION_LIST) {
+            newMoneyMap.put(denomination, oldMap.getOrDefault(denomination, 0));
         }
         return newMoneyMap;
     }

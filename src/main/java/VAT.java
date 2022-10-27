@@ -15,7 +15,7 @@ public class VAT {
     enum VATCategories {
         VAT25,
         VAT12,
-        VAT6;
+        VAT6
     }
         public double getPercent() {
             return switch (vatCategory) {
