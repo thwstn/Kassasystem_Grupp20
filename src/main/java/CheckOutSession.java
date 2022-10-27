@@ -1,7 +1,7 @@
 import java.util.Date;
 
 public class CheckOutSession {
-    private Date startDate;
+    private final Date startDate;
     private Date endDate;
     private final Employee employee;
 
