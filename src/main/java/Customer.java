@@ -2,7 +2,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Customer implements Comparable<Customer> {
-    private UUID customerID;
+    private final UUID customerID;
     private String name;
     private int age;
     //private ArrayList<Order> orders;

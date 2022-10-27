@@ -21,7 +21,7 @@ public class CheckoutTest {
 
     @BeforeEach
     void init() {
-        checkout = new Checkout(fakeCheckOutSessionDatabase, fakeProductDatabase, fakeOrderDatabase, fakeEmployeeDatabase, fakeCustomerDatabase);
+        checkout = new Checkout(fakeCheckOutSessionDatabase, fakeProductDatabase, fakeOrderDatabase);
         TreeMap<Integer, Integer> denominations = new TreeMap<>();
         denominations.put(100000, 10);
         denominations.put(50000, 10);
@@ -106,10 +106,9 @@ public class CheckoutTest {
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
         Order order = checkout.getOrder();
-        //Order order1 = new Order(employee, new OrderLine("test", 1, 1));
         checkout.payWithCard();
-        assertTrue(checkout.orderDatabase.orderExistsInDatabase(order));
-    }
+        assertTrue(fakeOrderDatabase.orderExistsInDatabase(order));
+      }
 
     @Test
     void addMoneyAddsMoney() {
@@ -305,7 +304,7 @@ public class CheckoutTest {
 
         int balance = checkout.getMoney().getBalance();
         Assertions.assertEquals(1896000, balance); //Money in checkout is correct
-        Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
+        Assertions.assertEquals(9, fakeOrderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
     }
 
     @Test
@@ -337,7 +336,7 @@ public class CheckoutTest {
     @Test //test 1
     void databaseIsNullTest() {
         ProductDatabase nullDatabase = null;
-        Checkout checkout2 = new Checkout(fakeCheckOutSessionDatabase,nullDatabase,fakeOrderDatabase, fakeEmployeeDatabase, fakeCustomerDatabase);
+        Checkout checkout2 = new Checkout(fakeCheckOutSessionDatabase,nullDatabase,fakeOrderDatabase);
         checkout2.loginEmployee(new Employee("Lisa", 30000));
         assertThrows(NullPointerException.class, ()-> checkout2.scanEAN(917547847583L));
     }

@@ -4,7 +4,7 @@ public class ProductGroup {
 
     private static final List<String> PRODUCT_GROUPS = List.of("Fruit&Vegetables", "Dairy", "Meat&Poultry", "Dry");
     private String productGroupName;
-    private VAT vat;
+    private final VAT vat;
     private Product product;
 
 
