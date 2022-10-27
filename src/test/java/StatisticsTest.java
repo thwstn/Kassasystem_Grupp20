@@ -89,23 +89,23 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
         assertEquals("{Minced Meat=215, Pasta=47, Butter=47, Tomato=32, Chickpeas=28}", topFive.toString());
     }
 
-    /*@Test
+   /* @Test
     void PullingTopFiveProductsEverSoldWorksAfterAddingNewOrder(){
-        Checkout c = new Checkout();
-        c.loginEmployee(fakeEmployeeDatabase.getEmployee("Calle"));
+        Checkout checkout = new Checkout(fakeCheckOutSessionDatabase,fakeProductDatabase,fakeOrderDatabase,fakeEmployeeDatabase,fakeCustomerDatabase);
+        checkout.loginEmployee(fakeEmployeeDatabase.getEmployee("Calle"));
         for (int i = 0; i < 20; i++){
-            c.scanEAN(917563849363L);
-            c.scanEAN(925463847583L);
-            c.scanEAN(917563848693L);
-            c.scanEAN(917563849363L);
-            c.scanEAN(928374658273L);
-            c.scanEAN(917569267583L);
-            c.scanEAN(917263847583L);
+            checkout.scanEAN(917563849363L);
+            checkout.scanEAN(925463847583L);
+            checkout.scanEAN(917563848693L);
+            checkout.scanEAN(917563849363L);
+            checkout.scanEAN(928374658273L);
+            checkout.scanEAN(917569267583L);
+            checkout.scanEAN(917263847583L);
         }
-        Order o = c.getOrder();
-        statistics.fakeOrderDatabase.addOrder(c.getOrder()); //Får hårdkoda detta eftersom det är olika instanser av databasen som Checkout och Statistics jobbar mot
+        Order o = checkout.getOrder();
+        fakeOrderDatabase.addOrder(checkout.getOrder()); //Får hårdkoda detta eftersom det är olika instanser av databasen som Checkout och Statistics jobbar mot
         assertEquals("{Minced Meat=235, Tomato=72, Chickpeas=48, Pasta=47, Butter=47}", statistics.getTopFiveSoldProductsEver().toString());
-        statistics.fakeOrderDatabase.removeOrder(o);
+        //fakeOrderDatabase.removeOrder(o);
     }*/
 
     @Test
@@ -113,16 +113,16 @@ public class StatisticsTest extends FakeCheckOutSessionDatabase {
         fakeOrderDatabase.fillDatabase();
         assertEquals("Theo", statistics.getCustomerWithMostOrders().getKey().getName());
     }
-    /*@Test
+    @Test
     void GetCustomerWhoShoppedMostReturnsCorrectAfterAddingOrder(){
+        fakeEmployeeDatabase.fillDatabase();
+        fakeOrderDatabase.fillDatabase();
         Order o1 = new Order(fakeEmployeeDatabase.getEmployee("Calle"), fakeCustomerDatabase.getCustomer("Johan"), new OrderLine("Chickpeas", 8.0, 10));
         Order o2 = new Order(fakeEmployeeDatabase.getEmployee("Daniella"), fakeCustomerDatabase.getCustomer("Johan"), new OrderLine("Cucumber", 5.0, 10));
-        statistics.fakeOrderDatabase.addOrder(o2);
-        statistics.fakeOrderDatabase.addOrder(o1);
+        fakeOrderDatabase.addOrder(o2);
+        fakeOrderDatabase.addOrder(o1);
         assertEquals("Johan", statistics.getCustomerWithMostOrders().getKey().getName());
-        statistics.fakeOrderDatabase.removeOrder(o1);
-        statistics.fakeOrderDatabase.removeOrder(o2);
-    }*/
+    }
 
     private void fillDatabaseWithStatisticTestData() {
         OrderLine orderLine1 = new OrderLine("Bananer", 10, 5);
