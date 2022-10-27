@@ -90,4 +90,17 @@ public class DiscountTest {
         PercentDiscount tenPercentDiscountOnOrder = new PercentDiscount(readyMadeOrder, 10);
         assertEquals(78.6375, tenPercentDiscountOnOrder.getPriceIncVat());
     }
+
+    @Test
+    void orderGetDescriptionReturnsReadableOrder() {
+        readyMadeOrder.addOrderLineToList(new OrderLine((tenSEKDiscountOnBread.getDescription()),
+                tenSEKDiscountOnBread.getPriceIncVat(), 2));
+        assertEquals("""
+                Potatis: 10.0 x1 10.0:-
+                Potatis: 10.0 x1 10.0:-
+                Potatis: 10.0 x1 10.0:-
+                Potatis: 10.0 x1 10.0:-
+                Bread: 47.375 x2 94.75:-
+                """, readyMadeOrder.getDescription());
+    }
 }
