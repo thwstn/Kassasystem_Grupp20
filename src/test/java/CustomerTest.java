@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-//test
 public class CustomerTest {
     @Test
     void customerIDTest() {
