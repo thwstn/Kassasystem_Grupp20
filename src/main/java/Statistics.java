@@ -68,7 +68,7 @@ public class Statistics {
     for (Employee employee : employeeDatabase.get()) {
         int totalTime = 0;
         for (CheckOutSession checkOutSession : checkOutSessionDatabase.getCheckOutSessionFromDatabaseWithEmployee(employee)) {
-            totalTime = totalTime + checkOutSession.getSessionLenghtInSeconds();
+            totalTime = totalTime + checkOutSession.getSessionLengthInSeconds();
         }
         workedSeconds.put(employee.getName(), totalTime);
     }
@@ -93,7 +93,7 @@ public class Statistics {
         int totalSeconds = 0;
         int counter = 0;
         for (CheckOutSession checkOutSession : checkOutSessions) {
-            totalSeconds = totalSeconds + checkOutSession.getSessionLenghtInSeconds();
+            totalSeconds = totalSeconds + checkOutSession.getSessionLengthInSeconds();
             counter++;
         }
         return totalSeconds / counter;

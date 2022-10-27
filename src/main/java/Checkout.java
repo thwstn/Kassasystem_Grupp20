@@ -11,8 +11,6 @@ public class Checkout {
     private final CheckOutSessionDatabase checkOutSessionDatabase;
     private final ProductDatabase productDatabase;
     private final OrderDatabaseIO orderDatabase;
-    //protected EmployeeDatabase employeeDatabase;
-    //protected CustomerDataBase customerDatabase;
 
 
     public Checkout(CheckOutSessionDatabase checkOutSessionDatabase, ProductDatabase productDatabase,

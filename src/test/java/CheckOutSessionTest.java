@@ -27,18 +27,18 @@ public class CheckOutSessionTest {
         assertEquals(employee, checkOutSession.getEmployee(), "Wrong employeeId");
     }
     @Test
-    void getLenghtOfSessionInSecondsIsAnIntAndWithin100MsFrom2Seconds() throws InterruptedException {
+    void getLengthOfSessionInSecondsIsAnIntAndWithin100MsFrom2Seconds() throws InterruptedException {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
         TimeUnit.SECONDS.sleep(2);
         checkOutSession.addEndDateToSession();
         //long timeDiff = checkOutSession.getEndDate().getTime() - checkOutSession.getStartDate().getTime();
-        assertTrue(checkOutSession.getSessionLenghtInSeconds() < 2100 && checkOutSession.getSessionLenghtInSeconds() > 1900, "Time diff is too large or too short!");
+        assertTrue(checkOutSession.getSessionLengthInSeconds() < 2100 && checkOutSession.getSessionLengthInSeconds() > 1900, "Time diff is too large or too short!");
         //assertEquals(5, checkOutSession.getEndDate().getTime() - checkOutSession.getStartDate().getTime(), "Should be 5 seconds!");
     }
     @Test
-    void getLenghtOfSessionInText() {
+    void getLengthOfSessionInText() {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
         checkOutSession.addEndDateToSession();
-        assertTrue(checkOutSession.getSessionLenghtInString().contains("Session lenght in seconds: "), "String is wrong or session is longer than 59 seconds.");
+        assertTrue(checkOutSession.getSessionLengthInString().contains("Session length in seconds: "), "String is wrong or session is longer than 59 seconds.");
     }
 }
