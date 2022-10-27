@@ -17,11 +17,11 @@ public class Money {
         if (denominations == null) {
             throw new IllegalArgumentException("Cannot create money with null");
         }
-        for (int denomination : denominations.keySet()) {
-            if (denominations.get(denomination) < 0) {
+        for (Map.Entry<Integer, Integer> denomination : denominations.entrySet()) {
+            if (denomination.getValue() < 0) {
                 throw new IllegalArgumentException("Cannot have negative balance of any denomination");
             }
-            if (!DENOMINATIONS.contains(denomination)) {
+            if (!DENOMINATIONS.contains(denomination.getKey())) {
                 throw new IllegalArgumentException("Not a valid denomination");
             }
         }
@@ -54,8 +54,8 @@ public class Money {
 
     public int getBalance() {
         int balance = 0;
-        for (int denomination : denominationAmounts.keySet()) {
-            int tempBalance = denominationAmounts.get(denomination) * denomination;
+        for (Map.Entry<Integer, Integer> denomination : denominationAmounts.entrySet()) {
+            int tempBalance = denomination.getKey() * denomination.getValue();
             balance += tempBalance;
         }
         return balance;
