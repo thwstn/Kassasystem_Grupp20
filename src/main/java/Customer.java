@@ -5,14 +5,11 @@ public class Customer implements Comparable<Customer> {
     private final UUID customerID;
     private String name;
     private int age;
-    //private ArrayList<Order> orders;
 
     public Customer(String name, int age) {
-        //this.customerID = customerID;
         this.name = name;
         this.age = age;
         this.customerID = UUID.randomUUID();
-        //this.orders = new ArrayList<>();
     }
 
     public UUID getCustomerID() {
