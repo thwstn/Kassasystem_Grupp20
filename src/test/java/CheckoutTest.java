@@ -254,6 +254,7 @@ public class CheckoutTest {
 
     @Test
     void TestingTwoPurchasesGoesThrough(){
+        fakeOrderDatabase.fillDatabase();
         Customer customer = new Customer("Olof", 97);
         checkout.addMoney(money);
         Employee employee = fakeEmployeeDatabase.getEmployee("Anna");

@@ -160,6 +160,7 @@ public class Order implements DiscountInterface{
         return sb.toString();
     }
 
+
     //Discount methods
     @Override
     public double getPriceIncVat() {
