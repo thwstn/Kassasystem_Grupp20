@@ -57,19 +57,19 @@ class ProductGroupTest {
 
         for (int i = 0; i < 3; i++) {
             if (flour.getAmount() >= 10) {
-                PercentProductDiscount tenPercentDiscount = new PercentProductDiscount(flour, 10);
+                PercentDiscount tenPercentDiscount = new PercentDiscount(flour, 10);
                 Double priceOfFlour = tenPercentDiscount.getPriceIncVat();
                 flour.decreaseAmount(2);
                 assertEquals(15.75,priceOfFlour);
             }
             else if(flour.getAmount() >6 && flour.getAmount() <=8){
-                PercentProductDiscount fifteenPercentDiscount = new PercentProductDiscount(flour,15);
+                PercentDiscount fifteenPercentDiscount = new PercentDiscount(flour,15);
                 Double priceOfFlour = fifteenPercentDiscount.getPriceIncVat();
                 flour.decreaseAmount(2);
                 assertEquals(14.875,priceOfFlour);
             }
             else if(flour.getAmount() <= 6){
-                PercentProductDiscount twentyPercentDiscount = new PercentProductDiscount(flour,20);
+                PercentDiscount twentyPercentDiscount = new PercentDiscount(flour,20);
                 Double priceOfFlour = twentyPercentDiscount.getPriceIncVat();
                 flour.decreaseAmount(2);
                 assertEquals(14.0,priceOfFlour);
