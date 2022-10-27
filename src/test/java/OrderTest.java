@@ -271,7 +271,6 @@ public class OrderTest {
 
     @Test
     void FinalizingTwoOrderWithSameParametersCorrectlyUpdatesDatabase(){
-        fakeOrderDatabase.fillDatabase();
         Employee anna = fakeEmployeeDatabase.getEmployee("Anna");
         Customer jacob = fakeCustomerDatabase.getCustomer("Jacob");
         checkout.loginEmployee(anna);
