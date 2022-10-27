@@ -50,7 +50,7 @@ public class OrderTest {
         Mockito.when(orderLine4.getQuantity()).thenReturn(1);
         Mockito.when(orderLine5.getQuantity()).thenReturn(4);
         Mockito.when(orderLine6.getQuantity()).thenReturn(3);
-
+        fakeOrderDatabase.fillDatabase();
     }
 
     @Test
@@ -286,7 +286,7 @@ public class OrderTest {
         checkout.scanEAN(917563848693L);
         checkout.addCustomerToOrder(jacob);
         checkout.payWithCard();
-        Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size());
+        Assertions.assertEquals(9, fakeOrderDatabase.getAllOrders().size());
     }
 
 

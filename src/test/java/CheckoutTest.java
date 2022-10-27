@@ -106,10 +106,9 @@ public class CheckoutTest {
         checkout.loginEmployee(employee);
         checkout.scanEAN(917563847583L);
         Order order = checkout.getOrder();
-        //Order order1 = new Order(employee, new OrderLine("test", 1, 1));
         checkout.payWithCard();
-        assertTrue(checkout.orderDatabase.orderExistsInDatabase(order));
-    }
+        assertTrue(fakeOrderDatabase.orderExistsInDatabase(order));
+      }
 
     @Test
     void addMoneyAddsMoney() {
@@ -304,7 +303,7 @@ public class CheckoutTest {
 
         int balance = checkout.getMoney().getBalance();
         Assertions.assertEquals(1896000, balance); //Money in checkout is correct
-        Assertions.assertEquals(9, checkout.orderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
+        Assertions.assertEquals(9, fakeOrderDatabase.getAllOrders().size()); //Ordrarna har lagts till i databasen
     }
 
     @Test
