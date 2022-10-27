@@ -17,7 +17,7 @@ public class CheckOutSessionTest {
     void addEndDateToSession() {
         CheckOutSession checkOutSession = new CheckOutSession(new Employee("Lisa", 30000));
         checkOutSession.addEndDateToSession();
-        assertTrue(checkOutSession.getEndDate() != null, "End Date does not exist!");
+        assertNotNull(checkOutSession.getEndDate(), "End Date does not exist!");
     }
 
     @Test
