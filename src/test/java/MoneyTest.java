@@ -11,7 +11,7 @@ import java.util.TreeMap;
 
 public class MoneyTest {
 
-    private static final List<Integer> DENOMINATION = List.of(
+    private static final List<Integer> DENOMINATIONS = List.of(
             1000_00, 500_00, 200_00, 100_00, 50_00, 20_00, 10_00, 5_00, 2_00, 1_00);
     private static final int INVALID_DENOMINATION = 1;
     private static final int NON_ZERO_MONEY_BALANCE_AMOUNT = 1888000;
@@ -40,17 +40,9 @@ public class MoneyTest {
     @Test
     void createMoneyWithMoney() {
         TreeMap<Integer, Integer> newMoneySetup = new TreeMap<>();
-        newMoneySetup.put(100000, 1);
-        newMoneySetup.put(50000, 1);
-        newMoneySetup.put(20000, 1);
-        newMoneySetup.put(10000, 1);
-        newMoneySetup.put(5000, 1);
-        newMoneySetup.put(2000, 1);
-        newMoneySetup.put(1000, 1);
-        newMoneySetup.put(500, 1);
-        newMoneySetup.put(200, 1);
-        newMoneySetup.put(100, 1);
-
+        for (int denomination : DENOMINATIONS) {
+            newMoneySetup.put(denomination, 1);
+        }
         Money createMoneyWithMoneyTest = new Money(newMoneySetup);
         assertEquals(188800, createMoneyWithMoneyTest.getBalance());
     }
@@ -61,7 +53,7 @@ public class MoneyTest {
         TreeMap<Integer, Integer> newMoneyMap = new TreeMap<>();
         newMoneyMap.put(denomination, 1);
         Money newMoney = new Money(newMoneyMap);
-        assertTrue(DENOMINATION.contains(denomination) && newMoney.getDenominationAmounts().containsKey(denomination));
+        assertTrue(DENOMINATIONS.contains(denomination) && newMoney.getDenominationAmounts().containsKey(denomination));
     }
 
 
