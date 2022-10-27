@@ -8,9 +8,8 @@ public abstract class DiscountDecorator implements DiscountInterface{
     }
 
     @Override
-    public double getPriceIncVat() {
-        return product.getPriceIncVat();
-    }
+    public abstract double getPriceIncVat();
+
 
     @Override
     public String getDescription() {
