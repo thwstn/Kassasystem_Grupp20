@@ -1,11 +1,7 @@
 public class VAT {
     private VATCategories vatCategory;
     public VAT(VATCategories vat) {
-        if(vat.equals(null)){
-            throw new NullPointerException("vat can not be null!");
-        }else{
-            this.vatCategory = vat;
-        }
+        this.vatCategory = vat;
     }
 
     public void setVatCategory(VATCategories vatCategory) {

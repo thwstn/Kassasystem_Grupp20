@@ -20,11 +20,7 @@ class VATTest {
         System.out.println(productGroup + "VAT: " + productGroup.getVAT().getPercent());
         assertEquals(0.25,productGroup.getVAT().getPercent());
     }
-    @Test
-    void VATNullTestThrows(){
-        assertThrows(NullPointerException.class, ()->{new VAT(null);
-        });
-    }
+
     @Test
     void changeVATTest(){
         ProductGroup Dairy = new ProductGroup("Dairy", VAT.VATCategories.VAT12);
